@@ -39,10 +39,14 @@ public class Creature implements PropertyChangeListener
 
     public void attack( Creature aDefender )
     {
-        int randDmg = damageCalculateStrategy.calculateDmmg( this, aDefender );
-        aDefender.currentHp = aDefender.getCurrentHp() - randDmg;
+        applyDamage(aDefender);
 
-        aDefender.attack( this );
+//        aDefender.applyDamage( this );
+    }
+
+    private void applyDamage(Creature aDefender) {
+        int randDmg = damageCalculateStrategy.calculateDmmg( this, aDefender);
+        aDefender.currentHp = aDefender.getCurrentHp() - randDmg;
     }
 
     public Range< Integer > getDamage()
