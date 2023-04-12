@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import pl.psi.Hero;
 import pl.psi.converter.EcoBattleConverter;
 import pl.psi.creatures.Creature;
 import pl.psi.creatures.EconomyNecropolisFactory;
@@ -66,5 +67,4 @@ class EcoBattleConverterTest
         assertEquals( 7, convertedCreatures.get( 6 )
             .getAmount() );
     }
-
 }
