@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SkillsTest {
+
     @Test
     void DamageShouldBeIncreasedBy10Percent(){   // Offence - basic level
         final Creature angel = new OffenceSkill(new Creature.Builder().statistic(CreatureStats.builder()

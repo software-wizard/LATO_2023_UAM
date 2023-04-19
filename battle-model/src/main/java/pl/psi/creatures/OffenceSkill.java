@@ -6,6 +6,7 @@ public class OffenceSkill extends Creature{
     //private static final double OFFENCE_ADVANCED = 0.2; // 20%
     //private static final double OFFENCE_EXPERT = 0.3; // 30%
 
+
     public OffenceSkill(Creature creature) {
         super(creature.getStats(), creature.getCalculator(), creature.getAmount());
     }
