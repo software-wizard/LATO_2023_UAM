@@ -8,14 +8,14 @@ Projects:
 
 -------------------------------------------------------------------------------------------------
 
-- czary - Mazur
+- czary - Mazur, Haleznik
     1. Obrażeni
     2. Bufy/debufy
     3. Mistrzostwo magii
     4. Czary na pola
 -------------------------------------------------------------------------------------------------
 
-- zamki/frakcje - Kanorski
+- zamki/frakcje - Kantorski
     1. Typ poruszania się,
     2. Dwie dodatkowe frakcje
 -------------------------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ Projects:
     3. 4 z dołu, magia
 -------------------------------------------------------------------------------------------------
 
-- maszyny oblężnicze - Szczypkowski
+- maszyny oblężnicze - Szczubkowski
     1. Namiot
     2. Balista
     3. Katapulta
