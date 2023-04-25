@@ -2,13 +2,8 @@ package pl.psi.creatures;
 
 import com.google.common.collect.Range;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
-import java.util.List;
-import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 public class FirstAidTentTest {
 
