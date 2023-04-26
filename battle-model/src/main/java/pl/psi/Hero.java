@@ -18,4 +18,8 @@ public class Hero
     {
         creatures = aCreatures;
     }
+
+    public boolean isAlly(Creature aCreature1, Creature aCreature2){
+        return creatures.contains(aCreature1) == creatures.contains(aCreature2);
+    }
 }
