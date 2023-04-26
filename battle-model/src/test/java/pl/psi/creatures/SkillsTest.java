@@ -3,19 +3,23 @@ package pl.psi.creatures;
 import com.google.common.collect.Range;
 import org.junit.jupiter.api.Test;
 
+import java.util.Random;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SkillsTest {
 
     @Test
     void DamageShouldBeIncreasedBy10Percent(){   // Offence - basic level
-        final Creature angel = new OffenceSkill(new Creature.Builder().statistic(CreatureStats.builder()
+        final Creature angel = new Creature.Builder().statistic(
+                CreatureStats.builder()
                         .maxHp(100)
                         .damage(Range.closed(10, 10))
                         .attack(50)
                         .armor(0)
                         .build())
-                .build());
+                .calculator(new OffenceSkill(new Random()))
+                .build();
         final Creature dragon = new Creature.Builder().statistic(CreatureStats.builder()
                         .maxHp(100)
                         .damage(Range.closed(0,0))
