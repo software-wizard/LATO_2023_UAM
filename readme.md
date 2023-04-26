@@ -37,7 +37,7 @@ Projects:
     2. Combat 3 Primary
 -------------------------------------------------------------------------------------------------
 
-- umiejętności - Grzesik
+- umiejętności - Grzesik, Szygenda
     1. heros
     2. 6 z góry, 4 z góry - wzmocnienie kreatury, 2 kolejne nowe mechaniki
     3. 4 z dołu, magia
