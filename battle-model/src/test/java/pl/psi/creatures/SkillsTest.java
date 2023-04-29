@@ -18,7 +18,7 @@ public class SkillsTest {
                         .attack(50)
                         .armor(0)
                         .build())
-                .calculator(new OffenceSkill(new Random()))
+                .calculator(new OffenceSkill())
                 .build();
         final Creature dragon = new Creature.Builder().statistic(CreatureStats.builder()
                         .maxHp(100)
