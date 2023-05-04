@@ -11,6 +11,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Random;
 
 import lombok.Setter;
+import pl.psi.Defendable;
 import pl.psi.TurnQueue;
 
 import com.google.common.collect.Range;
@@ -21,7 +22,7 @@ import lombok.Getter;
  * TODO: Describe this class (The first line - until the first dot - will interpret as the brief description).
  */
 @Getter
-public class Creature implements PropertyChangeListener {
+public class Creature implements PropertyChangeListener, Defendable {
     private CreatureStatisticIf stats;
     @Setter
     private int amount;
@@ -29,8 +30,7 @@ public class Creature implements PropertyChangeListener {
     private int counterAttackCounter = 1;
     private DamageCalculatorIf calculator;
 
-    Creature() {
-    }
+    Creature() {}
 
     private Creature(final CreatureStatisticIf aStats, final DamageCalculatorIf aCalculator,
                      final int aAmount) {
@@ -54,7 +54,7 @@ public class Creature implements PropertyChangeListener {
         return getAmount() > 0;
     }
 
-    private void applyDamage(final Creature aDefender, final int aDamage) {
+    private void applyDamage(final Defendable aDefender, final int aDamage) {
         int hpToSubstract = aDamage % aDefender.getMaxHp();
         int amountToSubstract = Math.round(aDamage / aDefender.getMaxHp());
 
@@ -73,11 +73,11 @@ public class Creature implements PropertyChangeListener {
         return stats.getMaxHp();
     }
 
-    protected void setCurrentHp(final int aCurrentHp) {
+    public void setCurrentHp(final int aCurrentHp) {
         currentHp = aCurrentHp;
     }
 
-    private boolean canCounterAttack(final Creature aDefender) {
+    public boolean canCounterAttack(final Creature aDefender) {
         return aDefender.getCounterAttackCounter() > 0 && aDefender.getCurrentHp() > 0;
     }
 
@@ -117,6 +117,11 @@ public class Creature implements PropertyChangeListener {
 
     public int getMoveRange() {
         return stats.getMoveRange();
+    }
+
+    @Override
+    public boolean canCounterAttack() {
+        return true;
     }
 
     public static class Builder {

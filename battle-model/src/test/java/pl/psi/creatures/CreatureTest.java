@@ -47,7 +47,8 @@ public class CreatureTest {
                         .armor(0)
                         .build())
                 .build();
-        final Creature dragon = new Creature.Builder().statistic(CreatureStats.builder()
+        final Creature dragon = new Creature.Builder()
+                        .statistic(CreatureStats.builder()
                         .maxHp(100)
                         .damage(NOT_IMPORTANT_DMG)
                         .attack(0)
@@ -90,12 +91,13 @@ public class CreatureTest {
                         .armor(10)
                         .build())
                 .build();
-        final Creature defender = new Creature.Builder().statistic(CreatureStats.builder()
-                        .maxHp(100)
-                        .damage(NOT_IMPORTANT_DMG)
-                        .attack(20)
-                        .armor(5)
-                        .build())
+        final Creature defender = new Creature.Builder()
+                        .statistic(CreatureStats.builder()
+                                                .maxHp(100)
+                                                .damage(NOT_IMPORTANT_DMG)
+                                                .attack(20)
+                                                .armor(5)
+                                                .build())
                 .build();
         // when
         attacker.attack(defender);

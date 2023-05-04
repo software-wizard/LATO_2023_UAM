@@ -1,8 +1,9 @@
 package pl.psi.gui;
 
 import pl.psi.GameEngine;
-import pl.psi.Hero;
 import pl.psi.Point;
+import pl.psi.Obstacles;
+import pl.psi.Players;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,9 +24,9 @@ public class MainBattleController implements PropertyChangeListener
     @FXML
     private Button passButton;
 
-    public MainBattleController( final Hero aHero1, final Hero aHero2 )
+    public MainBattleController( final Players players, final Obstacles obstacles )
     {
-        gameEngine = new GameEngine( aHero1, aHero2 );
+        gameEngine = new GameEngine( players, obstacles );
     }
 
     @FXML
