@@ -1,17 +1,12 @@
 package pl.psi;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import pl.psi.creatures.CastleCreatureFactory;
-
-
-
-
+import pl.psi.creatures.Creature;
 
 
 /**
@@ -37,9 +32,32 @@ public class GameEngineTest
                 new GameEngine( new Hero( List.of( creatureFactory.create( 1, false, 5 ) ) ),
                         new Hero( List.of( creatureFactory.create( 1, false, 5 ) ) ) );
 
-        List<Point> actual = gameEngine.generateNeigboursList(new Point(0, 0));
-        List<Point> expected = Arrays.asList(new Point(0, 1),
-                new Point(1, 0));
+        List<Node> actual = gameEngine.generateNeigboursList(0, 0);
+        List<Node> expected = Arrays.asList(new Node(0, 1),
+                new Node(1, 0));
         Assertions.assertIterableEquals(actual, expected);
+    }
+
+    @Test
+    void shouldCalculateHeuristicGivenCurrentAndDestinationNode(){
+        final CastleCreatureFactory creatureFactory = new CastleCreatureFactory();
+        final GameEngine gameEngine =
+                new GameEngine( new Hero( List.of( creatureFactory.create( 1, false, 5 ) ) ),
+                        new Hero( List.of( creatureFactory.create( 1, false, 5 ) ) ) );
+        int actual = gameEngine.calculateHeuristic(new Node(4,10),new Node(2,2));
+        int expected = 2 + 8;
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
+    void shouldMoveToAGivenPoint(){
+        final CastleCreatureFactory creatureFactory = new CastleCreatureFactory();
+        final GameEngine gameEngine =
+                new GameEngine( new Hero( List.of( creatureFactory.create( 1, false, 5 ) ) ),
+                            new Hero( List.of( creatureFactory.create( 1, false, 5 ) ) ) );
+        Optional<Creature> creature = gameEngine.getCreature(new Point(0, 1));
+        gameEngine.move(new Point(2, 3));
+        Optional<Creature> creature_expected = gameEngine.getCreature(new Point(2, 3));
+        Assertions.assertEquals(creature, creature_expected);
     }
 }

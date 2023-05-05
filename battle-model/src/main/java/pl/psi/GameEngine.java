@@ -6,7 +6,7 @@ import java.util.*;
 
 import pl.psi.creatures.Creature;
 
-import static java.lang.Thread.sleep;
+import static java.lang.Math.abs;
 
 /**
  * TODO: Describe this class (The first line - until the first dot - will interpret as the brief description).
@@ -18,7 +18,6 @@ public class GameEngine {
     private final Board board;
     private final PropertyChangeSupport observerSupport = new PropertyChangeSupport(this);
 
-    private final Map<Point,List<Point>> graph = generateGraph();
 
     public GameEngine(final Hero aHero1, final Hero aHero2) {
         turnQueue = new TurnQueue(aHero1.getCreatures(), aHero2.getCreatures());
@@ -37,63 +36,48 @@ public class GameEngine {
     }
 
     public void move(final Point aPoint) {
-//        Point startingPosition = board.getPosition(turnQueue.getCurrentCreature());
-////        Point point = new Point(aPoint.getX()-1,aPoint.getY());
-//        List<Point> movesList = generateMovesList(startingPosition, aPoint);
-////        board.move(turnQueue.getCurrentCreature(), point);
-////        observerSupport.firePropertyChange(CREATURE_MOVED, null, point);
-
         board.move(turnQueue.getCurrentCreature(), aPoint);
         observerSupport.firePropertyChange(CREATURE_MOVED, null, aPoint);
 
     }
-    public List<Point> generateNeigboursList(Point aPoint){
-        List<Point> list = new ArrayList<>();
-        if(aPoint.getY() != 0){
+    List<Node> generateNeigboursList(int x, int y){
+        List<Node> list = new ArrayList<>();
+        if(y != 0){
             //UP
-            list.add(new Point(aPoint.getX(),aPoint.getY()+1));
+            list.add(new Node(x,y-1));
         }
-        if(aPoint.getY() != 9){
+        if(y != 9){
             //DOWN
-            list.add(new Point(aPoint.getX(),aPoint.getY()-1));
+            list.add(new Node(x,y+1));
         }
-        if(aPoint.getX() != 0){
+        if(x != 0){
             //LEFT
-            list.add(new Point(aPoint.getX()-1,aPoint.getY()));
+            list.add(new Node(x-1,y));
         }
-        if(aPoint.getX() != 14){
+        if(x != 14){
             //RIGHT
-            list.add(new Point(aPoint.getX()+1,aPoint.getY()));
+            list.add(new Node(x+1,y));
         }
         return list;
     }
-//    private int[] generateUpNeighbour(Point aPoint){
-//        if(aPoint.getY() != 0){
-//            return new int[] {number1, number2}
-//        }
-//        return
-//    }
+    List<Node> generateMovesList(Node startingNode, Node destinationNode) {
+        PriorityQueue<Node> openList = new PriorityQueue<>();
+        PriorityQueue<Node> closedList = new PriorityQueue<>();
+        startingNode.setCost(calculateHeuristic(startingNode,destinationNode) + startingNode.getWeight());
+        List<Node> movesList = new ArrayList<>();
+        openList.add(startingNode);
 
-    public Map<Point,List<Point>> generateGraph(){
-        Map<Point,List<Point>> graph = new HashMap<>();
-        for( int x = 0; x < 15; x++ )
-        {
-            for( int y = 0; y < 10; y++ )
-            {
-                Point currentPoint = new Point( x, y );
-                graph.put(currentPoint, generateNeigboursList(currentPoint));
-            }
+        while (!openList.isEmpty()){
+            Node n = openList.peek();
+            //TODO
         }
-        return graph;
-    }
-    private List<Point> generateMovesList(Point startingPosition, Point aPoint) {
-        List<Point> movesList = new ArrayList<>();
-
-
-
         return  movesList;
     }
-
+    int calculateHeuristic(Node currentNode, Node destinationNode){
+       int xCost = abs(currentNode.getX() - destinationNode.getX());
+       int yCost = abs(currentNode.getY() - destinationNode.getY());
+       return xCost + yCost;
+    }
     public Optional<Creature> getCreature(final Point aPoint) {
         return board.getCreature(aPoint);
     }

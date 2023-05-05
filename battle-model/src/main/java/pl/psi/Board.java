@@ -41,7 +41,6 @@ public class Board
             map.inverse()
                     .remove(aCreature);
             map.put(aPoint, aCreature);
-
         }
     }
 
