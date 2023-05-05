@@ -2,9 +2,12 @@ package pl.psi;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Optional;
+import java.util.*;
 
 import pl.psi.creatures.Creature;
+
+import static java.lang.Math.abs;
+import static java.lang.Thread.sleep;
 
 /**
  * TODO: Describe this class (The first line - until the first dot - will interpret as the brief description).
@@ -15,6 +18,9 @@ public class GameEngine {
     private final TurnQueue turnQueue;
     private final Board board;
     private final PropertyChangeSupport observerSupport = new PropertyChangeSupport(this);
+
+//    private final Map<Point,List<Point>> graph = generateGraph();
+//    private final Map<Point,Integer> pointsToWeightMap = addWeightToPoints();
 
     public GameEngine(final Hero aHero1, final Hero aHero2) {
         turnQueue = new TurnQueue(aHero1.getCreatures(), aHero2.getCreatures());
@@ -33,10 +39,83 @@ public class GameEngine {
     }
 
     public void move(final Point aPoint) {
+      //  Point startingPosition = board.getPosition(turnQueue.getCurrentCreature());
+        Point point = new Point(aPoint.getX()-1,aPoint.getY());
+//        List<Point> movesList = generateMovesList(startingPosition, aPoint);
+        board.move(turnQueue.getCurrentCreature(), point);
+        observerSupport.firePropertyChange(CREATURE_MOVED, null, point);
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
         board.move(turnQueue.getCurrentCreature(), aPoint);
         observerSupport.firePropertyChange(CREATURE_MOVED, null, aPoint);
+
+    }
+//    public List<Point> generateNeigboursList(Point aPoint){
+//        List<Point> list = new ArrayList<>();
+//        if(aPoint.getY() != 0){
+//            //UP
+//            list.add(new Point(aPoint.getX(),aPoint.getY()-1));
+//        }
+//        if(aPoint.getY() != 9){
+//            //DOWN
+//            list.add(new Point(aPoint.getX(),aPoint.getY()+1));
+//        }
+//        if(aPoint.getX() != 0){
+//            //LEFT
+//            list.add(new Point(aPoint.getX()-1,aPoint.getY()));
+//        }
+//        if(aPoint.getX() != 14){
+//            //RIGHT
+//            list.add(new Point(aPoint.getX()+1,aPoint.getY()));
+//        }
+//        return list;
+//    }git
+//    public Map<Point,List<Point>> generateGraph(){
+//        Map<Point,List<Point>> graph = new HashMap<>();
+//        for( int x = 0; x < 15; x++ )
+//        {
+//            for( int y = 0; y < 10; y++ )
+//            {
+//                Point currentPoint = new Point( x, y );
+//                graph.put(currentPoint, generateNeigboursList(currentPoint));
+//            }
+//        }
+//        return graph;
+//    }
+
+//    private Map<Point,Integer> addWeightToPoints(){
+//        Map<Point,Integer> weightMap = new HashMap<>();
+//        for( int x = 0; x < 15; x++ )
+//        {
+//            for( int y = 0; y < 10; y++ )
+//            {
+//                Point currentPoint = new Point( x, y );
+//                weightMap.put(currentPoint, 1);
+//            }
+//        }
+//        return weightMap;
+//    }
+    private List<Node> generateMovesList(Node startingNode, Node destinationNode) {
+        List<Point> openList = new ArrayList<>();
+        List<Point> closedList = new ArrayList<>();
+        startingNode.setCost(calculateHeuristic(startingNode,destinationNode) + startingNode.getWeight());
+
+        openList.add(startingNode);
+
+        while (!openList.isEmpty()){
+
+        }
+        return  movesList;
     }
 
+    private int calculateHeuristic(Node currentNode, Node destinationNode){
+       int xCost = abs(currentNode.getX() - destinationNode.getX());
+       int yCost = abs(currentNode.getY() - destinationNode.getY());
+       return xCost + yCost;
+    }
     public Optional<Creature> getCreature(final Point aPoint) {
         return board.getCreature(aPoint);
     }
@@ -60,5 +139,10 @@ public class GameEngine {
 
     public boolean isCurrentCreature(Point aPoint) {
         return Optional.of(turnQueue.getCurrentCreature()).equals(board.getCreature(aPoint));
+    }
+
+    public Point getPosition( Creature aCreature )
+    {
+       return board.getPosition(aCreature);
     }
 }
