@@ -1,5 +1,6 @@
 package pl.psi.gui;
 
+import javafx.application.Platform;
 import pl.psi.GameEngine;
 import pl.psi.Hero;
 import pl.psi.Point;
@@ -14,6 +15,8 @@ import pl.psi.creatures.Creature;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Optional;
+
+import static java.lang.Thread.sleep;
 
 public class MainBattleController implements PropertyChangeListener
 {
@@ -46,6 +49,7 @@ public class MainBattleController implements PropertyChangeListener
                 Point currentPoint = new Point( x, y );
                 Optional< Creature > creature = gameEngine.getCreature( currentPoint );
                 final MapTile mapTile = new MapTile( "" );
+                System.out.println(creature.toString());
                 creature.ifPresent( c -> mapTile.setName( c.toString() ) );
                 if( gameEngine.isCurrentCreature( currentPoint ) )
                 {
@@ -53,11 +57,24 @@ public class MainBattleController implements PropertyChangeListener
                 }
                 if( gameEngine.canMove( currentPoint ) )
                 {
+
                     mapTile.setBackground( Color.GREY );
                     mapTile.addEventHandler( MouseEvent.MOUSE_CLICKED, ( e ) -> {
                         gameEngine.move( currentPoint );
+//                        Point point1 = new Point(currentPoint.getX()-1, currentPoint.getY());
+//                        gameEngine.move(point1);
+//                        MovementGui movementGui = new MovementGui(gridMap, gameEngine);
+//                        movementGui.refreshGui1();
+//                        try {
+//                            sleep(1000);
+//                        } catch (InterruptedException ex) {
+//                            throw new RuntimeException(ex);
+//                        }
+
                     } );
+
                 }
+
                 if( gameEngine.canAttack( currentPoint ) )
                 {
                     mapTile.setBackground( Color.RED );
@@ -67,11 +84,32 @@ public class MainBattleController implements PropertyChangeListener
                 }
                 gridMap.add( mapTile, x, y );
             }
+
         }
     }
 
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+
+//        if(evt.getPropertyName().equals("CREATURE_MOVED")){
+////            System.out.println("SIEMA");
+////            Point point = (Point) evt.getNewValue();
+////            Point point1 = new Point(point.getX()-1, point.getY());
+////            for(int i=0;i<1;i++){
+////                gameEngine.move(point);
+////                refreshGui1();
+////            }
+////            gameEngine.move(point);
+//            refreshGui1();
+//        }
+//        else{
+//            refreshGui();
+//
+//        }
+//        System.out.println("OGIEN");
         refreshGui();
+
+
     }
 }
