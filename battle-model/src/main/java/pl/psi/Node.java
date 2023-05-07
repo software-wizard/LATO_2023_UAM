@@ -10,8 +10,10 @@ import java.util.List;
 @Setter
 public class Node extends Point{
     private List<Node> neighbourList = new ArrayList<>();
-    private int weight = 1;
+    private int weight = 0;
     private int cost = 0;
+    private Node parent = null;
+    private int heuristic = 0;
 
 
     public Node(int aX, int aY) {
@@ -23,5 +25,10 @@ public class Node extends Point{
         super(aX, aY);
         this.weight = weight;
     }
+
+    public boolean compareTo(Node other){
+        return this.getCost() < other.getCost();
+    }
+
 }
 

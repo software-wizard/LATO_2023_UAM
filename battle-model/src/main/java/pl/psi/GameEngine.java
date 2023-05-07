@@ -40,39 +40,89 @@ public class GameEngine {
         observerSupport.firePropertyChange(CREATURE_MOVED, null, aPoint);
 
     }
-    List<Node> generateNeigboursList(int x, int y){
+    List<Node> generateNeigboursList(int x, int y, List<List> weightList){
         List<Node> list = new ArrayList<>();
+        if (weightList == null) {
+            weightList = new ArrayList<>();
+        }
         if(y != 0){
             //UP
-            list.add(new Node(x,y-1));
+            List<Integer> weights = new ArrayList<>();
+            weights = weightList.get(x);
+            list.add(new Node(x,y-1, weights.get(y-1)));
         }
         if(y != 9){
             //DOWN
-            list.add(new Node(x,y+1));
+            List<Integer> weights = new ArrayList<>();
+            weights = weightList.get(x);
+            list.add(new Node(x,y+1, weights.get(y+1)));
         }
         if(x != 0){
             //LEFT
-            list.add(new Node(x-1,y));
+            List<Integer> weights = new ArrayList<>();
+            weights = weightList.get(x-1);
+            list.add(new Node(x-1,y, weights.get(y)));
         }
         if(x != 14){
             //RIGHT
-            list.add(new Node(x+1,y));
+            List<Integer> weights = new ArrayList<>();
+            weights = weightList.get(x+1);
+            list.add(new Node(x+1,y, weights.get(y)));
         }
         return list;
     }
-    List<Node> generateMovesList(Node startingNode, Node destinationNode) {
-        PriorityQueue<Node> openList = new PriorityQueue<>();
-        PriorityQueue<Node> closedList = new PriorityQueue<>();
+    List<Node> generateMovesList(Node startingNode, Node destinationNode, ArrayList weightList) {
+        PriorityQueue<Node> fringe = new PriorityQueue<>();
+        PriorityQueue<Node> explored = new PriorityQueue<>();
         startingNode.setCost(calculateHeuristic(startingNode,destinationNode) + startingNode.getWeight());
         List<Node> movesList = new ArrayList<>();
-        openList.add(startingNode);
+        fringe.add(startingNode);
+        while (!fringe.isEmpty()){
+            Node state = fringe.poll();
+            if(state.getX() == destinationNode.getX() && state.getY() == destinationNode.getY()){
+                movesList.add(0, state);
+                while(state.getParent() != null){
+                    state = state.getParent();
+                    movesList.add(0,state);
+                }
+                return movesList;
+            }
 
-        while (!openList.isEmpty()){
-            Node n = openList.peek();
-            //TODO
+            List<Node> neighbours = new ArrayList<>();
+            neighbours = generateNeigboursList(state.getX(), state.getY(), weightList);
+            explored.add(state);
+            for(Node nextState : neighbours){
+                if(explored.contains(nextState)){
+                    continue;
+                }
+                nextState.setWeight(state.getWeight() + nextState.getWeight());
+                nextState.setHeuristic(calculateHeuristic(nextState, destinationNode));
+                nextState.setCost(nextState.getWeight() + nextState.getHeuristic());
+                nextState.setParent(state);
+                for(Node element : fringe){
+                    if(element.getX() == nextState.getX()
+                        && element.getY() == nextState.getY()){
+                        if(nextState.compareTo(element)){
+                            element.setWeight(nextState.getWeight());
+                            element.setCost(nextState.getCost());
+                        }
+                    }
+                    fringe.add(nextState);
+                }
+            }
         }
-        return  movesList;
+        return  null;
     }
+
+//    List<Node> sucFunction(Node state){
+//        int fieldWidthHeight = 60;
+//        int fieldCountWidth = 15;
+//        int fieldCountHeight = 10;
+//        List<Node> neighbours = new ArrayList<>();
+//        if(state.getY()>0){
+//
+//        }
+//    }
     int calculateHeuristic(Node currentNode, Node destinationNode){
        int xCost = abs(currentNode.getX() - destinationNode.getX());
        int yCost = abs(currentNode.getY() - destinationNode.getY());
@@ -108,3 +158,5 @@ public class GameEngine {
        return board.getPosition(aCreature);
     }
 }
+
+
