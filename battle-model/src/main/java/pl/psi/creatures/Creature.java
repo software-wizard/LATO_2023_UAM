@@ -100,6 +100,10 @@ public class Creature implements PropertyChangeListener {
         return stats.getArmor();
     }
 
+    int getSpellDamageResistance() {
+        return stats.getSpellDamageResistance();
+    }
+
     @Override
     public void propertyChange(final PropertyChangeEvent evt) {
         if (TurnQueue.END_OF_TURN.equals(evt.getPropertyName())) {
