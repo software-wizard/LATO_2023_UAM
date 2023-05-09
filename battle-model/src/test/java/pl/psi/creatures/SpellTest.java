@@ -14,8 +14,8 @@ class SpellTest {
                         .armor(0)
                         .build())
                 .build();
-        Spell spell = new Spell();
+        Spell spell = new Spell.spellBuilder().statistic(SpellStatistic.FIREBALL).build();
         spell.cast(creature);
-        assertThat(creature.getCurrentHp()).isEqualTo(10);
+        assertThat(creature.getCurrentHp()).isEqualTo(5);
     }
 }
