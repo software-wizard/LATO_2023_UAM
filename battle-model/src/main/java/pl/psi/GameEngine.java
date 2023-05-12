@@ -16,9 +16,14 @@ public class GameEngine {
     private final Board board;
     private final PropertyChangeSupport observerSupport = new PropertyChangeSupport(this);
 
+    private final Hero hero1;
+    private final Hero hero2;
+
     public GameEngine(final Hero aHero1, final Hero aHero2) {
-        turnQueue = new TurnQueue(aHero1.getCreatures(), aHero2.getCreatures());
-        board = new Board(aHero1.getCreatures(), aHero2.getCreatures());
+        hero1 = aHero1;
+        hero2 = aHero2;
+        turnQueue = new TurnQueue(hero1.getCreatures(), hero2.getCreatures());
+        board = new Board(hero1.getCreatures(), hero2.getCreatures());
     }
 
     public void attack(final Point point) {
