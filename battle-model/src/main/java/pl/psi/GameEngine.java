@@ -58,9 +58,11 @@ public class GameEngine {
     public boolean canAttack(final Point point) {
         double distance = board.getPosition(turnQueue.getCurrentCreature())
                 .distance(point);
-        return board.getCreature(point)
-                .isPresent()
-                && distance < 2 && distance > 0;
+        if(board.getCreature(point).isPresent()){
+            return distance < 2 && distance > 0 && !hero1.isAlly(turnQueue.getCurrentCreature(), board.getCreature(point).get());
+        }else{
+            return false;
+        }
     }
 
     public boolean isCurrentCreature(Point aPoint) {
