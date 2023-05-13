@@ -33,7 +33,7 @@ public class GameEngineTest
                 new GameEngine( new Hero( List.of( creatureFactory.create( 1, false, 5 ) ) ),
                         new Hero( List.of( creatureFactory.create( 1, false, 5 ) ) ) );
 
-        List<Node> actual = gameEngine.generateNeigboursList(0, 0, null );
+        List<Node> actual = gameEngine.generateNeigboursList(0, 0);
         List<Node> expected = Arrays.asList(new Node(0, 1),
                 new Node(1, 0));
         Assertions.assertIterableEquals(actual, expected);
@@ -71,23 +71,10 @@ public class GameEngineTest
         Optional<Creature> creature = gameEngine.getCreature(new Point(0, 0));
         Node start = new Node(0,0);
         Node goal = new Node(2,1);
-        ArrayList<List> cost = new ArrayList<>();
-        List<Integer> costAtIndex0 = new ArrayList<>();
-        costAtIndex0.add(0);
-        costAtIndex0.add(2);
-        cost.add(costAtIndex0);
-        List<Integer> costAtIndex1 = new ArrayList<>();
-        costAtIndex1.add(1);
-        costAtIndex1.add(2);
-        cost.add(costAtIndex1);
-        List<Integer> costAtIndex2 = new ArrayList<>();
-        costAtIndex2.add(1);
-        costAtIndex2.add(1);
-        cost.add(costAtIndex2);
-        List<Node> actualMovesList = new ArrayList<>(Arrays.asList(new Node(0,1,0),
-                new Node(1,0), new Node(2,0),new Node(2,1)));
-
-        List<Node> expectedMovesList = gameEngine.generateMovesList(start, goal , cost);
+        List<Node> actualMovesList = new ArrayList<>(Arrays.asList(new Node(0,0), new Node(1,0),
+                new Node(2,0), new Node(2,1)));
+        Map<Point, Point> Obstacles = Collections.emptyMap();
+        List<Node> expectedMovesList = gameEngine.generateMovesList(start, goal, Obstacles);
         System.out.println(expectedMovesList);
         Assertions.assertEquals(actualMovesList, expectedMovesList);
     }

@@ -40,38 +40,27 @@ public class GameEngine {
         observerSupport.firePropertyChange(CREATURE_MOVED, null, aPoint);
 
     }
-    List<Node> generateNeigboursList(int x, int y, List<List> weightList){
+    List<Node> generateNeigboursList(int x, int y){
         List<Node> list = new ArrayList<>();
-        if (weightList == null) {
-            weightList = new ArrayList<>();
-        }
         if(y != 0){
             //UP
-            List<Integer> weights = new ArrayList<>();
-            weights = weightList.get(x);
-            list.add(new Node(x,y-1, weights.get(y-1)));
+            list.add(new Node(x,y-1));
         }
         if(y != 9){
             //DOWN
-            List<Integer> weights = new ArrayList<>();
-            weights = weightList.get(x);
-            list.add(new Node(x,y+1, weights.get(y+1)));
+            list.add(new Node(x,y+1));
         }
         if(x != 0){
             //LEFT
-            List<Integer> weights = new ArrayList<>();
-            weights = weightList.get(x-1);
-            list.add(new Node(x-1,y, weights.get(y)));
+            list.add(new Node(x-1,y));
         }
         if(x != 14){
             //RIGHT
-            List<Integer> weights = new ArrayList<>();
-            weights = weightList.get(x+1);
-            list.add(new Node(x+1,y, weights.get(y)));
+            list.add(new Node(x+1,y));
         }
         return list;
     }
-    List<Node> generateMovesList(Node startingNode, Node destinationNode, ArrayList weightList) {
+    List<Node> generateMovesList(Node startingNode, Node destinationNode, Map<Point, Point> Obstacles) {
         PriorityQueue<Node> fringe = new PriorityQueue<>();
         PriorityQueue<Node> explored = new PriorityQueue<>();
         startingNode.setCost(calculateHeuristic(startingNode,destinationNode) + startingNode.getWeight());
@@ -87,42 +76,38 @@ public class GameEngine {
                 }
                 return movesList;
             }
-
-            List<Node> neighbours = new ArrayList<>();
-            neighbours = generateNeigboursList(state.getX(), state.getY(), weightList);
+            List<Node> neighbours = generateNeigboursList(state.getX(), state.getY());
             explored.add(state);
             for(Node nextState : neighbours){
                 if(explored.contains(nextState)){
+                    continue;
+                }
+                if(Obstacles.containsKey(nextState)){
                     continue;
                 }
                 nextState.setWeight(state.getWeight() + nextState.getWeight());
                 nextState.setHeuristic(calculateHeuristic(nextState, destinationNode));
                 nextState.setCost(nextState.getWeight() + nextState.getHeuristic());
                 nextState.setParent(state);
-                for(Node element : fringe){
-                    if(element.getX() == nextState.getX()
-                        && element.getY() == nextState.getY()){
-                        if(nextState.compareTo(element)){
-                            element.setWeight(nextState.getWeight());
-                            element.setCost(nextState.getCost());
-                        }
-                    }
+                if(!fringe.contains(nextState)){
                     fringe.add(nextState);
+                }else{
+                    for(Node element : fringe){
+                        if(element.getX() == nextState.getX() && element.getY() == nextState.getY()){
+                            if(nextState.compareTo(element)==1){
+                                element.setWeight(nextState.getWeight());
+                                element.setCost(nextState.getCost());
+                            }
+                        }
+
+                    }
                 }
             }
         }
-        return  null;
+        List<Node> list = Collections.emptyList();
+        return list;
     }
 
-//    List<Node> sucFunction(Node state){
-//        int fieldWidthHeight = 60;
-//        int fieldCountWidth = 15;
-//        int fieldCountHeight = 10;
-//        List<Node> neighbours = new ArrayList<>();
-//        if(state.getY()>0){
-//
-//        }
-//    }
     int calculateHeuristic(Node currentNode, Node destinationNode){
        int xCost = abs(currentNode.getX() - destinationNode.getX());
        int yCost = abs(currentNode.getY() - destinationNode.getY());

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Node extends Point{
+public class Node extends Point implements Comparable<Node>{
     private List<Node> neighbourList = new ArrayList<>();
     private int weight = 0;
     private int cost = 0;
@@ -25,9 +25,14 @@ public class Node extends Point{
         super(aX, aY);
         this.weight = weight;
     }
-
-    public boolean compareTo(Node other){
-        return this.getCost() < other.getCost();
+    @Override
+    public int compareTo(Node other){
+        if(this.getCost() < other.getCost()){
+            return 1;
+        }
+        else {
+            return 0;
+        }
     }
 
 }
