@@ -1,7 +1,9 @@
 package pl.psi.creatures;
 
+import com.google.common.collect.Range;
 import org.junit.jupiter.api.Test;
 import pl.psi.warmachines.WarMachineStatistic;
+import pl.psi.warmachines.WarMachineStats;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,25 +11,57 @@ public class WarMachineTest {
 
     @Test
     void builderAndStatisticsShouldReturnValidObject(){
-        final WarMachine firstAidTent = new WarMachine.Builder().statistic(WarMachineStatistic.FIRST_AID_TENT).relSkill(0).build();
-        assertThat(firstAidTent != null).isTrue();
-        assertThat(firstAidTent.getCurrentHp()).isEqualTo(firstAidTent.getStats().getMaxHp());
-        assertThat(firstAidTent.getStats().getAttack()).isEqualTo(0);
-        assertThat(firstAidTent.getRelevantSkill()).isEqualTo(0);
+        final WarMachine aWarMachine = new WarMachine.Builder().statistic(WarMachineStats.builder().maxHp(100).attack(0).build()).relSkill(0).build();
+        assertThat(aWarMachine != null).isTrue();
+        assertThat(aWarMachine.getCurrentHp()).isEqualTo(aWarMachine.getStats().getMaxHp());
+        assertThat(aWarMachine.getStats().getAttack()).isEqualTo(0);
+        assertThat(aWarMachine.getRelevantSkill()).isEqualTo(0);
     }
 
     @Test
+    void warMachineShouldTakeDamage(){
+        final WarMachine aWarMachine = new WarMachine.Builder().statistic(WarMachineStats.builder().maxHp(100).build()).build();
+        assertThat(aWarMachine.getCurrentHp()).isEqualTo(aWarMachine.getStats().getMaxHp());
+        aWarMachine.applyDamage(aWarMachine, 10);
+        assertThat(aWarMachine.getCurrentHp()).isEqualTo(aWarMachine.getStats().getMaxHp()-10);
+    }
+    @Test
     void hurtCreatureShouldBeHealed(){
-        final WarMachine firstAidTent = new WarMachine.Builder().statistic(WarMachineStatistic.FIRST_AID_TENT).relSkill(0).build();
+        final WarMachine aFirstAidTent = new WarMachine.Builder().statistic(WarMachineStatistic.FIRST_AID_TENT).relSkill(0).build();
         final Creature aCreature1 = new Creature.Builder().statistic(CreatureStats.builder()
                         .maxHp(100)
                         .build())
                 .build();
         aCreature1.setCurrentHp(50);
-        firstAidTent.heal(aCreature1);
+        aFirstAidTent.heal(aCreature1);
         assertThat(aCreature1.getCurrentHp()).isGreaterThan(50);
         assertThat(aCreature1.getCurrentHp()).isLessThan(76);
         //heal with 0 first aid skill should heal between 1 and 25
     }
-
+    @Test
+    void creatureShouldBeAbleToAttackWarMachine(){
+        final Creature aCreature = new Creature.Builder().statistic(CreatureStats.builder()
+                        .damage(Range.closed(10, 10))
+                        .attack(50)
+                        .build())
+                .build();
+        final WarMachine aWarMachine = new WarMachine.Builder().statistic(WarMachineStats.builder().maxHp(100).armor(10).build()).build();
+        aCreature.attack(aWarMachine);
+        assertThat(aWarMachine.getCurrentHp()).isEqualTo(70);
+        //checks whether .attack() is compliant with the Creature implementation
+    }
+    @Test
+    void warMachineShouldBeAbleToAttackCreature(){
+        final Creature aCreature = new Creature.Builder().statistic(CreatureStats.builder()
+                        .maxHp(100)
+                        .build())
+                .build();
+        final WarMachine aWarMachine = new WarMachine.Builder().statistic(WarMachineStats.builder()
+                        .maxHp(100) //hp needs to be above 0 due to isAlive() check
+                        .build())
+                .build();
+        aWarMachine.attack(aCreature);
+        assertThat(aCreature.getCurrentHp()).isEqualTo(90);
+        //TODO: correct this test once the .attack() method is corrected, pending skills implementation
+    }
 }
