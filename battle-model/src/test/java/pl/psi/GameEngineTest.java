@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import pl.psi.creatures.BattleUnit;
 import pl.psi.creatures.CastleCreatureFactory;
 
 /**
@@ -16,8 +17,8 @@ public class GameEngineTest
     {
         final CastleCreatureFactory creatureFactory = new CastleCreatureFactory();
         final GameEngine gameEngine =
-            new GameEngine( new Hero( List.of( creatureFactory.create( 1, false, 5 ) ) ),
-                new Hero( List.of( creatureFactory.create( 1, false, 5 ) ) ) );
+            new GameEngine( new Hero( List.of( new BattleUnit(creatureFactory.create( 1, false, 5 ) )) ),
+                new Hero( List.of(new BattleUnit(creatureFactory.create( 1, false, 5 ) )) ) );
 
         gameEngine.attack( new Point( 1, 1 ) );
     }

@@ -8,7 +8,7 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import pl.psi.creatures.Creature;
+import pl.psi.creatures.BattleUnit;
 
 /**
  * TODO: Describe this class (The first line - until the first dot - will interpret as the brief description).
@@ -16,38 +16,38 @@ import pl.psi.creatures.Creature;
 public class TurnQueue {
 
     public static final String END_OF_TURN = "END_OF_TURN";
-    public static final String NEXT_CREATURE = "NEXT_CREATURE";
-    private final Collection<Creature> creatures;
-    private final Queue<Creature> creaturesQueue;
+    public static final String NEXT_UNIT = "NEXT_UNIT";
+    private final Collection<BattleUnit> battleUnits;
+    private final Queue<BattleUnit> battleUnitsQueue;
     private final PropertyChangeSupport observerSupport = new PropertyChangeSupport(this);
-    private Creature currentCreature;
+    private BattleUnit currentBattleUnit;
     private int roundNumber;
 
-    public TurnQueue(final Collection<Creature> aCreatureList,
-                     final Collection<Creature> aCreatureList2) {
-        creatures = Stream.concat(aCreatureList.stream(), aCreatureList2.stream())
+    public TurnQueue(final Collection<BattleUnit> aBattleUnitList,
+                     final Collection<BattleUnit> aBattleUnitList2) {
+        battleUnits = Stream.concat(aBattleUnitList.stream(), aBattleUnitList2.stream())
                 .collect(Collectors.toList());
-        creaturesQueue = new LinkedList<>();
+        battleUnitsQueue = new LinkedList<>();
         initQueue();
-        creatures.forEach(observerSupport::addPropertyChangeListener);
+        battleUnits.stream().filter(BattleUnit::isCreature).forEach(unit -> {observerSupport.addPropertyChangeListener(unit.getCreatureVal());});
         next();
     }
 
     private void initQueue() {
-        creaturesQueue.addAll(creatures);
+        battleUnitsQueue.addAll(battleUnits);
     }
 
-    public Creature getCurrentCreature() {
-        return currentCreature;
+    public BattleUnit getCurrentBattleUnit() {
+        return currentBattleUnit;
     }
 
     public void next() {
-        Creature oldCreature = currentCreature;
-        if (creaturesQueue.isEmpty()) {
+        BattleUnit oldBattleUnit = currentBattleUnit;
+        if (battleUnitsQueue.isEmpty()) {
             endOfTurn();
         }
-        currentCreature = creaturesQueue.poll();
-        observerSupport.firePropertyChange(NEXT_CREATURE, oldCreature, currentCreature);
+        currentBattleUnit = battleUnitsQueue.poll();
+        observerSupport.firePropertyChange(NEXT_UNIT, oldBattleUnit, currentBattleUnit);
     }
 
     private void endOfTurn() {

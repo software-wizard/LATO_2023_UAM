@@ -33,7 +33,7 @@ public class WarMachine{
         }
     }
 
-    protected void attack(final Creature aDefender){
+    public void attack(final Creature aDefender){
         if(isAlive()){
             //TODO: once Hero skills are done, prepare the formula for calculating damage. base is range(2-3)*(hero's attack+1), 0-10%-25%-50% additional depending on Archery, 0% chance to inflict double damage, 50% chance to inflict double damage, 75% to inflict double damage + shoots twice, 100% double damage and shoots twice
             final int aDamage = 10;
@@ -51,6 +51,11 @@ public class WarMachine{
     public String getName(){
         return stats.getName();
     }
+
+    public boolean canAttack(){
+        return getStats().getName().equals("Ballista");
+    }
+    public boolean canHeal() { return getStats().getName().equals("First Aid Tent");}
 
     protected void applyDamage(final WarMachine aDefender, final int aDamage){
         aDefender.setCurrentHp(aDefender.getCurrentHp()-aDamage);

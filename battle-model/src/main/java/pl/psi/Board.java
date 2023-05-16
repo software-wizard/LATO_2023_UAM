@@ -6,7 +6,7 @@ import java.util.Optional;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
-import pl.psi.creatures.Creature;
+import pl.psi.creatures.BattleUnit;
 
 /**
  * TODO: Describe this class (The first line - until the first dot - will interpret as the brief description).
@@ -14,50 +14,53 @@ import pl.psi.creatures.Creature;
 public class Board
 {
     private static final int MAX_WITDH = 14;
-    private final BiMap< Point, Creature > map = HashBiMap.create();
+    private final BiMap< Point, BattleUnit> map = HashBiMap.create();
 
-    public Board( final List< Creature > aCreatures1, final List< Creature > aCreatures2 )
+    public Board( final List< BattleUnit > aBattleUnits1, final List< BattleUnit > aBattleUnits2 )
     {
-        addCreatures( aCreatures1, 0 );
-        addCreatures( aCreatures2, MAX_WITDH );
+        addBattleUnits(aBattleUnits1, 0 );
+        addBattleUnits(aBattleUnits2, MAX_WITDH );
     }
 
-    private void addCreatures( final List< Creature > aCreatures, final int aXPosition )
+    private void addBattleUnits( final List< BattleUnit > aBattleUnits, final int aXPosition )
     {
-        for( int i = 0; i < aCreatures.size(); i++ )
+        for( int i = 0; i < aBattleUnits.size(); i++ )
         {
-            map.put( new Point( aXPosition, i * 2 + 1 ), aCreatures.get( i ) );
+            map.put( new Point( aXPosition, i * 2 + 1 ), aBattleUnits.get( i ) );
         }
     }
 
-    Optional< Creature > getCreature( final Point aPoint )
+    Optional< BattleUnit > getBattleUnit( final Point aPoint )
     {
         return Optional.ofNullable( map.get( aPoint ) );
     }
 
-    void move( final Creature aCreature, final Point aPoint )
+    void move( final BattleUnit aBattleUnit, final Point aPoint )
     {
-        if( canMove( aCreature, aPoint ) )
+        if( canMove(aBattleUnit, aPoint ) )
         {
             map.inverse()
-                .remove( aCreature );
-            map.put( aPoint, aCreature );
+                .remove(aBattleUnit);
+            map.put( aPoint, aBattleUnit);
         }
     }
 
-    boolean canMove( final Creature aCreature, final Point aPoint )
+    boolean canMove( final BattleUnit aBattleUnit, final Point aPoint )
     {
-        if( map.containsKey( aPoint ) )
-        {
+        if(aBattleUnit.isWarMachine()){
             return false;
+        }else {
+            if (map.containsKey(aPoint)) {
+                return false;
+            }
+            final Point oldPosition = getPosition(aBattleUnit);
+            return aPoint.distance(oldPosition.getX(), oldPosition.getY()) < aBattleUnit.getCreatureVal().getMoveRange();
         }
-        final Point oldPosition = getPosition( aCreature );
-        return aPoint.distance( oldPosition.getX(), oldPosition.getY() ) < aCreature.getMoveRange();
     }
 
-    Point getPosition( Creature aCreature )
+    Point getPosition( BattleUnit aBattleUnit )
     {
         return map.inverse()
-            .get( aCreature );
+            .get(aBattleUnit);
     }
 }

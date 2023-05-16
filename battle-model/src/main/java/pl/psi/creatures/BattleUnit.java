@@ -25,4 +25,13 @@ public class BattleUnit {
     public boolean isWarMachine(){
         return null!=warMachineVal;
     }
+
+    @Override
+    public String toString(){
+        if(isCreature()){
+            return getCreatureVal().toString();
+        }else{
+            return getWarMachineVal().toString();
+        }
+    }
 }

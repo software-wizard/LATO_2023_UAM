@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import pl.psi.creatures.Creature;
+import pl.psi.creatures.BattleUnit;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -31,6 +31,7 @@ public class MainBattleController implements PropertyChangeListener
     @FXML
     private void initialize()
     {
+        passButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {gameEngine.pass();});
         refreshGui();
         gameEngine.addObserver(this);
     }
@@ -44,10 +45,10 @@ public class MainBattleController implements PropertyChangeListener
             for( int y = 0; y < 10; y++ )
             {
                 Point currentPoint = new Point( x, y );
-                Optional< Creature > creature = gameEngine.getCreature( currentPoint );
+                Optional<BattleUnit> battleUnit = gameEngine.getBattleUnit( currentPoint );
                 final MapTile mapTile = new MapTile( "" );
-                creature.ifPresent( c -> mapTile.setName( c.toString() ) );
-                if( gameEngine.isCurrentCreature( currentPoint ) )
+                battleUnit.ifPresent(b -> mapTile.setName( b.toString() ) );
+                if( gameEngine.isCurrentBattleUnit( currentPoint ) )
                 {
                     mapTile.setBackground( Color.GREENYELLOW );
                 }
@@ -64,6 +65,12 @@ public class MainBattleController implements PropertyChangeListener
                     mapTile.addEventHandler( MouseEvent.MOUSE_CLICKED, ( e ) -> {
                         gameEngine.attack( currentPoint );
                     } );
+                }
+                if( gameEngine.canHeal(currentPoint)){
+                    mapTile.setBackground(Color.GREEN);
+                    mapTile.addEventHandler( MouseEvent.MOUSE_CLICKED, (e) -> {
+                        gameEngine.heal(currentPoint);
+                    });
                 }
                 gridMap.add( mapTile, x, y );
             }

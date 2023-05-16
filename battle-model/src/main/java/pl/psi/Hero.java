@@ -2,7 +2,7 @@ package pl.psi;
 
 import java.util.List;
 
-import pl.psi.creatures.Creature;
+import pl.psi.creatures.BattleUnit;
 
 import lombok.Getter;
 
@@ -12,14 +12,14 @@ import lombok.Getter;
 public class Hero
 {
     @Getter
-    private final List< Creature > creatures;
+    private final List<BattleUnit> battleUnits;
 
-    public Hero( final List< Creature > aCreatures )
+    public Hero( final List< BattleUnit > aBattleUnits )
     {
-        creatures = aCreatures;
+        battleUnits = aBattleUnits;
     }
 
-    public boolean isAlly(Creature aCreature1, Creature aCreature2){
-        return creatures.contains(aCreature1) == creatures.contains(aCreature2);
+    public boolean isAlly(BattleUnit aBattleUnit1, BattleUnit aBattleUnit2){
+        return battleUnits.contains(aBattleUnit1) == battleUnits.contains(aBattleUnit2);
     }
 }
