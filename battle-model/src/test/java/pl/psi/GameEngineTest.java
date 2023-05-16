@@ -70,13 +70,14 @@ public class GameEngineTest
                         new Hero( List.of( creatureFactory.create( 1, false, 5 ) ) ) );
         Optional<Creature> creature = gameEngine.getCreature(new Point(0, 0));
         Node start = new Node(0,0);
-        Node goal = new Node(2,1);
+        Node goal = new Node(2,0);
         List<Node> actualMovesList = new ArrayList<>(Arrays.asList(new Node(0,0), new Node(1,0),
                 new Node(2,0), new Node(2,1)));
         Map<Point, Point> Obstacles = Collections.emptyMap();
         List<Node> expectedMovesList = gameEngine.generateMovesList(start, goal, Obstacles);
         System.out.println(expectedMovesList);
-        Assertions.assertEquals(actualMovesList, expectedMovesList);
+        expectedMovesList.forEach(e -> System.out.println(e.getCost()));
+        Assertions.assertIterableEquals(actualMovesList, expectedMovesList);
     }
 
 }

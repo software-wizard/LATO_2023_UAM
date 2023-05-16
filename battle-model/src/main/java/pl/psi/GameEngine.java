@@ -61,53 +61,80 @@ public class GameEngine {
         return list;
     }
     List<Node> generateMovesList(Node startingNode, Node destinationNode, Map<Point, Point> Obstacles) {
-        PriorityQueue<Node> fringe = new PriorityQueue<>();
-        PriorityQueue<Node> explored = new PriorityQueue<>();
-        startingNode.setCost(calculateHeuristic(startingNode,destinationNode) + startingNode.getWeight());
-        List<Node> movesList = new ArrayList<>();
-        fringe.add(startingNode);
-        while (!fringe.isEmpty()){
-            Node state = fringe.poll();
-            if(state.getX() == destinationNode.getX() && state.getY() == destinationNode.getY()){
-                movesList.add(0, state);
-                while(state.getParent() != null){
-                    state = state.getParent();
-                    movesList.add(0,state);
-                }
-                return movesList;
-            }
-            List<Node> neighbours = generateNeigboursList(state.getX(), state.getY());
-            explored.add(state);
-            for(Node nextState : neighbours){
-                if(explored.contains(nextState)){
-                    continue;
-                }
-                if(Obstacles.containsKey(nextState)){
-                    continue;
-                }
-                nextState.setWeight(state.getWeight() + nextState.getWeight());
-                nextState.setHeuristic(calculateHeuristic(nextState, destinationNode));
-                nextState.setCost(nextState.getWeight() + nextState.getHeuristic());
-                nextState.setParent(state);
-                if(!fringe.contains(nextState)){
-                    fringe.add(nextState);
-                }else{
-                    for(Node element : fringe){
-                        if(element.getX() == nextState.getX() && element.getY() == nextState.getY()){
-                            if(nextState.compareTo(element)==1){
-                                element.setWeight(nextState.getWeight());
-                                element.setCost(nextState.getCost());
-                            }
-                        }
+        PriorityQueue<Node> openNodes = new PriorityQueue<>();
+        ArrayList<Node> explored = new ArrayList<>();
 
+        startingNode.setCost(calculateHeuristic(startingNode,destinationNode) + startingNode.getWeight());
+        openNodes.add(startingNode);
+        while (!openNodes.isEmpty()){
+
+            Node currentNode = openNodes.poll();
+
+            if(currentNode.equals(destinationNode)){
+                return reconstructPath(currentNode);
+            }
+
+
+            List<Node> neighbours = generateNeigboursList(currentNode.getX(), currentNode.getY());
+            explored.add(currentNode);
+
+            for(Node neighbour : neighbours){
+
+                if(explored.contains(neighbour)){
+                    continue;
+                }
+
+
+                chooseWeight(neighbour);
+                int h = calculateHeuristic(neighbour, destinationNode);
+                int g = neighbour.getWeight() + currentNode.getCostToReach();
+                int f = g + h;
+
+
+                if(!openNodes.contains(neighbour) && (!explored.contains(neighbour))){
+                    neighbour.setCost(f);
+                    neighbour.setCostToReach(g);
+                    neighbour.setHeuristic(h);
+                    neighbour.setParent(currentNode);
+                    openNodes.add(neighbour);
+
+
+                }
+                else if(openNodes.contains(neighbour)){
+                    Optional<Node> result = openNodes.stream().filter(obj -> obj.equals(neighbour)).findFirst();
+                    if(result.isPresent()){
+                        Node aNode = result.get();
+                        if (aNode.getCost() > f){
+                                neighbour.setCost(f);
+                                neighbour.setCostToReach(g);
+                                neighbour.setHeuristic(h);
+                                neighbour.setParent(currentNode);
+                                openNodes.remove(aNode);
+                                openNodes.add(neighbour);
+                            }
                     }
+
                 }
             }
         }
-        List<Node> list = Collections.emptyList();
-        return list;
+        return null;
     }
 
+    void chooseWeight(Node aNode){
+        aNode.setWeight(1);
+//        if (aNode.getX() == 1 && aNode.getY() == 0){
+//            aNode.setWeight(9999);
+//        }
+    }
+    private List<Node> reconstructPath(Node current) {
+        List<Node> path = new ArrayList<>();
+        while (current != null) {
+            path.add(current);
+            current = current.getParent();
+        }
+        Collections.reverse(path);
+        return path;
+    }
     int calculateHeuristic(Node currentNode, Node destinationNode){
        int xCost = abs(currentNode.getX() - destinationNode.getX());
        int yCost = abs(currentNode.getY() - destinationNode.getY());

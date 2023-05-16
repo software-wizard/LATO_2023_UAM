@@ -3,36 +3,40 @@ package pl.psi;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
 public class Node extends Point implements Comparable<Node>{
-    private List<Node> neighbourList = new ArrayList<>();
-    private int weight = 0;
-    private int cost = 0;
-    private Node parent = null;
-    private int heuristic = 0;
+    private int weight;
+    private int costToReach;
+    private int heuristic;
+    private int cost;
+    private Node parent;
 
 
-    public Node(int aX, int aY) {
+
+    public Node(int aX, int aY)
+    {
         super(aX, aY);
+        this.weight = 0;
+        this.costToReach = 0;
+        this.cost = 0;
+        this.parent = null;
+        this.heuristic = 0;
     }
 
     public Node(final int aX, final int aY, final int weight )
     {
         super(aX, aY);
         this.weight = weight;
+        this.costToReach = 0;
+        this.cost = 0;
+        this.parent = null;
+        this.heuristic = 0;
     }
     @Override
     public int compareTo(Node other){
-        if(this.getCost() < other.getCost()){
-            return 1;
-        }
-        else {
-            return 0;
-        }
+        return Integer.compare(this.getCost(), other.getCost());
     }
 
 }
