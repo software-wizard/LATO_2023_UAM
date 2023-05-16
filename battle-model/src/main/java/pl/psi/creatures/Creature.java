@@ -61,7 +61,7 @@ public class Creature implements PropertyChangeListener {
         return getAmount() > 0;
     }
 
-    private void applyDamage(final Creature aDefender, final int aDamage) {
+    protected void applyDamage(final Creature aDefender, final int aDamage) {
         int hpToSubstract = aDamage % aDefender.getMaxHp();
         int amountToSubstract = Math.round(aDamage / aDefender.getMaxHp());
 
