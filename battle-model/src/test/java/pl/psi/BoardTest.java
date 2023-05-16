@@ -15,15 +15,15 @@ class BoardTest
     @Test
     void unitsMoveProperly()
     {
-        final Creature creature = new Creature.Builder().statistic( CreatureStats.builder()
+        final BattleUnit battleUnit = new BattleUnit(new Creature.Builder().statistic( CreatureStats.builder()
             .moveRange( 5 )
             .build() )
-            .build();
-        final List<BattleUnit> b1 = List.of( new BattleUnit(creature) );
+            .build());
+        final List<BattleUnit> b1 = List.of(battleUnit);
         final List< BattleUnit > b2 = List.of();
         final Board board = new Board(b1, b2);
 
-        board.move(new BattleUnit(creature), new Point( 3, 3 ) );
+        board.move(battleUnit, new Point( 3, 3 ) );
 
         assertThat( board.getBattleUnit( new Point( 3, 3 ) )
             .isPresent() ).isTrue();
