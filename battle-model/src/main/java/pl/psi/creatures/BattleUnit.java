@@ -19,13 +19,10 @@ public class BattleUnit {
         creatureVal = null;
     }
 
-    public Class<?> getType(){
-        if(null!=creatureVal){
-            return Creature.class;
-        }else if(null!=warMachineVal){
-            return WarMachine.class;
-        }else{
-            return null;
-        }
+    public boolean isCreature(){
+        return null!=creatureVal;
+    }
+    public boolean isWarMachine(){
+        return null!=warMachineVal;
     }
 }

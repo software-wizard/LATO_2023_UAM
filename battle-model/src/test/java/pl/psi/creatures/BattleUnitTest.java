@@ -7,15 +7,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class BattleUnitTest {
     @Test
-    void getTypeShouldReturnRightType(){
+    void unitShouldKnowItsUnderlyingType(){
         final Creature aCreature = new Creature.Builder().statistic(CreatureStats.builder()
                         .build())
                 .build();
         final BattleUnit battleUnit1 = new BattleUnit(aCreature);
-        assertThat(battleUnit1.getType()).isEqualTo(Creature.class);
+        assertThat(battleUnit1.isCreature()).isTrue();
+        assertThat(battleUnit1.isWarMachine()).isFalse();
 
         final WarMachine aWarMachine = new WarMachine.Builder().statistic(WarMachineStats.builder().build()).build();
         final BattleUnit battleUnit2 = new BattleUnit(aWarMachine);
-        assertThat(battleUnit2.getType()).isEqualTo(WarMachine.class);
+        assertThat(battleUnit2.isWarMachine()).isTrue();
+        assertThat(battleUnit2.isCreature()).isFalse();
     }
 }
