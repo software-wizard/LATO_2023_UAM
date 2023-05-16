@@ -32,7 +32,9 @@ public class GameEngine {
                 if(turnQueue.getCurrentBattleUnit().isCreature()){
                     turnQueue.getCurrentBattleUnit().getCreatureVal().attack(board.getBattleUnit(point).get().getCreatureVal());
                 }else{
-                    turnQueue.getCurrentBattleUnit().getWarMachineVal().attack(board.getBattleUnit(point).get().getCreatureVal());
+                    if(turnQueue.getCurrentBattleUnit().getWarMachineVal().canAttack()) {
+                        turnQueue.getCurrentBattleUnit().getWarMachineVal().attack(board.getBattleUnit(point).get().getCreatureVal());
+                    }
                 }
             }else{
                 if(turnQueue.getCurrentBattleUnit().isCreature()){
@@ -46,7 +48,7 @@ public class GameEngine {
     public void heal(final Point point){
         //TODO: write test for this
         if(board.getBattleUnit(point).isPresent()){
-            if(board.getBattleUnit(point).get().isCreature()){
+            if(board.getBattleUnit(point).get().isCreature() && turnQueue.getCurrentBattleUnit().isWarMachine() && turnQueue.getCurrentBattleUnit().getWarMachineVal().canHeal()){
                 turnQueue.getCurrentBattleUnit().getWarMachineVal().heal(board.getBattleUnit(point).get().getCreatureVal());
             }
         }
