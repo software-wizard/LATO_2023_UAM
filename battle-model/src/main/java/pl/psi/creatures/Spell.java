@@ -12,13 +12,33 @@ public class Spell {
 
     void cast(Creature creature) {
         if (creature.isAlive()) {
-            final int damage = this.stats.getDamage();
-            applySpell(creature, damage);
+
+            final String Name = this.stats.getName();
+            final int ClassOfSpell = this.stats.getClassOfSpell();
+            final int Cost = this.stats.getCost();
+            final int SpellDamage = this.stats.getSpellDamage();
+            final int ArmorChange = this.stats.getArmorChange();
+            final int DamageChange = this.stats.getDamageChange();
+            final int MoveRangeChange = this.stats.getMoveRangeChange();
+            final int SpellProtect = this.stats.getSpellProtection();
+            final int Tier = this.stats.getTier();
+            final String Description = this.stats.getDescription();
+
+            applySpell(creature, Name, ClassOfSpell, Cost, SpellDamage, ArmorChange, DamageChange, MoveRangeChange, SpellProtect, Tier, Description);
         }
     }
 
-    void applySpell(Creature creature, int damage) {
-        creature.setCurrentHp(creature.getCurrentHp()-damage);
+    void applySpell(Creature creature, String name, int classOfSpell, int cost, int spellDamage, int armorChange, int damageChange, int moveRangeChange, int spellProtect, int tier, String description) {
+        System.out.println("Using " + name);
+
+        if(spellDamage >0){ //usual damage
+            creature.setCurrentHp(creature.getCurrentHp()-creature.getSpellDamageResistance()/100*spellDamage);
+        }
+        if(spellDamage < 0){ //healing
+            creature.setCurrentHp(creature.getCurrentHp()-spellDamage);
+        }
+
+        System.out.println("The spell has been applied");
     }
 
     public static class spellBuilder {

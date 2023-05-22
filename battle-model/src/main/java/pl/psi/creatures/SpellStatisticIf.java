@@ -4,16 +4,15 @@ import com.google.common.collect.Range;
 
 public interface SpellStatisticIf {
     String getName();
-    int getAttack();
-    int getDamage();
+    int getClassOfSpell();
+    int getCost();
+    int getSpellDamage();
+    int getArmorChange();
+    int getDamageChange();
+    int getMoveRangeChange();
+    int getSpellProtection();
     int getTier();
     String getDescription();
 }
-/*
-    changeAttack            //
-    changeArmor             //
-    changeDamage            //
-    changeHP                //
-    ____
-    changeSpellResistance
- */
+
+

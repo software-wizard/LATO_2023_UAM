@@ -100,6 +100,7 @@ public class Creature implements PropertyChangeListener {
         return stats.getArmor();
     }
 
+
     int getSpellDamageResistance() {
         return stats.getSpellDamageResistance();
     }
