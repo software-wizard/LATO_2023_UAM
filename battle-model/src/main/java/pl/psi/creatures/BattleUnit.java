@@ -50,6 +50,14 @@ public class BattleUnit {
         }
     }
 
+    public void heal(final BattleUnit patient){
+        if(patient.isCreature() && isWarMachine()){
+            if(getWarMachineVal().canHeal()){
+                getWarMachineVal().heal(patient.getCreatureVal());
+            }
+        }
+    }
+
     @Override
     public String toString(){
         if(isCreature()){

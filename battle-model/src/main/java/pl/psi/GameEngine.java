@@ -36,9 +36,7 @@ public class GameEngine {
     public void heal(final Point point){
         //TODO: write test for this
         if(board.getBattleUnit(point).isPresent()){
-            if(board.getBattleUnit(point).get().isCreature() && turnQueue.getCurrentBattleUnit().isWarMachine() && turnQueue.getCurrentBattleUnit().getWarMachineVal().canHeal()){
-                turnQueue.getCurrentBattleUnit().getWarMachineVal().heal(board.getBattleUnit(point).get().getCreatureVal());
-            }
+            turnQueue.getCurrentBattleUnit().heal(board.getBattleUnit(point).get());
         }
         pass();
     }
