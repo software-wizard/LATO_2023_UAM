@@ -82,7 +82,7 @@ public class GameEngine {
         if(board.getBattleUnit(point).isPresent()){
             if(turnQueue.getCurrentBattleUnit().isWarMachine() && board.getBattleUnit(point).get().isCreature()){
                 return hero1.isAlly(turnQueue.getCurrentBattleUnit(), board.getBattleUnit(point).get())
-                        && board.getBattleUnit(point).get().getCreatureVal().getCurrentHp() < board.getBattleUnit(point).get().getCreatureVal().getMaxHp()
+                        && board.getBattleUnit(point).get().getCurrentHp() < board.getBattleUnit(point).get().getMaxHp()
                         && turnQueue.getCurrentBattleUnit().getWarMachineVal().canHeal();
             }
         }

@@ -34,6 +34,22 @@ public class BattleUnit {
         }
     }
 
+    public int getCurrentHp(){
+        if(isCreature()){
+            return getCreatureVal().getCurrentHp();
+        }else{
+            return getWarMachineVal().getCurrentHp();
+        }
+    }
+
+    public int getMaxHp(){
+        if(isCreature()){
+            return getCreatureVal().getMaxHp();
+        }else{
+            return getWarMachineVal().getStats().getMaxHp();
+        }
+    }
+
     public void attack(final BattleUnit defender){
         if(defender.isCreature()){
             if(isCreature()){
