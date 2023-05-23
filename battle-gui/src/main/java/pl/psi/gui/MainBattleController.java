@@ -1,16 +1,12 @@
 package pl.psi.gui;
 
-import pl.psi.GameEngine;
-import pl.psi.Point;
-import pl.psi.Obstacles;
-import pl.psi.Players;
+import pl.psi.*;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import pl.psi.creatures.Creature;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -24,9 +20,9 @@ public class MainBattleController implements PropertyChangeListener
     @FXML
     private Button passButton;
 
-    public MainBattleController( final Players players, final Obstacles obstacles )
+    public MainBattleController( final Hero aPlayer1, final Hero aPlayer2, final ObstaclesList obstaclesList)
     {
-        gameEngine = new GameEngine( players, obstacles );
+        gameEngine = new GameEngine( aPlayer1, aPlayer2, obstaclesList);
     }
 
     @FXML
@@ -45,9 +41,9 @@ public class MainBattleController implements PropertyChangeListener
             for( int y = 0; y < 10; y++ )
             {
                 Point currentPoint = new Point( x, y );
-                Optional< Creature > creature = gameEngine.getCreature( currentPoint );
+                Optional<Defendable> object = gameEngine.getObject( currentPoint );
                 final MapTile mapTile = new MapTile( "" );
-                creature.ifPresent( c -> mapTile.setName( c.toString() ) );
+                object.ifPresent( c -> mapTile.setName( c.toString() ) );
                 if( gameEngine.isCurrentCreature( currentPoint ) )
                 {
                     mapTile.setBackground( Color.GREENYELLOW );

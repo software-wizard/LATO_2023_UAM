@@ -20,11 +20,11 @@ class BoardTest
             .build();
         final List< Creature > c1 = List.of( creature );
         final List< Creature > c2 = List.of();
-        final Board board = new Board( c1, c2 );
+        final Board board = new Board( c1, c2, null );
 
         board.move( creature, new Point( 3, 3 ) );
 
-        assertThat( board.getCreature( new Point( 3, 3 ) )
+        assertThat( board.getObject( new Point( 3, 3 ) )
             .isPresent() ).isTrue();
     }
 

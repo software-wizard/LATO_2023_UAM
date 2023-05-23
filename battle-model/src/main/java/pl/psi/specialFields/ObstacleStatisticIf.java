@@ -1,8 +1,9 @@
 package pl.psi.specialFields;
 
-public interface FreeStandingStatisticIf {
+public interface ObstacleStatisticIf {
 
     int getMaxHp();
 
     String getName();
+    String getDescription();
 }

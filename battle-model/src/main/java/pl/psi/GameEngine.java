@@ -4,8 +4,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Optional;
 
-import pl.psi.creatures.Creature;
-
 /**
  * TODO: Describe this class (The first line - until the first dot - will interpret as the brief description).
  */
@@ -16,21 +14,21 @@ public class GameEngine {
     private final Board board;
     private final PropertyChangeSupport observerSupport = new PropertyChangeSupport(this);
 
-    public GameEngine(final Hero aHero1, final Hero aHero2) {
+    public GameEngine(final Hero aHero1, final Hero aHero2, final ObstaclesList obstaclesList) {
         turnQueue = new TurnQueue(aHero1.getCreatures(), aHero2.getCreatures());
-        board = new Board(aHero1.getCreatures(), aHero2.getCreatures());
+        board = new Board(aHero1.getCreatures(), aHero2.getCreatures(), obstaclesList.getObstacles());
     }
 
-    public HeroesEngine(final Hero aHero1, final Hero aHero2){
-        turnQueue = new TurnQueue(aHero1.getCreatures(), aHero2.getCreatures());
-        board = new Board(aHero1.getCreatures(), aHero2.getCreatures());
-    }
-    public ObstaclesEngine(final Obstacles obstacles){
-
-    }
+//    public HeroesEngine(final Hero aHero1, final Hero aHero2){
+//        turnQueue = new TurnQueue(aHero1.getCreatures(), aHero2.getCreatures());
+//        board = new Board(aHero1.getCreatures(), aHero2.getCreatures());
+//    }
+//    public ObstaclesEngine(final Obstacles obstacles){
+//
+//    }
 
     public void attack(final Point point) {
-        board.getCreature(point)
+        board.getObject(point)
                 .ifPresent(defender -> turnQueue.getCurrentCreature()
                         .attack(defender));
         pass();
@@ -45,8 +43,8 @@ public class GameEngine {
         observerSupport.firePropertyChange(CREATURE_MOVED, null, aPoint);
     }
 
-    public Optional<Creature> getCreature(final Point aPoint) {
-        return board.getCreature(aPoint);
+    public Optional<Defendable> getObject(final Point aPoint) {
+        return board.getObject(aPoint);
     }
 
     public void pass() {
@@ -61,12 +59,12 @@ public class GameEngine {
     public boolean canAttack(final Point point) {
         double distance = board.getPosition(turnQueue.getCurrentCreature())
                 .distance(point);
-        return board.getCreature(point)
+        return board.getObject(point)
                 .isPresent()
                 && distance < 2 && distance > 0;
     }
 
     public boolean isCurrentCreature(Point aPoint) {
-        return Optional.of(turnQueue.getCurrentCreature()).equals(board.getCreature(aPoint));
+        return Optional.of(turnQueue.getCurrentCreature()).equals(board.getObject(aPoint));
     }
 }

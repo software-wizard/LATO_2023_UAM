@@ -7,6 +7,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
 import pl.psi.creatures.Creature;
+import pl.psi.specialFields.Obstacle;
 
 /**
  * TODO: Describe this class (The first line - until the first dot - will interpret as the brief description).
@@ -14,12 +15,16 @@ import pl.psi.creatures.Creature;
 public class Board
 {
     private static final int MAX_WITDH = 14;
-    private final BiMap< Point, Creature > map = HashBiMap.create();
+    private final BiMap< Point, Defendable > map = HashBiMap.create();
+    //private final BiMap< Point, FreeStandingObject > obstacleMap = HashBiMap.create();
 
-    public Board( final List< Creature > aCreatures1, final List< Creature > aCreatures2 )
+    public Board( final List< Creature > aCreatures1,
+                  final List< Creature > aCreatures2,
+                  final List<Obstacle> aObstacles)
     {
         addCreatures( aCreatures1, 0 );
         addCreatures( aCreatures2, MAX_WITDH );
+        addObstacle(aObstacles, 6);
     }
 
     private void addCreatures( final List< Creature > aCreatures, final int aXPosition )
@@ -30,7 +35,15 @@ public class Board
         }
     }
 
-    Optional< Creature > getCreature( final Point aPoint )
+    private void addObstacle(final List<Obstacle> aObstacles, final int aXPosition)
+    {
+        for( int i = 0; i < aObstacles.size(); i++ )
+        {
+            map.put( new Point( aXPosition, i * 2 + 1 ), aObstacles.get( i ) );
+        }
+    }
+
+    Optional< Defendable > getObject(final Point aPoint )
     {
         return Optional.ofNullable( map.get( aPoint ) );
     }
@@ -55,9 +68,9 @@ public class Board
         return aPoint.distance( oldPosition.getX(), oldPosition.getY() ) < aCreature.getMoveRange();
     }
 
-    Point getPosition( Creature aCreature )
+    Point getPosition( Defendable aDefendable )
     {
         return map.inverse()
-            .get( aCreature );
+            .get( aDefendable );
     }
 }

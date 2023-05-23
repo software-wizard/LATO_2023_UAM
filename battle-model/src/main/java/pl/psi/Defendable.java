@@ -1,15 +1,15 @@
 package pl.psi;
 
 
-import lombok.Setter;
+import com.google.common.collect.Range;
+import pl.psi.creatures.Creature;
 import pl.psi.creatures.DamageCalculatorIf;
 
-import java.beans.PropertyChangeListener;
-
 public interface Defendable{
-     boolean canCounterAttack();
 
      int getMaxHp();
+
+     void attack(Defendable aDefender);
 
      int getCurrentHp();
 
@@ -18,4 +18,11 @@ public interface Defendable{
      int getAmount();
      void setAmount(int i);
 
+     void applyDamage(int i);
+
+     void counterAttack(Creature aDefender);
+
+     int getArmor();
+
+     int getCounterAttackCounter();
 }

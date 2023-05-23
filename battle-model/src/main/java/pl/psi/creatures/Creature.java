@@ -39,64 +39,68 @@ public class Creature implements PropertyChangeListener, Defendable {
         currentHp = stats.getMaxHp();
         calculator = aCalculator;
     }
-
-    public void attack(final Creature aDefender) {
+    @Override
+    public void attack(final Defendable aDefender) {
         if (isAlive()) {
             final int damage = getCalculator().calculateDamage(this, aDefender);
-            applyDamage(aDefender, damage);
+            aDefender.applyDamage(damage);
             if (canCounterAttack(aDefender)) {
-                counterAttack(aDefender);
+                aDefender.counterAttack(this);
             }
         }
     }
 
-    public boolean isAlive() {
+    protected boolean isAlive() {
         return getAmount() > 0;
     }
+    @Override
+    public void applyDamage(final int aDamage) {
+        int hpToSubstract = aDamage % this.getMaxHp();
+        int amountToSubstract = Math.round(aDamage / this.getMaxHp());
 
-    private void applyDamage(final Defendable aDefender, final int aDamage) {
-        int hpToSubstract = aDamage % aDefender.getMaxHp();
-        int amountToSubstract = Math.round(aDamage / aDefender.getMaxHp());
-
-        int hp = aDefender.getCurrentHp() - hpToSubstract;
+        int hp = this.getCurrentHp() - hpToSubstract;
         if (hp <= 0) {
-            aDefender.setCurrentHp(aDefender.getMaxHp() - hp);
-            aDefender.setAmount(aDefender.getAmount() - 1);
+            this.setCurrentHp(this.getMaxHp() - hp);
+            this.setAmount(this.getAmount() - 1);
         }
         else{
-            aDefender.setCurrentHp(hp);
+            this.setCurrentHp(hp);
         }
-        aDefender.setAmount(aDefender.getAmount() - amountToSubstract);
+        this.setAmount(this.getAmount() - amountToSubstract);
     }
-
+    @Override
     public int getMaxHp() {
         return stats.getMaxHp();
+    }
+
+    protected CreatureStatisticIf getStats() {
+        return stats;
     }
 
     public void setCurrentHp(final int aCurrentHp) {
         currentHp = aCurrentHp;
     }
 
-    public boolean canCounterAttack(final Creature aDefender) {
+    public boolean canCounterAttack(final Defendable aDefender) {
         return aDefender.getCounterAttackCounter() > 0 && aDefender.getCurrentHp() > 0;
     }
-
-    private void counterAttack(final Creature aAttacker) {
+    @Override
+    public void counterAttack(final Creature aAttacker) {
         final int damage = aAttacker.getCalculator()
                 .calculateDamage(aAttacker, this);
-        applyDamage(this, damage);
-        aAttacker.counterAttackCounter--;
+        aAttacker.applyDamage(damage);
+        aAttacker.lowerCounter();
     }
 
-    Range<Integer> getDamage() {
+    protected Range<Integer> getDamage() {
         return stats.getDamage();
     }
 
-    int getAttack() {
+    protected int getAttack() {
         return stats.getAttack();
     }
-
-    int getArmor() {
+    @Override
+    public int getArmor() {
         return stats.getArmor();
     }
 
@@ -119,9 +123,8 @@ public class Creature implements PropertyChangeListener, Defendable {
         return stats.getMoveRange();
     }
 
-    @Override
-    public boolean canCounterAttack() {
-        return true;
+    private void lowerCounter() {
+        counterAttackCounter--;
     }
 
     public static class Builder {

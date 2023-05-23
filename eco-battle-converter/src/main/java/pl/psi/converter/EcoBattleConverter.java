@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.psi.Hero;
+import pl.psi.ObstaclesList;
 import pl.psi.creatures.Creature;
 import pl.psi.gui.MainBattleController;
 import pl.psi.creatures.NecropolisFactory;
@@ -17,7 +18,9 @@ import javafx.stage.Stage;
 public class EcoBattleConverter
 {
 
-    public static void startBattle( final EconomyHero aPlayer1, final EconomyHero aPlayer2 )
+    public static void startBattle(final EconomyHero aPlayer1,
+                                   final EconomyHero aPlayer2,
+                                   final ObstaclesList obstaclesList)
     {
         Scene scene = null;
         try
@@ -25,7 +28,7 @@ public class EcoBattleConverter
             final FXMLLoader loader = new FXMLLoader();
             loader.setLocation( EcoBattleConverter.class.getClassLoader()
                 .getResource( "fxml/main-battle.fxml" ) );
-            loader.setController( new MainBattleController( convert( aPlayer1 ), convert( aPlayer2 ) ) );
+            loader.setController( new MainBattleController( convert( aPlayer1 ), convert( aPlayer2 ), obstaclesList) );
             scene = new Scene( loader.load() );
             final Stage aStage = new Stage();
             aStage.setScene( scene );

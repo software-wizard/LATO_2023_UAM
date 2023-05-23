@@ -8,15 +8,15 @@ import pl.psi.creatures.Creature;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 @Getter
-public class FreeStandingObject implements PropertyChangeListener, Defendable {
-    private FreeStandingStatisticIf stats;
+public class Obstacle implements PropertyChangeListener, Defendable {
+    private ObstacleStatisticIf stats;
     @Setter
     private int amount;
     private int currentHp;
 
-    //FreeStandingObject(){}
+    Obstacle() {}
 
-    private FreeStandingObject(final FreeStandingStatisticIf aStats, final int aAmount){
+    private Obstacle(final ObstacleStatisticIf aStats, final int aAmount){
         stats = aStats;
         amount = aAmount;
         currentHp = stats.getMaxHp();
@@ -30,29 +30,42 @@ public class FreeStandingObject implements PropertyChangeListener, Defendable {
         currentHp = aCurrentHp;
     }
 
+    @Override
+    public void counterAttack(Creature aDefender) {
+        //they cannot attack
+    }
+
+    @Override
+    public int getArmor() {
+        return 0;
+    }
+
+    @Override
+    public int getCounterAttackCounter() {
+        return 0;
+    }
+
     public String getName() {
         return stats.getName();
     }
-    public boolean isAlive() {
-        return getAmount() > 0;
+    @Override
+    public void applyDamage(int dmg){
+        currentHp--;
     }
 
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-
-    }
-
+    public void propertyChange(PropertyChangeEvent evt) {}
     @Override
-    public boolean canCounterAttack() {
-        return false;
+    public void attack(Defendable aDefender){
+        //they do not attack
     }
 
     public static class Builder {
         private int amount = 1;
-        private FreeStandingStatisticIf statistic;
+        private ObstacleStatisticIf statistic;
         
-        public Builder statistic(final FreeStandingStatisticIf aStatistic){
+        public Builder statistic(final ObstacleStatisticIf aStatistic){
             statistic = aStatistic;
             return this;
         }
@@ -60,8 +73,8 @@ public class FreeStandingObject implements PropertyChangeListener, Defendable {
             amount = aAmount;
             return this;
         }
-        public FreeStandingObject Build(){
-            return new FreeStandingObject(statistic, amount);
+        public Obstacle build(){
+            return new Obstacle(statistic, amount);
         }
     }
 
