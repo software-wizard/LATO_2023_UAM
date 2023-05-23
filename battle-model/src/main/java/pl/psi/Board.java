@@ -47,15 +47,11 @@ public class Board
 
     boolean canMove( final BattleUnit aBattleUnit, final Point aPoint )
     {
-        if(aBattleUnit.isWarMachine()){
+        if (map.containsKey(aPoint)) {
             return false;
-        }else {
-            if (map.containsKey(aPoint)) {
-                return false;
-            }
-            final Point oldPosition = getPosition(aBattleUnit);
-            return aPoint.distance(oldPosition.getX(), oldPosition.getY()) < aBattleUnit.getMoveRange();
         }
+        final Point oldPosition = getPosition(aBattleUnit);
+        return aPoint.distance(oldPosition.getX(), oldPosition.getY()) < aBattleUnit.getMoveRange();
     }
 
     Point getPosition( BattleUnit aBattleUnit )
