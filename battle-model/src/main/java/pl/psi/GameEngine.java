@@ -28,19 +28,7 @@ public class GameEngine {
 
     public void attack(final Point point) {
         if(board.getBattleUnit(point).isPresent()){
-            if(board.getBattleUnit(point).get().isCreature()){
-                if(turnQueue.getCurrentBattleUnit().isCreature()){
-                    turnQueue.getCurrentBattleUnit().getCreatureVal().attack(board.getBattleUnit(point).get().getCreatureVal());
-                }else{
-                    if(turnQueue.getCurrentBattleUnit().getWarMachineVal().canAttack()) {
-                        turnQueue.getCurrentBattleUnit().getWarMachineVal().attack(board.getBattleUnit(point).get().getCreatureVal());
-                    }
-                }
-            }else{
-                if(turnQueue.getCurrentBattleUnit().isCreature()){
-                    turnQueue.getCurrentBattleUnit().getCreatureVal().attack(board.getBattleUnit(point).get().getWarMachineVal());
-                }
-            }
+            turnQueue.getCurrentBattleUnit().attack(board.getBattleUnit(point).get());
         }
         pass();
     }

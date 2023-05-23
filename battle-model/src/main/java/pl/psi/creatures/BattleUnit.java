@@ -34,6 +34,22 @@ public class BattleUnit {
         }
     }
 
+    public void attack(final BattleUnit defender){
+        if(defender.isCreature()){
+            if(isCreature()){
+                getCreatureVal().attack(defender.getCreatureVal());
+            }else{
+                if(getWarMachineVal().canAttack()) {
+                    getWarMachineVal().attack(defender.getCreatureVal());
+                }
+            }
+        }else{
+            if(isCreature()){
+                getCreatureVal().attack(defender.getWarMachineVal());
+            }
+        }
+    }
+
     @Override
     public String toString(){
         if(isCreature()){
