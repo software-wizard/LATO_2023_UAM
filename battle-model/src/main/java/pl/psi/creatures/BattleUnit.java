@@ -26,6 +26,14 @@ public class BattleUnit {
         return null!=warMachineVal;
     }
 
+    public int getMoveRange(){
+        if(isCreature()){
+            return getCreatureVal().getMoveRange();
+        }else{
+            return 0;
+        }
+    }
+
     @Override
     public String toString(){
         if(isCreature()){

@@ -54,7 +54,7 @@ public class Board
                 return false;
             }
             final Point oldPosition = getPosition(aBattleUnit);
-            return aPoint.distance(oldPosition.getX(), oldPosition.getY()) < aBattleUnit.getCreatureVal().getMoveRange();
+            return aPoint.distance(oldPosition.getX(), oldPosition.getY()) < aBattleUnit.getMoveRange();
         }
     }
 
