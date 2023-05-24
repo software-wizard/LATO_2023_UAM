@@ -36,41 +36,53 @@ public class GameEngine {
     }
 
     public void move(final Point aPoint) {
-        board.move(turnQueue.getCurrentCreature(), aPoint);
-        observerSupport.firePropertyChange(CREATURE_MOVED, null, aPoint);
+        Map<Point, Integer> obstacles = Collections.emptyMap();
+        Point startPoint = getPosition(turnQueue.getCurrentCreature());
 
+        Node startingNode = new Node(startPoint.getX(), startPoint.getY());
+        Node goalNode = new Node(aPoint.getX(), aPoint.getY());
+        List<Node> path = generateMovesList(startingNode, goalNode, obstacles);
+        if (path != null) {
+            for (Node node : path) {
+                board.move(turnQueue.getCurrentCreature(), node);
+                observerSupport.firePropertyChange(CREATURE_MOVED, startingNode, node);
+                startingNode = node;
+            }
+        }
     }
-    List<Node> generateNeigboursList(int x, int y){
+
+    public List<Node> generateNeigboursList(int x, int y) {
         List<Node> list = new ArrayList<>();
-        if(y != 0){
+        if (y != 0) {
             //UP
-            list.add(new Node(x,y-1));
+            list.add(new Node(x, y - 1));
         }
-        if(y != 9){
+        if (y != 9) {
             //DOWN
-            list.add(new Node(x,y+1));
+            list.add(new Node(x, y + 1));
         }
-        if(x != 0){
+        if (x != 0) {
             //LEFT
-            list.add(new Node(x-1,y));
+            list.add(new Node(x - 1, y));
         }
-        if(x != 14){
+        if (x != 14) {
             //RIGHT
-            list.add(new Node(x+1,y));
+            list.add(new Node(x + 1, y));
         }
         return list;
     }
-    List<Node> generateMovesList(Node startingNode, Node destinationNode, Map<Point, Point> Obstacles) {
+
+    public List<Node> generateMovesList(Node startingNode, Node destinationNode, Map<Point, Integer> obstacles) {
         PriorityQueue<Node> openNodes = new PriorityQueue<>();
         ArrayList<Node> explored = new ArrayList<>();
 
-        startingNode.setCost(calculateHeuristic(startingNode,destinationNode) + startingNode.getWeight());
+        startingNode.setCost(calculateHeuristic(startingNode, destinationNode) + startingNode.getWeight());
         openNodes.add(startingNode);
-        while (!openNodes.isEmpty()){
+        while (!openNodes.isEmpty()) {
 
             Node currentNode = openNodes.poll();
 
-            if(currentNode.equals(destinationNode)){
+            if (currentNode.equals(destinationNode)) {
                 return reconstructPath(currentNode);
             }
 
@@ -78,20 +90,15 @@ public class GameEngine {
             List<Node> neighbours = generateNeigboursList(currentNode.getX(), currentNode.getY());
             explored.add(currentNode);
 
-            for(Node neighbour : neighbours){
+            for (Node neighbour : neighbours) {
 
-                if(explored.contains(neighbour)){
-                    continue;
-                }
-
-
-                chooseWeight(neighbour);
+                chooseWeight(neighbour, obstacles);
                 int h = calculateHeuristic(neighbour, destinationNode);
                 int g = neighbour.getWeight() + currentNode.getCostToReach();
                 int f = g + h;
 
 
-                if(!openNodes.contains(neighbour) && (!explored.contains(neighbour))){
+                if (!openNodes.contains(neighbour) && (!explored.contains(neighbour))) {
                     neighbour.setCost(f);
                     neighbour.setCostToReach(g);
                     neighbour.setHeuristic(h);
@@ -99,19 +106,18 @@ public class GameEngine {
                     openNodes.add(neighbour);
 
 
-                }
-                else if(openNodes.contains(neighbour)){
+                } else if (openNodes.contains(neighbour)) {
                     Optional<Node> result = openNodes.stream().filter(obj -> obj.equals(neighbour)).findFirst();
-                    if(result.isPresent()){
+                    if (result.isPresent()) {
                         Node aNode = result.get();
-                        if (aNode.getCost() > f){
-                                neighbour.setCost(f);
-                                neighbour.setCostToReach(g);
-                                neighbour.setHeuristic(h);
-                                neighbour.setParent(currentNode);
-                                openNodes.remove(aNode);
-                                openNodes.add(neighbour);
-                            }
+                        if (aNode.getCost() > f) {
+                            neighbour.setCost(f);
+                            neighbour.setCostToReach(g);
+                            neighbour.setHeuristic(h);
+                            neighbour.setParent(currentNode);
+                            openNodes.remove(aNode);
+                            openNodes.add(neighbour);
+                        }
                     }
 
                 }
@@ -120,12 +126,15 @@ public class GameEngine {
         return null;
     }
 
-    void chooseWeight(Node aNode){
+    private void chooseWeight(Node aNode, Map<Point,Integer> obstacles) {
+
+        if(obstacles.containsKey(aNode)){
+            aNode.setWeight(obstacles.get(aNode));
+            return;
+        }
         aNode.setWeight(1);
-//        if (aNode.getX() == 1 && aNode.getY() == 0){
-//            aNode.setWeight(9999);
-//        }
     }
+
     private List<Node> reconstructPath(Node current) {
         List<Node> path = new ArrayList<>();
         while (current != null) {
@@ -135,11 +144,13 @@ public class GameEngine {
         Collections.reverse(path);
         return path;
     }
-    int calculateHeuristic(Node currentNode, Node destinationNode){
-       int xCost = abs(currentNode.getX() - destinationNode.getX());
-       int yCost = abs(currentNode.getY() - destinationNode.getY());
-       return xCost + yCost;
+
+    int calculateHeuristic(Node currentNode, Node destinationNode) {
+        int xCost = abs(currentNode.getX() - destinationNode.getX());
+        int yCost = abs(currentNode.getY() - destinationNode.getY());
+        return xCost + yCost;
     }
+
     public Optional<Creature> getCreature(final Point aPoint) {
         return board.getCreature(aPoint);
     }
@@ -165,9 +176,8 @@ public class GameEngine {
         return Optional.of(turnQueue.getCurrentCreature()).equals(board.getCreature(aPoint));
     }
 
-    public Point getPosition( Creature aCreature )
-    {
-       return board.getPosition(aCreature);
+    public Point getPosition(Creature aCreature) {
+        return board.getPosition(aCreature);
     }
 }
 
