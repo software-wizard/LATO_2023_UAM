@@ -12,7 +12,6 @@ public class WarMachineTest {
     @Test
     void builderAndStatisticsShouldReturnValidObject(){
         final WarMachine aWarMachine = new WarMachine.Builder().statistic(WarMachineStats.builder().maxHp(100).attack(0).build()).relSkill(0).build();
-        assertThat(aWarMachine != null).isTrue();
         assertThat(aWarMachine.getCurrentHp()).isEqualTo(aWarMachine.getStats().getMaxHp());
         assertThat(aWarMachine.getStats().getAttack()).isEqualTo(0);
         assertThat(aWarMachine.getRelevantSkill()).isEqualTo(0);

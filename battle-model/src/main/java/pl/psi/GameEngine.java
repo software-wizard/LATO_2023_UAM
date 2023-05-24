@@ -34,7 +34,6 @@ public class GameEngine {
     }
 
     public void heal(final Point point){
-        //TODO: write test for this
         if(board.getBattleUnit(point).isPresent()){
             turnQueue.getCurrentBattleUnit().heal(board.getBattleUnit(point).get());
         }
