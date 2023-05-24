@@ -25,6 +25,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainBattleController implements PropertyChangeListener
 {
@@ -35,7 +36,7 @@ public class MainBattleController implements PropertyChangeListener
     private Button passButton;
     @FXML
     public Button spellButton;
-    private Integer canSpell = 0;
+    private Boolean canSpell = false;
 
     public MainBattleController( final Hero aHero1, final Hero aHero2 )
     {
@@ -80,13 +81,13 @@ public class MainBattleController implements PropertyChangeListener
                         gameEngine.attack( currentPoint );
                     } );
                 }
-                if ( canSpell == 1 && gameEngine.getCreature(currentPoint).isPresent() ) {
+                if ( canSpell && gameEngine.getCreature(currentPoint).isPresent() ) {
                     mapTile.setBackground( Color.BLUE );
                 }
                 gridMap.add( mapTile, x, y );
             }
         }
-        canSpell = 0;
+        canSpell = false;
     }
 
     @Override
@@ -95,14 +96,12 @@ public class MainBattleController implements PropertyChangeListener
     }
 
     private void spellButton() {
-        final Integer[] isOpened = {0};
+        final AtomicBoolean isOpened = new AtomicBoolean();
 
         spellButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-            if (isOpened[0] == 1) {
+            if (!isOpened.compareAndSet(false, true)) {
                 return;
             }
-            isOpened[0] = 1;
-//            System.out.println(gameEngine.getSpellBook());
             List<String> spellBook = gameEngine.getSpellBook();
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("NewWindow.fxml"));
@@ -114,23 +113,21 @@ public class MainBattleController implements PropertyChangeListener
             closeButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    isOpened[0] = 0;
+                    isOpened.set(false);
                     stage.close();
                 }
             });
 
-            List<Button> spellButtonList = new ArrayList<Button>();
+            List<Button> spellButtonList = new ArrayList<>();
 
             for (String name : spellBook) {
                 Button spell = new Button(name);
                 spell.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-//                        popup.hide();
-                        System.out.println(name);
-                        canSpell = 1;
+                        canSpell = true;
                         stage.close();
-                        isOpened[0] = 0;
+                        isOpened.set(false);
                         refreshGui();
                     }
                 });

@@ -19,15 +19,13 @@ public class GameEngine {
     private final Board board;
     private final PropertyChangeSupport observerSupport = new PropertyChangeSupport(this);
     private final Hero hero1;
-    private final List<String>/*List<Spell>*/ spellBook1;
-    private final List<String>/*List<Spell>*/ spellBook2;
+    private final Hero hero2;
 
     public GameEngine(final Hero aHero1, final Hero aHero2) {
         turnQueue = new TurnQueue(aHero1.getCreatures(), aHero2.getCreatures());
         board = new Board(aHero1.getCreatures(), aHero2.getCreatures());
-        spellBook1 = aHero1.getSpellBook();
-        spellBook2 = aHero2.getSpellBook();
         hero1 = aHero1;
+        hero2 = aHero2;
     }
 
     public void attack(final Point point) {
@@ -73,10 +71,10 @@ public class GameEngine {
 
     public List<String>/*List<Spell>*/ getSpellBook() {
         if (hero1.getCreatures().contains(turnQueue.getCurrentCreature())) {
-            return spellBook1;
+            return hero1.getSpellBook();
         }
         else {
-            return spellBook2;
+            return hero2.getSpellBook();
         }
     }
 }
