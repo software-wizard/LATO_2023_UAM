@@ -50,13 +50,13 @@ public class Start extends Application
 
     private Hero createP2()
     {
-        final Hero ret = new Hero( List.of( new NecropolisFactory().create( true, 1, 5 ) ), List.of(new Spell.spellBuilder().statistic(SpellStatistic.ICE_BOLT).build().getName()) );
+        final Hero ret = new Hero( List.of( new NecropolisFactory().create( true, 1, 5 ) ), List.of(new Spell.spellBuilder().statistic(SpellStatistic.ICE_BOLT).build()) );
         return ret;
     }
 
     private Hero createP1()
     {
-        final Hero ret = new Hero( List.of( new NecropolisFactory().create( false, 1, 5 ) ), List.of(new Spell.spellBuilder().statistic(SpellStatistic.CURE).build().getName()) );
+        final Hero ret = new Hero( List.of( new NecropolisFactory().create( false, 1, 5 ) ), List.of(new Spell.spellBuilder().statistic(SpellStatistic.CURE).build()) );
         return ret;
     }
 

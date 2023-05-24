@@ -5,8 +5,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
-import javafx.scene.shape.Circle;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import pl.psi.GameEngine;
@@ -19,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import pl.psi.creatures.Creature;
+import pl.psi.creatures.Spell;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -102,12 +101,12 @@ public class MainBattleController implements PropertyChangeListener
             if (!isOpened.compareAndSet(false, true)) {
                 return;
             }
-            List<String> spellBook = gameEngine.getSpellBook();
+            List<Spell> spellBook = gameEngine.getSpellBook();
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("NewWindow.fxml"));
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
-//            stage.setTitle("SPELL BOOK");
+            stage.setTitle("Spell Book");
 
             Button closeButton = new Button("X");
             closeButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -120,9 +119,9 @@ public class MainBattleController implements PropertyChangeListener
 
             List<Button> spellButtonList = new ArrayList<>();
 
-            for (String name : spellBook) {
-                Button spell = new Button(name);
-                spell.setOnAction(new EventHandler<ActionEvent>() {
+            for (Spell spell : spellBook) {
+                Button spellButton = new Button(spell.getName());
+                spellButton.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
                         canSpell = true;
@@ -131,7 +130,7 @@ public class MainBattleController implements PropertyChangeListener
                         refreshGui();
                     }
                 });
-                spellButtonList.add(spell);
+                spellButtonList.add(spellButton);
             }
 
             spellButtonList.add(closeButton);
