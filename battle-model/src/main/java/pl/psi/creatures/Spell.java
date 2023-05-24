@@ -52,5 +52,9 @@ public class Spell {
         }
     }
 
+    public String getName() {
+        return this.stats.getName();
+    }
+
 
 }

@@ -2,9 +2,12 @@ package pl.psi;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.List;
 import java.util.Optional;
 
 import pl.psi.creatures.Creature;
+import pl.psi.creatures.Spell;
+import pl.psi.creatures.SpellStatisticIf;
 
 /**
  * TODO: Describe this class (The first line - until the first dot - will interpret as the brief description).
@@ -15,10 +18,14 @@ public class GameEngine {
     private final TurnQueue turnQueue;
     private final Board board;
     private final PropertyChangeSupport observerSupport = new PropertyChangeSupport(this);
+    private final List<String>/*List<Spell>*/ spellBook1;
+    private final List<String>/*List<Spell>*/ spellBook2;
 
     public GameEngine(final Hero aHero1, final Hero aHero2) {
         turnQueue = new TurnQueue(aHero1.getCreatures(), aHero2.getCreatures());
         board = new Board(aHero1.getCreatures(), aHero2.getCreatures());
+        spellBook1 = aHero1.heroSpells();
+        spellBook2 = aHero2.heroSpells();
     }
 
     public void attack(final Point point) {
@@ -60,5 +67,9 @@ public class GameEngine {
 
     public boolean isCurrentCreature(Point aPoint) {
         return Optional.of(turnQueue.getCurrentCreature()).equals(board.getCreature(aPoint));
+    }
+
+    public List<String>/*List<Spell>*/ getSpellBook() {
+        return spellBook1;
     }
 }
