@@ -16,21 +16,12 @@ public class Hero
 {
     @Getter
     private final List< Creature > creatures;
+    @Getter
+    private final List< String > spellBook;
 
-    public Hero( final List< Creature > aCreatures )
+    public Hero( final List< Creature > aCreatures, final List<String> aSpellBook )
     {
         creatures = aCreatures;
+        spellBook = aSpellBook;
     }
-
-    Spell spell1 = new Spell.spellBuilder().statistic(SpellStatistic.ICE_BOLT).build();
-    Spell spell2 = new Spell.spellBuilder().statistic(SpellStatistic.CURE).build();
-
-    private final List<String>/*List<Spell>*/ spellBook = new ArrayList</*Spell*/>();
-
-    public List<String>/*List<Spell>*/ heroSpells() {
-        spellBook.add(spell1.getName());
-        spellBook.add(spell2.getName());
-        return spellBook;
-    }
-
 }
