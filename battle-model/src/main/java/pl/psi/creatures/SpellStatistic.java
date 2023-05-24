@@ -8,12 +8,12 @@ public enum SpellStatistic implements SpellStatisticIf
     LIGHTNING_BOLT( "Lightning bolt", 0, 10, 5,0,0, 0, 0,1, "Causes a bolt of lightning to strike the selected unit."),//
     DISRUPTING_RAY( "Disrupting ray", 0, 10, 0,-5,0, 0, 0,2, "Reduces the selected enemy unit's defense strength. A single enemy may be targeted multiple times by this spell."),//
     PROTECTION_FROM_AIR( "Protection from air", 0, 5, 0,0,0, 0, 10,3, "Protects the selected unit, reducing damage received from Air spells."),//
-    FLY( "Fly", 0, 20, 0,0,0, 100000, 0,4, "You may teleport your hero to a visible, unoccupied location on the adventure map."),//
+    FLY( "Fly", 0, 20, 0,0,0, Integer.MAX_VALUE, 0,4, "You may teleport your hero to a visible, unoccupied location on the adventure map."),//
 
     FIREBALL( "Fireball", 1, 15, 15,0,0, 0, 0,1, "Causes the selected target to burst into flames, inflicting fire damage to the target and any adjacent units."),//
     BLOODLUST( "Bloodlust", 1, 5, 0,0,3, 0, 0,2, "Increases the hand-to-hand damage inflicted by the selected unit."),//
     PROTECTION_FROM_FIRE( "Protection from fire", 1, 5, 0,0,0, 0, 10,3, "Increases the hand-to-hand damage inflicted by the selected unit."),//
-    BLIND( "Blind", 1, 10, 0,0,0, -10000, 0,4, "Increases the hand-to-hand damage inflicted by the selected unit."),//
+    BLIND( "Blind", 1, 10, 0,0,0, Integer.MIN_VALUE, 0,4, "Increases the hand-to-hand damage inflicted by the selected unit."),//
 
     METEOR_SHOWER("Meteor shower", 2, 16, 20,0,0,0,0,1, "Causes a meteor shower to rain down on the selected target"),//
     SHIELD("Shield", 2, 5, 0,5,0,0,0,2, "Shields a selected unit, reducing the amount of damage received from hand-to-hand attacks."),//

@@ -82,11 +82,11 @@ public class MainBattleController implements PropertyChangeListener
                 }
                 if ( canSpell == 1 && gameEngine.getCreature(currentPoint).isPresent() ) {
                     mapTile.setBackground( Color.BLUE );
-//                    canSpell = 0;
                 }
                 gridMap.add( mapTile, x, y );
             }
         }
+        canSpell = 0;
     }
 
     @Override
@@ -130,6 +130,7 @@ public class MainBattleController implements PropertyChangeListener
                         System.out.println(name);
                         canSpell = 1;
                         stage.close();
+                        isOpened[0] = 0;
                         refreshGui();
                     }
                 });
