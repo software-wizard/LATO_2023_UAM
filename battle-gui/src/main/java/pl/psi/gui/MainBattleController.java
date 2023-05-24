@@ -1,6 +1,8 @@
 package pl.psi.gui;
 
 
+import com.sun.javafx.PlatformUtil;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
@@ -43,6 +45,8 @@ public class MainBattleController implements PropertyChangeListener {
                 creature.ifPresent(c -> mapTile.setName(c.toString()));
                 if (gameEngine.isCurrentCreature(currentPoint)) {
                     mapTile.setBackground(Color.GREENYELLOW);
+//                    System.out.println(currentPoint);
+
                 }
                 if (gameEngine.canMove(currentPoint)) {
 
@@ -67,6 +71,6 @@ public class MainBattleController implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        refreshGui();
+        Platform.runLater(this::refreshGui);
     }
 }

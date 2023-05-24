@@ -71,8 +71,8 @@ public class GameEngineTest {
         Node goal = new Node(4, 0);
 
         Map<Point, Integer> obstacles = new HashMap<>();
-        obstacles.put(new Point(2, 0), 999);
-        obstacles.put(new Point(3, 1), 999);
+        obstacles.put(new Point(2, 0), Integer.MAX_VALUE);
+        obstacles.put(new Point(3, 1), Integer.MAX_VALUE);
 
         List<Node> actualMovesList = Arrays.asList(new Node(0, 0), new Node(1, 0),
                 new Node(1, 1), new Node(2, 1), new Node(2, 2), new Node(3, 2),

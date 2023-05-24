@@ -36,19 +36,29 @@ public class GameEngine {
     }
 
     public void move(final Point aPoint) {
-        Map<Point, Integer> obstacles = Collections.emptyMap();
-        Point startPoint = getPosition(turnQueue.getCurrentCreature());
 
-        Node startingNode = new Node(startPoint.getX(), startPoint.getY());
-        Node goalNode = new Node(aPoint.getX(), aPoint.getY());
-        List<Node> path = generateMovesList(startingNode, goalNode, obstacles);
-        if (path != null) {
-            for (Node node : path) {
-                board.move(turnQueue.getCurrentCreature(), node);
-                observerSupport.firePropertyChange(CREATURE_MOVED, startingNode, node);
-                startingNode = node;
+        Runnable runnable = (()->{
+            Map<Point, Integer> obstacles = Collections.emptyMap();
+            Point startPoint = getPosition(turnQueue.getCurrentCreature());
+
+            Node startingNode = new Node(startPoint.getX(), startPoint.getY());
+            Node goalNode = new Node(aPoint.getX(), aPoint.getY());
+            List<Node> path = generateMovesList(startingNode, goalNode, obstacles);
+            if (path != null) {
+                for (Node node : path) {
+                    board.move(turnQueue.getCurrentCreature(), node);
+                    observerSupport.firePropertyChange(CREATURE_MOVED, startingNode, node);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    startingNode = node;
+                }
             }
-        }
+        });
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 
     public List<Node> generateNeigboursList(int x, int y) {
