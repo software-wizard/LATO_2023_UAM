@@ -20,7 +20,7 @@ public class MainBattleController implements PropertyChangeListener
     @FXML
     private Button passButton;
 
-    public MainBattleController( final Hero aPlayer1, final Hero aPlayer2, final ObstaclesList obstaclesList)
+    public MainBattleController( final Hero aPlayer1, final Hero aPlayer2, final ObstaclePlacementList obstaclesList)
     {
         gameEngine = new GameEngine( aPlayer1, aPlayer2, obstaclesList);
     }

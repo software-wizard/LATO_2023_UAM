@@ -1,5 +1,6 @@
 package pl.psi;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,11 +21,13 @@ public class Board
 
     public Board( final List< Creature > aCreatures1,
                   final List< Creature > aCreatures2,
-                  final List<Obstacle> aObstacles)
+//                  final List<Obstacle> aObstacles)
+                  final HashMap<Point, Obstacle> aObstacles)
     {
         addCreatures( aCreatures1, 0 );
         addCreatures( aCreatures2, MAX_WITDH );
-        addObstacle(aObstacles, 6);
+//        addObstacle(aObstacles, 6);
+        addObstacleByPoint(aObstacles);
     }
 
     private void addCreatures( final List< Creature > aCreatures, final int aXPosition )
@@ -40,6 +43,12 @@ public class Board
         for( int i = 0; i < aObstacles.size(); i++ )
         {
             map.put( new Point( aXPosition, i * 2 + 1 ), aObstacles.get( i ) );
+        }
+    }
+    private void addObstacleByPoint(final HashMap<Point, Obstacle> aObstaclePlacement)
+    {
+        for (Point p : aObstaclePlacement.keySet()){
+            map.put(new Point(p.getX(), p.getY()), aObstaclePlacement.get(p));
         }
     }
 

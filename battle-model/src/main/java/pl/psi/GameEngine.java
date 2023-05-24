@@ -14,9 +14,9 @@ public class GameEngine {
     private final Board board;
     private final PropertyChangeSupport observerSupport = new PropertyChangeSupport(this);
 
-    public GameEngine(final Hero aHero1, final Hero aHero2, final ObstaclesList obstaclesList) {
+    public GameEngine(final Hero aHero1, final Hero aHero2, final ObstaclePlacementList obstaclesList) {
         turnQueue = new TurnQueue(aHero1.getCreatures(), aHero2.getCreatures());
-        board = new Board(aHero1.getCreatures(), aHero2.getCreatures(), obstaclesList.getObstacles());
+        board = new Board(aHero1.getCreatures(), aHero2.getCreatures(), obstaclesList.getObstaclePlacement());
     }
 
 //    public HeroesEngine(final Hero aHero1, final Hero aHero2){

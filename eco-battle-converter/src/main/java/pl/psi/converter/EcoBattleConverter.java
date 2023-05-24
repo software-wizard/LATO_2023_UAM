@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.psi.Hero;
+import pl.psi.ObstaclePlacementList;
 import pl.psi.ObstaclesList;
 import pl.psi.creatures.Creature;
 import pl.psi.gui.MainBattleController;
@@ -20,7 +21,7 @@ public class EcoBattleConverter
 
     public static void startBattle(final EconomyHero aPlayer1,
                                    final EconomyHero aPlayer2,
-                                   final ObstaclesList obstaclesList)
+                                   final ObstaclePlacementList obstaclesList)
     {
         Scene scene = null;
         try
