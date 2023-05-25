@@ -2,6 +2,7 @@ package pl.psi;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -18,8 +19,10 @@ public class Board
 
     public Board( final List< BattleUnit > aBattleUnits1, final List< BattleUnit > aBattleUnits2 )
     {
-        addBattleUnits(aBattleUnits1, 0 );
-        addBattleUnits(aBattleUnits2, MAX_WITDH );
+        addBattleUnits(aBattleUnits1.stream().filter(BattleUnit::isWarMachine).collect(Collectors.toList()), 0 );
+        addBattleUnits(aBattleUnits1.stream().filter(BattleUnit::isCreature).collect(Collectors.toList()), 1 );
+        addBattleUnits(aBattleUnits2.stream().filter(BattleUnit::isCreature).collect(Collectors.toList()), MAX_WITDH-1 );
+        addBattleUnits(aBattleUnits2.stream().filter(BattleUnit::isWarMachine).collect(Collectors.toList()), MAX_WITDH );
     }
 
     private void addBattleUnits( final List< BattleUnit > aBattleUnits, final int aXPosition )
