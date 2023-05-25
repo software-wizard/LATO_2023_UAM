@@ -1,7 +1,6 @@
 package pl.psi.gui;
 
 
-import com.sun.javafx.PlatformUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,6 +15,7 @@ import pl.psi.creatures.Creature;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainBattleController implements PropertyChangeListener {
     private final GameEngine gameEngine;
@@ -23,6 +23,10 @@ public class MainBattleController implements PropertyChangeListener {
     private GridPane gridMap;
     @FXML
     private Button passButton;
+
+    private final AtomicBoolean canRefresh = new AtomicBoolean(true);
+
+    private Point destinationPoint;
 
     public MainBattleController(final Hero aHero1, final Hero aHero2) {
         gameEngine = new GameEngine(aHero1, aHero2);
@@ -45,16 +49,20 @@ public class MainBattleController implements PropertyChangeListener {
                 creature.ifPresent(c -> mapTile.setName(c.toString()));
                 if (gameEngine.isCurrentCreature(currentPoint)) {
                     mapTile.setBackground(Color.GREENYELLOW);
-//                    System.out.println(currentPoint);
 
                 }
                 if (gameEngine.canMove(currentPoint)) {
 
                     mapTile.setBackground(Color.GREY);
-                    mapTile.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-                        gameEngine.move(currentPoint);
-                    });
 
+                    if(canRefresh.get()){
+                        mapTile.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                            gameEngine.move(currentPoint);
+                            canRefresh.set(false);
+                            destinationPoint = currentPoint;
+
+                        });
+                    }
                 }
 
                 if (gameEngine.canAttack(currentPoint)) {
@@ -72,5 +80,8 @@ public class MainBattleController implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         Platform.runLater(this::refreshGui);
+        if(evt.getNewValue().equals(destinationPoint)){
+            canRefresh.set(true);
+        }
     }
 }

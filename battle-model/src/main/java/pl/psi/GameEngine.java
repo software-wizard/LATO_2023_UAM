@@ -49,7 +49,7 @@ public class GameEngine {
                     board.move(turnQueue.getCurrentCreature(), node);
                     observerSupport.firePropertyChange(CREATURE_MOVED, startingNode, node);
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
