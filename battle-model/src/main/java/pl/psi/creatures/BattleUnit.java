@@ -74,6 +74,30 @@ public class BattleUnit {
         }
     }
 
+    public boolean canAttack(){
+        if(isCreature()){
+            return true;
+        }else{
+            return getWarMachineVal().canAttack();
+        }
+    }
+
+    public boolean canHeal(){
+        if(isCreature()){
+            return false;
+        }else{
+            return getWarMachineVal().canHeal();
+        }
+    }
+
+    public void applyDamage(final BattleUnit aDefender, final int aDamage){
+        if(isCreature()){
+            getCreatureVal().applyDamage(aDefender.getCreatureVal(), aDamage);
+        }else{
+            getWarMachineVal().applyDamage(aDefender.getWarMachineVal(), aDamage);
+        }
+    }
+
     @Override
     public String toString(){
         if(isCreature()){

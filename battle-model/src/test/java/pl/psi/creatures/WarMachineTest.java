@@ -63,4 +63,19 @@ public class WarMachineTest {
         assertThat(aCreature.getCurrentHp()).isEqualTo(90);
         //TODO: correct this test once the .attack() method is corrected, pending skills implementation
     }
+
+    @Test
+    void warMachineShouldBeAbleToAttackWarMachine(){
+        final WarMachine aWarMachine1 = new WarMachine.Builder().statistic(WarMachineStats.builder()
+                        .maxHp(100) //hp needs to be above 0 due to isAlive() check
+                        .build())
+                .build();
+        final WarMachine aWarMachine2 = new WarMachine.Builder().statistic(WarMachineStats.builder()
+                        .maxHp(100) //hp needs to be above 0 due to isAlive() check
+                        .build())
+                .build();
+        aWarMachine1.attack(aWarMachine2);
+        assertThat(aWarMachine2.getCurrentHp()).isEqualTo(90);
+        //TODO: correct this test once the .attack() method is corrected, pending skills implementation
+    }
 }
