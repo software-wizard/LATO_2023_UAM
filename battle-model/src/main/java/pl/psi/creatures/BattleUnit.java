@@ -90,6 +90,14 @@ public class BattleUnit {
         }
     }
 
+    public boolean isControllable(){
+        if(isCreature()){
+            return true;
+        }else{
+            return getWarMachineVal().isControllable();
+        }
+    }
+
     public void applyDamage(final BattleUnit aDefender, final int aDamage){
         if(isCreature()){
             getCreatureVal().applyDamage(aDefender.getCreatureVal(), aDamage);
