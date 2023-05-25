@@ -68,6 +68,8 @@ public class WarMachine{
     }
     public boolean canHeal() { return getStats().getName().equals("First Aid Tent");}
 
+    public boolean canSiege() { return getStats().getName().equals("Catapult");}
+
     protected void applyDamage(final WarMachine aDefender, final int aDamage){
         aDefender.setCurrentHp(aDefender.getCurrentHp()-aDamage);
     }
