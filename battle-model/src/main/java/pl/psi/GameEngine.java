@@ -65,11 +65,18 @@ public class GameEngine {
                 && distance < 2 && distance > 0;
     }
 
+    public void castSpell(final Point aPoint, Spell aSpell) {
+        if (board.getCreature(aPoint).isPresent()) {
+            aSpell.cast(board.getCreature(aPoint).get());
+            pass();
+        }
+    }
+
     public boolean isCurrentCreature(Point aPoint) {
         return Optional.of(turnQueue.getCurrentCreature()).equals(board.getCreature(aPoint));
     }
 
-    public List<String>/*List<Spell>*/ getSpellBook() {
+    public List<Spell> getSpellBook() {
         if (hero1.getCreatures().contains(turnQueue.getCurrentCreature())) {
             return hero1.getSpellBook();
         }

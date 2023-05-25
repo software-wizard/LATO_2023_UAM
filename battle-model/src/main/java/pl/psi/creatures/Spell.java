@@ -10,7 +10,7 @@ public class Spell {
         stats = aStats;
     }
 
-    void cast(Creature creature) {
+    public void cast(Creature creature) {
         if (creature.isAlive()) {
 
             final String Name = this.stats.getName();

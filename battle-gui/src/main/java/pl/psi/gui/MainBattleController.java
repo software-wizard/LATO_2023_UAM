@@ -35,7 +35,8 @@ public class MainBattleController implements PropertyChangeListener
     private Button passButton;
     @FXML
     public Button spellButton;
-    private Boolean canSpell = false;
+    private Boolean isSpellSelected = false;
+    private Spell spellToReturn;
 
     public MainBattleController( final Hero aHero1, final Hero aHero2 )
     {
@@ -73,20 +74,23 @@ public class MainBattleController implements PropertyChangeListener
                         gameEngine.move( currentPoint );
                     } );
                 }
-                if( gameEngine.canAttack( currentPoint ) )
+                if( isSpellSelected && gameEngine.getCreature( currentPoint ).isPresent() ) {
+                    mapTile.setBackground( Color.BLUE );
+                    mapTile.addEventHandler( MouseEvent.MOUSE_CLICKED, ( e ) -> {
+                        gameEngine.castSpell( currentPoint, spellToReturn );
+                    } );
+                }
+                else if( gameEngine.canAttack( currentPoint ) )
                 {
                     mapTile.setBackground( Color.RED );
                     mapTile.addEventHandler( MouseEvent.MOUSE_CLICKED, ( e ) -> {
                         gameEngine.attack( currentPoint );
                     } );
                 }
-                if ( canSpell && gameEngine.getCreature(currentPoint).isPresent() ) {
-                    mapTile.setBackground( Color.BLUE );
-                }
                 gridMap.add( mapTile, x, y );
             }
         }
-        canSpell = false;
+        isSpellSelected = false;
     }
 
     @Override
@@ -103,7 +107,7 @@ public class MainBattleController implements PropertyChangeListener
             }
             List<Spell> spellBook = gameEngine.getSpellBook();
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("NewWindow.fxml"));
+//            fxmlLoader.setLocation(getClass().getResource("NewWindow.fxml"));
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
             stage.setTitle("Spell Book");
@@ -124,10 +128,11 @@ public class MainBattleController implements PropertyChangeListener
                 spellButton.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        canSpell = true;
+                        isSpellSelected = true;
                         stage.close();
                         isOpened.set(false);
                         refreshGui();
+                        spellToReturn = spell;
                     }
                 });
                 spellButtonList.add(spellButton);
