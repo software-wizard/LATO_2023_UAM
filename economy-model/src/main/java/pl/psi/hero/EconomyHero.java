@@ -3,6 +3,7 @@ package pl.psi.hero;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.psi.converter.SkillsInterface;
 import pl.psi.creatures.EconomyCreature;
 
 public class EconomyHero
@@ -11,12 +12,14 @@ public class EconomyHero
     private final Fraction fraction;
     private final List< EconomyCreature > creatureList;
     private int gold;
+    private final List<SkillsInterface> skillsList;
 
     public EconomyHero( final Fraction aFraction, final int aGold )
     {
         fraction = aFraction;
         gold = aGold;
         creatureList = new ArrayList<>();
+        skillsList = new ArrayList<>();
     }
 
     void addCreature( final EconomyCreature aCreature )
@@ -55,5 +58,19 @@ public class EconomyHero
     public enum Fraction
     {
         NECROPOLIS;
+    }
+
+    public List<SkillsInterface> getSkills() {
+
+        return List.copyOf( skillsList );
+    }
+
+    void addSkill(final SkillsInterface skillsInterface) {
+
+        if( skillsList.size() >= 28 )
+        {
+            throw new IllegalStateException( "Too many skills" );
+        }
+        skillsList.add( skillsInterface );
     }
 }
