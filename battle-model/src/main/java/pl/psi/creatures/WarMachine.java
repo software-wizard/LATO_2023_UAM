@@ -25,11 +25,13 @@ public class WarMachine{
     }
 
     public void heal(final Creature creature){
-        final Random tmpRand = new Random();
+        if(isAlive()) {
+            final Random tmpRand = new Random();
 
-        creature.setCurrentHp(creature.getCurrentHp() + (tmpRand.nextInt(25+(25*getRelevantSkill()))+1));
-        if(creature.getCurrentHp() > creature.getMaxHp()){
-            creature.setCurrentHp(creature.getMaxHp());
+            creature.setCurrentHp(creature.getCurrentHp() + (tmpRand.nextInt(25 + (25 * getRelevantSkill())) + 1));
+            if (creature.getCurrentHp() > creature.getMaxHp()) {
+                creature.setCurrentHp(creature.getMaxHp());
+            }
         }
     }
 
@@ -49,7 +51,9 @@ public class WarMachine{
     }
 
     protected void siege(){
-        //TODO: method related to catapult - needs actual targets to be implemented.
+        if(isAlive()) {
+            //TODO: method related to catapult - needs actual targets to be implemented.
+        }
     }
 
     public boolean isAlive(){
