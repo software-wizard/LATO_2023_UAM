@@ -22,7 +22,7 @@ public enum SpellStatistic implements SpellStatisticIf
 
     ICE_BOLT("Ice bolt", 3,8,10,0,0,0,0,1,"Drains the body heat from the selected enemy unit"),//
     WEAKNESS("Weakness", 3,8,0,0,-3,0,0,1,"Reduces the selected enemy unit's attack strength."),//
-    PROTECTION_FROM_WATER("Shield", 3, 5, 0,0,0,0,10,3, "Protects the selected unit, reducing damage received from Water spells."),//
+    PROTECTION_FROM_WATER("Protection from water", 3, 5, 0,0,0,0,10,3, "Protects the selected unit, reducing damage received from Water spells."),//
     CURE("Cure", 3, 6, -5,0,0,0,0,4, "Healing."),//
     ;
     private final String name;

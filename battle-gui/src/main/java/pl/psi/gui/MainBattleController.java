@@ -3,8 +3,13 @@ package pl.psi.gui;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import pl.psi.GameEngine;
@@ -106,7 +111,7 @@ public class MainBattleController implements PropertyChangeListener
                 return;
             }
             List<Spell> spellBook = gameEngine.getSpellBook();
-            FXMLLoader fxmlLoader = new FXMLLoader();
+//            FXMLLoader fxmlLoader = new FXMLLoader();
 //            fxmlLoader.setLocation(getClass().getResource("NewWindow.fxml"));
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
@@ -125,6 +130,16 @@ public class MainBattleController implements PropertyChangeListener
 
             for (Spell spell : spellBook) {
                 Button spellButton = new Button(spell.getName());
+                try {
+                    Image image = new Image("imagesSpell/" + spell.getName() + ".png");
+                    ImageView imageView = new ImageView(image);
+                    spellButton.setGraphic(imageView);
+                    spellButton.setContentDisplay(ContentDisplay.TOP);
+                }
+                catch (IllegalArgumentException ex) {
+                    ex.printStackTrace();
+                }
+
                 spellButton.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
@@ -138,12 +153,29 @@ public class MainBattleController implements PropertyChangeListener
                 spellButtonList.add(spellButton);
             }
 
-            spellButtonList.add(closeButton);
+            GridPane spellBookGrid = new GridPane();
+            spellBookGrid.setMinSize(350, 200);
+            spellBookGrid.setPadding(new Insets(30, 10, 10, 10));
+            spellBookGrid.setVgap(5);
+            spellBookGrid.setHgap(5);
+            spellBookGrid.setAlignment(Pos.CENTER);
 
-            HBox layout = new HBox(10);
-            layout.setStyle("-fx-background-color: cornsilk; -fx-padding: 10;");
-            layout.getChildren().addAll(spellButtonList);
-            stage.setScene(new Scene(layout));
+            int gridWidth = (int) Math.ceil(Math.sqrt(spellButtonList.size()));
+            int counter = 0;
+
+            for (int i = 0; i < gridWidth; i++) {
+                for (int k = 0; k < gridWidth; k++) {
+                    if (counter < spellButtonList.size()) {
+                        spellBookGrid.add(spellButtonList.get(counter), k, i);
+                        counter++;
+                    }
+                }
+            }
+
+            spellBookGrid.add(closeButton, gridWidth - 1, gridWidth);
+            GridPane.setHalignment(closeButton, HPos.RIGHT);
+
+            stage.setScene(new Scene(spellBookGrid));
             stage.show();
         });
     }
