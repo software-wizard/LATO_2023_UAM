@@ -18,7 +18,7 @@ public class CreatureStats implements CreatureStatisticIf{
     private final int moveRange;
     private final Range< Integer > damage;
     private final int tier;
-    private final int spellDamageResistance;
+    private final int[] spellDamageResistance;
     private final String description;
     private final boolean isUpgraded;
 }

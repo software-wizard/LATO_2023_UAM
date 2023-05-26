@@ -1,5 +1,8 @@
 package pl.psi.creatures;
 
+import com.google.common.collect.Range;
+import com.google.common.collect.Table;
+
 import java.util.Random;
 
 public class Spell {
@@ -12,32 +15,46 @@ public class Spell {
 
     public void cast(Creature creature) {
         if (creature.isAlive()) {
-
-            final String Name = this.stats.getName();
-            final int ClassOfSpell = this.stats.getClassOfSpell();
-            final int Cost = this.stats.getCost();
-            final int SpellDamage = this.stats.getSpellDamage();
-            final int ArmorChange = this.stats.getArmorChange();
-            final int DamageChange = this.stats.getDamageChange();
-            final int MoveRangeChange = this.stats.getMoveRangeChange();
-            final int SpellProtect = this.stats.getSpellProtection();
-            final int Tier = this.stats.getTier();
-            final String Description = this.stats.getDescription();
-
-            applySpell(creature, Name, ClassOfSpell, Cost, SpellDamage, ArmorChange, DamageChange, MoveRangeChange, SpellProtect, Tier, Description);
+            applySpell(creature, stats);
         }
     }
 
-    void applySpell(Creature creature, String name, int classOfSpell, int cost, int spellDamage, int armorChange, int damageChange, int moveRangeChange, int spellProtect, int tier, String description) {
-        System.out.println("Using " + name);
+    void applySpell(Creature creature, SpellStatisticIf stats) {
+        System.out.println("Using " + stats.getName());
+        int[] spellResistanceCalc = creature.getStats().getSpellDamageResistance();
+        spellResistanceCalc[stats.getClassOfSpell()] += stats.getSpellProtection();
 
-        if(spellDamage >0){ //usual damage
-            creature.setCurrentHp(creature.getCurrentHp()-creature.getSpellDamageResistance()/100*spellDamage);
+        if (stats.getSpellDamage() > 0){
+            creature.setCurrentHp(creature.getCurrentHp() - (int)((float)(100 - spellResistanceCalc[stats.getClassOfSpell()])/100 * stats.getSpellDamage()));
         }
-        if(spellDamage < 0){ //healing
-            creature.setCurrentHp(creature.getCurrentHp()-spellDamage);
+        else {
+            if(creature.getCurrentHp()-stats.getSpellDamage() < creature.getStats().getMaxHp()){
+                creature.setCurrentHp(creature.getCurrentHp()-stats.getSpellDamage());
+            }
+            else {
+                creature.setCurrentHp(creature.getMaxHp());
+            }
         }
 
+        final Creature creature1 = new Creature.Builder().statistic(CreatureStats.builder()
+                        .name(creature.getStats().getName())
+                        .attack(creature.getStats().getAttack())
+                        .armor(creature.getStats().getArmor() +
+                                (int)((float)(100 - spellResistanceCalc[stats.getClassOfSpell()])/100 * stats.getArmorChange()))
+                        .maxHp(creature.getStats().getMaxHp())
+                        .moveRange(creature.getStats().getMoveRange() +
+                                (int)((float)(100 - spellResistanceCalc[stats.getClassOfSpell()])/100 * stats.getMoveRangeChange()))
+                        .damage(Range.closed(creature.getStats().getDamage().lowerEndpoint()+
+                                        (int)((float)(100 - spellResistanceCalc[stats.getClassOfSpell()])/100 * stats.getDamageChange()),
+                                creature.getStats().getDamage().upperEndpoint()+(
+                                        (int)((float)(100 - spellResistanceCalc[stats.getClassOfSpell()])/100 * stats.getDamageChange()))))
+                        .tier(creature.getStats().getTier())
+                        .spellDamageResistance(spellResistanceCalc)
+                        .description(creature.getStats().getDescription())
+                        .isUpgraded(creature.getStats().isUpgraded())
+                        .build())
+                .build();
+        creature.updateStats(creature1.getStats());
         System.out.println("The spell has been applied");
     }
 

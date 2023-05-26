@@ -73,6 +73,10 @@ public class Creature implements PropertyChangeListener {
         return stats.getMaxHp();
     }
 
+    void updateStats(CreatureStatisticIf stats){
+        this.stats = stats;
+    }
+
     protected void setCurrentHp(final int aCurrentHp) {
         currentHp = aCurrentHp;
     }
@@ -100,8 +104,7 @@ public class Creature implements PropertyChangeListener {
         return stats.getArmor();
     }
 
-
-    int getSpellDamageResistance() {
+    int[] getSpellDamageResistance() {
         return stats.getSpellDamageResistance();
     }
 
