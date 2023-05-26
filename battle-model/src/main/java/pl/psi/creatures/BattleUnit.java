@@ -90,6 +90,14 @@ public class BattleUnit {
         }
     }
 
+    public boolean canSiege(){
+        if(isCreature()){
+            return false;
+        }else{
+            return getWarMachineVal().canSiege();
+        }
+    }
+
     public boolean isControllable(){
         if(isCreature()){
             return true;
