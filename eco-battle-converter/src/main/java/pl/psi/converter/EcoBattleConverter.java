@@ -3,8 +3,10 @@ package pl.psi.converter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import pl.psi.Hero;
+import pl.psi.creatures.BattleUnit;
 import pl.psi.creatures.Creature;
 import pl.psi.gui.MainBattleController;
 import pl.psi.creatures.NecropolisFactory;
@@ -46,6 +48,6 @@ public class EcoBattleConverter
         aPlayer1.getCreatures()
             .forEach( ecoCreature -> creatures.add( factory.create( ecoCreature.isUpgraded(),
                 ecoCreature.getTier(), ecoCreature.getAmount() ) ) );
-        return new Hero( creatures );
+        return new Hero( creatures.stream().map(BattleUnit::new).collect(Collectors.toList()) );
     }
 }
