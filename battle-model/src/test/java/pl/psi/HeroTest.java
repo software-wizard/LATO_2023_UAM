@@ -44,7 +44,7 @@ public class HeroTest {
     void getCreaturesAndGetWarMachinesShouldReturnCorrectResults(){
         final BattleUnit aBattleUnit3 = new BattleUnit(new WarMachine.Builder().statistic(WarMachineStats.builder().build()).build());
         final Hero aHero1 = new Hero(List.of(aBattleUnit1, aBattleUnit2, aBattleUnit3));
-        assertThat(aHero1.getCreatures().size()).isEqualTo(2);
-        assertThat(aHero1.getWarMachines().size()).isEqualTo(1);
+        assertThat(aHero1.getCreatures()).isEqualTo(List.of(aBattleUnit1.getCreatureVal(), aBattleUnit2.getCreatureVal()));
+        assertThat(aHero1.getWarMachines()).isEqualTo(List.of(aBattleUnit3.getWarMachineVal()));
     }
 }
