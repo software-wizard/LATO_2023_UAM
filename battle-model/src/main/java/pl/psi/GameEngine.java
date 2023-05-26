@@ -19,14 +19,6 @@ public class GameEngine {
         board = new Board(aHero1.getCreatures(), aHero2.getCreatures(), obstaclesList.getObstaclePlacement());
     }
 
-//    public HeroesEngine(final Hero aHero1, final Hero aHero2){
-//        turnQueue = new TurnQueue(aHero1.getCreatures(), aHero2.getCreatures());
-//        board = new Board(aHero1.getCreatures(), aHero2.getCreatures());
-//    }
-//    public ObstaclesEngine(final Obstacles obstacles){
-//
-//    }
-
     public void attack(final Point point) {
         board.getObject(point)
                 .ifPresent(defender -> turnQueue.getCurrentCreature()

@@ -17,16 +17,13 @@ public class Board
 {
     private static final int MAX_WITDH = 14;
     private final BiMap< Point, Defendable > map = HashBiMap.create();
-    //private final BiMap< Point, FreeStandingObject > obstacleMap = HashBiMap.create();
 
     public Board( final List< Creature > aCreatures1,
                   final List< Creature > aCreatures2,
-//                  final List<Obstacle> aObstacles)
                   final HashMap<Point, Obstacle> aObstacles)
     {
         addCreatures( aCreatures1, 0 );
         addCreatures( aCreatures2, MAX_WITDH );
-//        addObstacle(aObstacles, 6);
         addObstacleByPoint(aObstacles);
     }
 
@@ -38,18 +35,18 @@ public class Board
         }
     }
 
-    private void addObstacle(final List<Obstacle> aObstacles, final int aXPosition)
-    {
-        for( int i = 0; i < aObstacles.size(); i++ )
-        {
-            map.put( new Point( aXPosition, i * 2 + 1 ), aObstacles.get( i ) );
-        }
-    }
     private void addObstacleByPoint(final HashMap<Point, Obstacle> aObstaclePlacement)
     {
         for (Point p : aObstaclePlacement.keySet()){
-            map.put(new Point(p.getX(), p.getY()), aObstaclePlacement.get(p));
+
+            Obstacle obstacle = aObstaclePlacement.get(p);
+            obstacle.setObstacleRemoveMethod( this::removeObstacle );
+            map.put(new Point(p.getX(), p.getY()), obstacle);
         }
+    }
+
+    void removeObstacle(Obstacle aObstacle){
+        map.inverse().remove(aObstacle);
     }
 
     Optional< Defendable > getObject(final Point aPoint )

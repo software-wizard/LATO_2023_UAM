@@ -1,9 +1,6 @@
 package pl.psi;
 
-
-import com.google.common.collect.Range;
 import pl.psi.creatures.Creature;
-import pl.psi.creatures.DamageCalculatorIf;
 
 public interface Defendable{
 
