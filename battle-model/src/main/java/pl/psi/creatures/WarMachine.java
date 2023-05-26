@@ -75,6 +75,7 @@ public class WarMachine{
     }
 
     public boolean isControllable() {
+        //TODO: implement self-acting when not controllable
         return getRelevantSkill() != 0;
     }
 
