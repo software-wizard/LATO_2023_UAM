@@ -20,12 +20,10 @@ public class Spell {
     }
 
     void applySpell(Creature creature, SpellStatisticIf stats) {
-        System.out.println("Using " + stats.getName());
-        int[] spellResistanceCalc = creature.getStats().getSpellDamageResistance();
-        spellResistanceCalc[stats.getClassOfSpell()] += stats.getSpellProtection();
+        System.out.println("\nUsing " + stats.getName());
 
         if (stats.getSpellDamage() > 0){
-            creature.setCurrentHp(creature.getCurrentHp() - (int)((float)(100 - spellResistanceCalc[stats.getClassOfSpell()])/100 * stats.getSpellDamage()));
+            creature.setCurrentHp(creature.getCurrentHp() - (int)((float)(100 - creature.getSpellDamageProtection().getProtectionByClass(stats.getClassOfSpell()))/100 * stats.getSpellDamage()));
         }
         else {
             if(creature.getCurrentHp()-stats.getSpellDamage() < creature.getStats().getMaxHp()){
@@ -36,26 +34,25 @@ public class Spell {
             }
         }
 
-        final Creature creature1 = new Creature.Builder().statistic(CreatureStats.builder()
-                        .name(creature.getStats().getName())
-                        .attack(creature.getStats().getAttack())
-                        .armor(creature.getStats().getArmor() +
-                                (int)((float)(100 - spellResistanceCalc[stats.getClassOfSpell()])/100 * stats.getArmorChange()))
-                        .maxHp(creature.getStats().getMaxHp())
-                        .moveRange(creature.getStats().getMoveRange() +
-                                (int)((float)(100 - spellResistanceCalc[stats.getClassOfSpell()])/100 * stats.getMoveRangeChange()))
-                        .damage(Range.closed(creature.getStats().getDamage().lowerEndpoint()+
-                                        (int)((float)(100 - spellResistanceCalc[stats.getClassOfSpell()])/100 * stats.getDamageChange()),
-                                creature.getStats().getDamage().upperEndpoint()+(
-                                        (int)((float)(100 - spellResistanceCalc[stats.getClassOfSpell()])/100 * stats.getDamageChange()))))
-                        .tier(creature.getStats().getTier())
-                        .spellDamageResistance(spellResistanceCalc)
-                        .description(creature.getStats().getDescription())
-                        .isUpgraded(creature.getStats().isUpgraded())
-                        .build())
+        int[] spellProtectionCalc = {0,0,0,0};
+        spellProtectionCalc[stats.getClassOfSpell()] += stats.getSpellProtection();
+        SpellProtection spellProtection1 = new SpellProtection.spellProtectionBuilder()
+                .airProtection(spellProtectionCalc[0])
+                .fireProtection(spellProtectionCalc[1])
+                .earthProtection(spellProtectionCalc[2])
+                .waterProtection(spellProtectionCalc[3])
                 .build();
-        creature.updateStats(creature1.getStats());
-        System.out.println("The spell has been applied");
+
+        final CreatureStatisticIf creature1stats = CreatureStats.builder()
+                .armor((int)((float)(100 - creature.getSpellDamageProtection().getProtectionByClass(stats.getClassOfSpell()))/100 * stats.getArmorChange()))
+                .moveRange((int)((float)(100 - creature.getSpellDamageProtection().getProtectionByClass(stats.getClassOfSpell()))/100 * stats.getMoveRangeChange()))
+                .damage(Range.closed((int)((float)(100 - creature.getSpellDamageProtection().getProtectionByClass(stats.getClassOfSpell()))/100 * stats.getDamageChange()),
+                        ((int)((float)(100 - creature.getSpellDamageProtection().getProtectionByClass(stats.getClassOfSpell()))/100 * stats.getDamageChange()))))
+                .spellDamageProtection(spellProtection1)
+                .build();
+
+        creature.updateStats(creature1stats);
+        System.out.println("The spell has been applied\n");
     }
 
     public static class spellBuilder {

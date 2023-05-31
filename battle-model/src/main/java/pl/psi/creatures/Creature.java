@@ -74,7 +74,7 @@ public class Creature implements PropertyChangeListener {
     }
 
     void updateStats(CreatureStatisticIf stats){
-        this.stats = stats;
+        this.stats = this.stats.plus(stats);
     }
 
     protected void setCurrentHp(final int aCurrentHp) {
@@ -104,8 +104,8 @@ public class Creature implements PropertyChangeListener {
         return stats.getArmor();
     }
 
-    int[] getSpellDamageResistance() {
-        return stats.getSpellDamageResistance();
+    SpellProtection getSpellDamageProtection() {
+        return stats.getSpellDamageProtection();
     }
 
     @Override
