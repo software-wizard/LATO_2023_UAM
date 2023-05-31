@@ -19,11 +19,17 @@ public class GameEngine {
     private final Hero hero1;
     private final Hero hero2;
 
+    private AutonomousUnitController autonomousUnitController;
+
+
     public GameEngine(final Hero aHero1, final Hero aHero2) {
         hero1 = aHero1;
         hero2 = aHero2;
         turnQueue = new TurnQueue(hero1.getBattleUnits(), hero2.getBattleUnits());
         board = new Board(hero1.getBattleUnits(), hero2.getBattleUnits());
+
+        autonomousUnitController = new AutonomousUnitController(aHero1, aHero2, this::pass);
+        addObserver(autonomousUnitController);
     }
 
     public void attack(final Point point) {

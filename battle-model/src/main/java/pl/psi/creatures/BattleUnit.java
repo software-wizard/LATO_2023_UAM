@@ -2,6 +2,10 @@ package pl.psi.creatures;
 
 import lombok.Getter;
 
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+
 public class BattleUnit {
     //wrapper for Creature and WarMachine to co-exist within turnQueue etc.
     @Getter
@@ -103,6 +107,22 @@ public class BattleUnit {
             return true;
         }else{
             return getWarMachineVal().isControllable();
+        }
+    }
+
+    public void selfAct(List<BattleUnit> allies, List<BattleUnit> enemies){
+        Random tmpRand = new Random();
+        if(canAttack()){
+            if(enemies.size()>0) {
+                attack(enemies.get(tmpRand.nextInt(enemies.size())));
+            }
+        }else if(canHeal()){
+            List<BattleUnit> patients = allies.stream().filter(b -> { return b.getCurrentHp() < b.getMaxHp(); }).collect(Collectors.toList());
+            if(patients.size()>0) {
+                heal(patients.get(tmpRand.nextInt(patients.size())));
+            }
+        }else if(canSiege()){
+            //nothing to siege yet
         }
     }
 
