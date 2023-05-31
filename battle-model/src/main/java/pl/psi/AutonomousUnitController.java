@@ -11,8 +11,8 @@ import java.util.stream.Stream;
 public class AutonomousUnitController implements PropertyChangeListener {
 
     private final Runnable passMethod;
-    private Hero hero1;
-    private Hero hero2;
+    private final Hero hero1;
+    private final Hero hero2;
 
     public AutonomousUnitController(Hero aHero1, Hero aHero2, Runnable aPassMethod){
         hero1 = aHero1;

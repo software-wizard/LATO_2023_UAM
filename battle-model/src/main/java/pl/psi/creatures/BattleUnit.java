@@ -117,7 +117,7 @@ public class BattleUnit {
                 attack(enemies.get(tmpRand.nextInt(enemies.size())));
             }
         }else if(canHeal()){
-            List<BattleUnit> patients = allies.stream().filter(b -> { return b.getCurrentHp() < b.getMaxHp(); }).collect(Collectors.toList());
+            List<BattleUnit> patients = allies.stream().filter(b -> b.getCurrentHp() < b.getMaxHp()).collect(Collectors.toList());
             if(patients.size()>0) {
                 heal(patients.get(tmpRand.nextInt(patients.size())));
             }

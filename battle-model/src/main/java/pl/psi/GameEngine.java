@@ -19,7 +19,7 @@ public class GameEngine {
     private final Hero hero1;
     private final Hero hero2;
 
-    private AutonomousUnitController autonomousUnitController;
+    private final AutonomousUnitController autonomousUnitController;
 
 
     public GameEngine(final Hero aHero1, final Hero aHero2) {
