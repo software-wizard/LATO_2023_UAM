@@ -1,43 +1,35 @@
 package pl.psi.creatures;
 
 import pl.psi.converter.SkillsInterface;
-
 import java.util.List;
 import java.util.Random;
 
 public class OffenceSkill extends DefaultDamageCalculator implements SkillsInterface {
 
-    public enum OffenceEnum {
-        BASIC(1.1),
-        ADVANCED(1.2),
-        EXPERT(1.3);
+    private final SkillEnum skillEnum;
 
-        private final double value;
-
-        OffenceEnum(double value) {
-            this.value = value;
-        }
-
-        public double getValue() {
-            return value;
-        }
-    }
-    private final OffenceEnum offenceEnum;
-    public OffenceSkill(OffenceEnum offenceEnum) {
-
+    public OffenceSkill(SkillEnum skillEnum) {
         super(new Random());
-        this.offenceEnum = offenceEnum;
-    }
-
-    @Override
-    public int applyDamageStrategy(int i)
-    {
-        return (int)(i * (offenceEnum.getValue()));
+        this.skillEnum = skillEnum;
     }
 
     @Override
     public void apply(List<Creature> creatures) {
-        creatures.forEach(s  -> s.setDemageCalculator(this));
+        for (Creature s : creatures) {
+            DamageCalculatorIf currentCalculator = s.getDamageCalculator();
+            s.setDamageCalculator(new OffenceDecorator(currentCalculator, getValueFromEnum()));
+        }
+        //creatures.forEach(s  -> s.setDamageCalculator( new OffenceDecorator(this) ));
+    }
+
+    double getValueFromEnum() {
+        if (skillEnum == SkillEnum.BASIC){
+            return 1.1;
+        }else if (skillEnum == SkillEnum.ADVANCED) {
+            return 1.2;
+        }else {
+            return 1.3;
+        }
     }
 
 }

@@ -30,7 +30,7 @@ public class OffenceSkillTest {
                 .build();
 
         int expectedHp = dragon.getCurrentHp() - (int)(30 * 1.1);
-        OffenceSkill offenceSkillBasic = new OffenceSkill(OffenceSkill.OffenceEnum.BASIC);
+        OffenceSkill offenceSkillBasic = new OffenceSkill(SkillEnum.BASIC);
         creatureList.add(angel);
 
         offenceSkillBasic.apply(creatureList);
@@ -59,7 +59,7 @@ public class OffenceSkillTest {
                 .build();
 
         int expectedHp = dragon.getCurrentHp() - (int)(30 * 1.2);
-        OffenceSkill offenceSkill = new OffenceSkill(OffenceSkill.OffenceEnum.ADVANCED);
+        OffenceSkill offenceSkill = new OffenceSkill(SkillEnum.ADVANCED);
         creatureList.add(angel);
 
         offenceSkill.apply(creatureList);
@@ -88,7 +88,7 @@ public class OffenceSkillTest {
                 .build();
 
         int expectedHp = dragon.getCurrentHp() - (int)(30 * 1.3);
-        OffenceSkill offenceSkill = new OffenceSkill(OffenceSkill.OffenceEnum.EXPERT);
+        OffenceSkill offenceSkill = new OffenceSkill(SkillEnum.EXPERT);
         creatureList.add(angel);
 
         offenceSkill.apply(creatureList);

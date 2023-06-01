@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import pl.psi.creatures.ArmourSkill;
 import pl.psi.creatures.EconomyNecropolisFactory;
 import pl.psi.creatures.OffenceSkill;
+import pl.psi.creatures.SkillEnum;
 
 class EconomyHeroTest
 {
@@ -47,8 +48,8 @@ class EconomyHeroTest
     {
         final EconomyNecropolisFactory factory = new EconomyNecropolisFactory();
         hero.addCreature( factory.create( true, 1, 1 ) );
-        hero.addSkill(new OffenceSkill(OffenceSkill.OffenceEnum.BASIC));
-        hero.addSkill(new ArmourSkill(ArmourSkill.ArmourEnum.ADVANCED));
+        hero.addSkill(new OffenceSkill(SkillEnum.BASIC));
+        hero.addSkill(new ArmourSkill(SkillEnum.ADVANCED));
 
         assertTrue(hero.getSkills().get(0) instanceof OffenceSkill);
         assertTrue(hero.getSkills().get(1) instanceof ArmourSkill);

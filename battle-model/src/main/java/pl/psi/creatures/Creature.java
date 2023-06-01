@@ -120,9 +120,11 @@ public class Creature implements PropertyChangeListener {
         return stats.getMoveRange();
     }
 
-    public void setDemageCalculator(DamageCalculatorIf calculator) {
+    public void setDamageCalculator(DamageCalculatorIf calculator) {
         this.calculator = calculator;
     }
+
+    public DamageCalculatorIf getDamageCalculator() { return calculator; }
 
     public static class Builder {
         private int amount = 1;

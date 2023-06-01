@@ -30,7 +30,7 @@ public class ArmourSkillTest {
                 .build();
 
         int expectedHp = dragon.getCurrentHp() - (int)(30 * 0.95);  //30 - bo tyle wynosi atak bez skillów
-        ArmourSkill armourSkill = new ArmourSkill(ArmourSkill.ArmourEnum.BASIC);
+        ArmourSkill armourSkill = new ArmourSkill(SkillEnum.BASIC);
         creatureList.add(angel);
 
         armourSkill.apply(creatureList);
@@ -59,7 +59,7 @@ public class ArmourSkillTest {
                 .build();
 
         int expectedHp = dragon.getCurrentHp() - (int)(30 * 0.9);
-        ArmourSkill armourSkill = new ArmourSkill(ArmourSkill.ArmourEnum.ADVANCED);
+        ArmourSkill armourSkill = new ArmourSkill(SkillEnum.ADVANCED);
         creatureList.add(angel);
 
         armourSkill.apply(creatureList);
@@ -88,7 +88,7 @@ public class ArmourSkillTest {
                 .build();
 
         int expectedHp = dragon.getCurrentHp() - (int)(30 * 0.85);
-        ArmourSkill armourSkill = new ArmourSkill(ArmourSkill.ArmourEnum.EXPERT);
+        ArmourSkill armourSkill = new ArmourSkill(SkillEnum.EXPERT);
         creatureList.add(angel);
 
         armourSkill.apply(creatureList);
