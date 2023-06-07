@@ -11,15 +11,18 @@ abstract class AbstractCalculateDamageStrategy implements DamageCalculatorIf
     public static final double ATTACK_BONUS = 0.05;
     private final Random rand;
 
+
     protected AbstractCalculateDamageStrategy( final Random aRand )
     {
         rand = aRand;
     }
 
+
     @Override
     public int calculateDamage( final Creature aAttacker, final Creature aDefender )
     {
         final int armor = getArmor( aDefender );
+
 
         final int randValue = rand.nextInt( aAttacker.getDamage()
             .upperEndpoint()
@@ -29,6 +32,8 @@ abstract class AbstractCalculateDamageStrategy implements DamageCalculatorIf
                 .lowerEndpoint();
 
         double oneCreatureDamageToDeal;
+
+
         if( aAttacker.getAttack() >= armor )
         {
             int attackPoints = aAttacker.getAttack() - armor;
@@ -36,6 +41,7 @@ abstract class AbstractCalculateDamageStrategy implements DamageCalculatorIf
             {
                 attackPoints = MAX_ATTACK_DIFF;
             }
+
             oneCreatureDamageToDeal = randValue * (1 + attackPoints * ATTACK_BONUS);
         }
         else
@@ -52,11 +58,20 @@ abstract class AbstractCalculateDamageStrategy implements DamageCalculatorIf
         {
             oneCreatureDamageToDeal = 0;
         }
-        return (int)(aAttacker.getAmount() * oneCreatureDamageToDeal);
+
+        return applyDamageStrategy((int) (aAttacker.getAmount() * oneCreatureDamageToDeal));
+
     }
+
+    public int applyDamageStrategy(int calculateDamageResult)
+    {
+        return calculateDamageResult;
+    }
+
 
     protected int getArmor( final Creature aDefender )
     {
         return aDefender.getArmor();
     }
+
 }
