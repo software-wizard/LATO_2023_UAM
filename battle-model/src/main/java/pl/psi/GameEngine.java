@@ -22,15 +22,15 @@ public class GameEngine {
     private final Hero hero2;
 
 
-    public GameEngine(final Hero aHero1, final Hero aHero2) {
+    public GameEngine(final Hero aHero1, final Hero aHero2, final ObstaclePlacementList obstaclesList) {
         turnQueue = new TurnQueue(aHero1.getCreatures(), aHero2.getCreatures());
-        board = new Board(aHero1.getCreatures(), aHero2.getCreatures());
+        board = new Board(aHero1.getCreatures(), aHero2.getCreatures(), obstaclesList.getObstaclePlacement());
         hero1 = aHero1;
         hero2 = aHero2;
     }
 
     public void attack(final Point point) {
-        board.getCreature(point)
+        board.getObject(point)
                 .ifPresent(defender -> turnQueue.getCurrentCreature()
                         .attack(defender));
         pass();
@@ -166,8 +166,8 @@ public class GameEngine {
         return xCost + yCost;
     }
 
-    public Optional<Creature> getCreature(final Point aPoint) {
-        return board.getCreature(aPoint);
+    public Optional<Defendable> getObject(final Point aPoint) {
+        return board.getObject(aPoint);
     }
 
     public void pass() {
@@ -182,7 +182,7 @@ public class GameEngine {
     public boolean canAttack(final Point point) {
         double distance = board.getPosition(turnQueue.getCurrentCreature())
                 .distance(point);
-        return board.getCreature(point)
+        return board.getObject(point)
                 .isPresent()
                 && distance < 2 && distance > 0;
     }
@@ -195,7 +195,7 @@ public class GameEngine {
     }
 
     public boolean isCurrentCreature(Point aPoint) {
-        return Optional.of(turnQueue.getCurrentCreature()).equals(board.getCreature(aPoint));
+        return Optional.of(turnQueue.getCurrentCreature()).equals(board.getObject(aPoint));
     }
 
     public List<Spell> getSpellBook() {

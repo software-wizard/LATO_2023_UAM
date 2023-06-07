@@ -1,5 +1,7 @@
 package pl.psi.creatures;
 
+import pl.psi.Defendable;
+
 import java.util.Random;
 
 abstract class AbstractCalculateDamageStrategy implements DamageCalculatorIf
@@ -19,7 +21,7 @@ abstract class AbstractCalculateDamageStrategy implements DamageCalculatorIf
 
 
     @Override
-    public int calculateDamage( final Creature aAttacker, final Creature aDefender )
+    public int calculateDamage(final Creature aAttacker, final Defendable aDefender )
     {
         final int armor = getArmor( aDefender );
 
@@ -69,7 +71,7 @@ abstract class AbstractCalculateDamageStrategy implements DamageCalculatorIf
     }
 
 
-    protected int getArmor( final Creature aDefender )
+    protected int getArmor( final Defendable aDefender )
     {
         return aDefender.getArmor();
     }
