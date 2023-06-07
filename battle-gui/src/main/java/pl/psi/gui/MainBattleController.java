@@ -16,11 +16,15 @@ import pl.psi.GameEngine;
 import pl.psi.Hero;
 import pl.psi.Point;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import pl.psi.GameEngine;
+import pl.psi.Hero;
+import pl.psi.Point;
 import pl.psi.creatures.Creature;
 import pl.psi.creatures.Spell;
 
@@ -31,8 +35,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class MainBattleController implements PropertyChangeListener
-{
+public class MainBattleController implements PropertyChangeListener {
     private final GameEngine gameEngine;
     @FXML
     private GridPane gridMap;
@@ -43,41 +46,46 @@ public class MainBattleController implements PropertyChangeListener
     private Boolean isSpellSelected = false;
     private Spell spellToReturn;
 
-    public MainBattleController( final Hero aHero1, final Hero aHero2 )
-    {
-        gameEngine = new GameEngine( aHero1, aHero2 );
+    private final AtomicBoolean canRefresh = new AtomicBoolean(true);
+
+    private Point destinationPoint;
+
+    public MainBattleController(final Hero aHero1, final Hero aHero2) {
+        gameEngine = new GameEngine(aHero1, aHero2);
     }
 
     @FXML
-    private void initialize()
-    {
+    private void initialize() {
         refreshGui();
         gameEngine.addObserver(this);
         spellButton();
     }
 
-    private void refreshGui()
-    {
+    private void refreshGui() {
         gridMap.getChildren()
                 .clear();
-        for( int x = 0; x < 15; x++ )
-        {
-            for( int y = 0; y < 10; y++ )
-            {
-                Point currentPoint = new Point( x, y );
-                Optional< Creature > creature = gameEngine.getCreature( currentPoint );
-                final MapTile mapTile = new MapTile( "" );
-                creature.ifPresent( c -> mapTile.setName( c.toString() ) );
-                if( gameEngine.isCurrentCreature( currentPoint ) )
-                {
-                    mapTile.setBackground( Color.GREENYELLOW );
+        for (int x = 0; x < 15; x++) {
+            for (int y = 0; y < 10; y++) {
+                Point currentPoint = new Point(x, y);
+                Optional<Creature> creature = gameEngine.getCreature(currentPoint);
+                final MapTile mapTile = new MapTile("");
+                creature.ifPresent(c -> mapTile.setName(c.toString()));
+                if (gameEngine.isCurrentCreature(currentPoint)) {
+                    mapTile.setBackground(Color.GREENYELLOW);
+
                 }
-                if( gameEngine.canMove( currentPoint ) )
-                {
-                    mapTile.setBackground( Color.GREY );
-                    mapTile.addEventHandler( MouseEvent.MOUSE_CLICKED, ( e ) -> {
-                        gameEngine.move( currentPoint );
-                    } );
+                if (gameEngine.canMove(currentPoint)) {
+
+                    mapTile.setBackground(Color.GREY);
+
+                    if(canRefresh.get()){
+                        mapTile.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                            gameEngine.move(currentPoint);
+                            canRefresh.set(false);
+                            destinationPoint = currentPoint;
+
+                        });
+                    }
                 }
                 if( isSpellSelected && gameEngine.getCreature( currentPoint ).isPresent() ) {
                     mapTile.setBackground( Color.BLUE );
@@ -91,16 +99,26 @@ public class MainBattleController implements PropertyChangeListener
                     mapTile.addEventHandler( MouseEvent.MOUSE_CLICKED, ( e ) -> {
                         gameEngine.attack( currentPoint );
                     } );
+
+                if (gameEngine.canAttack(currentPoint)) {
+                    mapTile.setBackground(Color.RED);
+                    mapTile.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                        gameEngine.attack(currentPoint);
+                    });
                 }
-                gridMap.add( mapTile, x, y );
+                gridMap.add(mapTile, x, y);
             }
+
         }
         isSpellSelected = false;
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        refreshGui();
+        Platform.runLater(this::refreshGui);
+        if(evt.getNewValue().equals(destinationPoint)){
+            canRefresh.set(true);
+        }
     }
 
     private void spellButton() {

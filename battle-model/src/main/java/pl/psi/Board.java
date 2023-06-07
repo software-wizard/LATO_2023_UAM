@@ -37,11 +37,10 @@ public class Board
 
     void move( final Creature aCreature, final Point aPoint )
     {
-        if( canMove( aCreature, aPoint ) )
-        {
+        if( canMove( aCreature, aPoint ) ) {
             map.inverse()
-                .remove( aCreature );
-            map.put( aPoint, aCreature );
+                    .remove(aCreature);
+            map.put(aPoint, aCreature);
         }
     }
 
