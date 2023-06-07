@@ -2,7 +2,6 @@ package pl.psi.gui;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,7 +13,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import pl.psi.GameEngine;
 import pl.psi.Hero;
-import pl.psi.Point;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -22,8 +20,6 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import pl.psi.GameEngine;
-import pl.psi.Hero;
 import pl.psi.Point;
 import pl.psi.creatures.Creature;
 import pl.psi.creatures.Spell;
@@ -58,7 +54,7 @@ public class MainBattleController implements PropertyChangeListener {
     private void initialize() {
         refreshGui();
         gameEngine.addObserver(this);
-        spellButton();
+        prepareSpellbookWindow();
     }
 
     private void refreshGui() {
@@ -78,7 +74,7 @@ public class MainBattleController implements PropertyChangeListener {
 
                     mapTile.setBackground(Color.GREY);
 
-                    if(canRefresh.get()){
+                    if (canRefresh.get()) {
                         mapTile.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                             gameEngine.move(currentPoint);
                             canRefresh.set(false);
@@ -87,18 +83,17 @@ public class MainBattleController implements PropertyChangeListener {
                         });
                     }
                 }
-                if( isSpellSelected && gameEngine.getCreature( currentPoint ).isPresent() ) {
-                    mapTile.setBackground( Color.BLUE );
-                    mapTile.addEventHandler( MouseEvent.MOUSE_CLICKED, ( e ) -> {
-                        gameEngine.castSpell( currentPoint, spellToReturn );
-                    } );
+                if (isSpellSelected && gameEngine.getCreature(currentPoint).isPresent()) {
+                    mapTile.setBackground(Color.BLUE);
+                    mapTile.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                        gameEngine.castSpell(currentPoint, spellToReturn);
+                    });
+                } else if (gameEngine.canAttack(currentPoint)) {
+                    mapTile.setBackground(Color.RED);
+                    mapTile.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                        gameEngine.attack(currentPoint);
+                    });
                 }
-                else if( gameEngine.canAttack( currentPoint ) )
-                {
-                    mapTile.setBackground( Color.RED );
-                    mapTile.addEventHandler( MouseEvent.MOUSE_CLICKED, ( e ) -> {
-                        gameEngine.attack( currentPoint );
-                    } );
 
                 if (gameEngine.canAttack(currentPoint)) {
                     mapTile.setBackground(Color.RED);
@@ -116,12 +111,12 @@ public class MainBattleController implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         Platform.runLater(this::refreshGui);
-        if(evt.getNewValue().equals(destinationPoint)){
+        if (evt.getNewValue().equals(destinationPoint)) {
             canRefresh.set(true);
         }
     }
 
-    private void spellButton() {
+    private void prepareSpellbookWindow() {
         final AtomicBoolean isOpened = new AtomicBoolean();
 
         spellButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
@@ -153,8 +148,7 @@ public class MainBattleController implements PropertyChangeListener {
                     ImageView imageView = new ImageView(image);
                     spellButton.setGraphic(imageView);
                     spellButton.setContentDisplay(ContentDisplay.TOP);
-                }
-                catch (IllegalArgumentException ex) {
+                } catch (IllegalArgumentException ex) {
                     ex.printStackTrace();
                 }
 
