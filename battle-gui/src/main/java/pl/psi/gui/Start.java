@@ -10,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import pl.psi.creatures.NecropolisFactory;
+import pl.psi.creatures.Spell;
+import pl.psi.creatures.SpellStatistic;
 
 public class Start extends Application
 {
@@ -48,13 +50,25 @@ public class Start extends Application
 
     private Hero createP2()
     {
-        final Hero ret = new Hero( List.of( new NecropolisFactory().create( true, 1, 5 ) ) );
+        final Hero ret = new Hero( List.of( new NecropolisFactory().create( true, 1, 5 ) ), List.of(new Spell.spellBuilder().statistic(SpellStatistic.ICE_BOLT).build(), new Spell.spellBuilder().statistic(SpellStatistic.FIREBALL).build(),
+                new Spell.spellBuilder().statistic(SpellStatistic.BLOODLUST).build(),
+                new Spell.spellBuilder().statistic(SpellStatistic.SHIELD).build(),
+                new Spell.spellBuilder().statistic(SpellStatistic.FLY).build(),
+                new Spell.spellBuilder().statistic(SpellStatistic.BLIND).build(),
+                new Spell.spellBuilder().statistic(SpellStatistic.WEAKNESS).build()
+        ));
         return ret;
     }
 
     private Hero createP1()
     {
-        final Hero ret = new Hero( List.of( new NecropolisFactory().create( false, 1, 5 ) ) );
+        final Hero ret = new Hero( List.of(
+                new NecropolisFactory().create( false, 1, 5 ) ),
+                List.of( new Spell.spellBuilder().statistic(SpellStatistic.LIGHTNING_BOLT).build(),
+                        new Spell.spellBuilder().statistic(SpellStatistic.FLY).build(),
+                        new Spell.spellBuilder().statistic(SpellStatistic.BLIND).build(),
+                        new Spell.spellBuilder().statistic(SpellStatistic.WEAKNESS).build(),
+                        new Spell.spellBuilder().statistic(SpellStatistic.CURE).build()) );
         return ret;
     }
 
