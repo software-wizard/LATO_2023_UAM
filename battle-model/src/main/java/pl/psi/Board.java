@@ -2,6 +2,7 @@ package pl.psi;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.google.common.collect.BiMap;
@@ -13,69 +14,65 @@ import pl.psi.specialFields.Obstacle;
 /**
  * TODO: Describe this class (The first line - until the first dot - will interpret as the brief description).
  */
-public class Board
-{
+public class Board {
     private static final int MAX_WITDH = 14;
-    private final BiMap< Point, Defendable > map = HashBiMap.create();
+    private final BiMap<Point, Defendable> map = HashBiMap.create();
 
-    public Board( final List< Creature > aCreatures1,
-                  final List< Creature > aCreatures2,
-                  final HashMap<Point, Obstacle> aObstacles)
-    {
-        addCreatures( aCreatures1, 0 );
-        addCreatures( aCreatures2, MAX_WITDH );
+    public Board(final List<Creature> aCreatures1,
+                 final List<Creature> aCreatures2,
+                 final Map<Point, Obstacle> aObstacles) {
+        addCreatures(aCreatures1, 0);
+        addCreatures(aCreatures2, MAX_WITDH);
         addObstacleByPoint(aObstacles);
     }
 
-    private void addCreatures( final List< Creature > aCreatures, final int aXPosition )
-    {
-        for( int i = 0; i < aCreatures.size(); i++ )
-        {
-            map.put( new Point( aXPosition, i * 2 + 1 ), aCreatures.get( i ) );
+    private void addCreatures(final List<Creature> aCreatures, final int aXPosition) {
+        for (int i = 0; i < aCreatures.size(); i++) {
+            map.put(new Point(aXPosition, i * 2 + 1), aCreatures.get(i));
         }
     }
 
-    private void addObstacleByPoint(final HashMap<Point, Obstacle> aObstaclePlacement)
-    {
-        for (Point p : aObstaclePlacement.keySet()){
+    private void addObstacleByPoint(final Map<Point, Obstacle> aObstaclePlacement) {
+        for (Point p : aObstaclePlacement.keySet()) {
 
             Obstacle obstacle = aObstaclePlacement.get(p);
-            obstacle.setObstacleRemoveMethod( this::removeObstacle );
+            obstacle.setObstacleRemoveMethod(this::removeObstacle);
             map.put(new Point(p.getX(), p.getY()), obstacle);
         }
     }
 
-    void removeObstacle(Obstacle aObstacle){
+    void removeObstacle(Obstacle aObstacle) {
         map.inverse().remove(aObstacle);
     }
 
-    Optional< Defendable > getObject(final Point aPoint )
-    {
-        return Optional.ofNullable( map.get( aPoint ) );
+    Optional<Defendable> getObject(final Point aPoint) {
+        return Optional.ofNullable(map.get(aPoint));
     }
 
-    void move( final Creature aCreature, final Point aPoint )
-    {
-        if( canMove( aCreature, aPoint ) ) {
+    void move(final Creature aCreature, final Point aPoint) {
+        if (canMove(aCreature, aPoint)) {
             map.inverse()
                     .remove(aCreature);
             map.put(aPoint, aCreature);
         }
     }
 
-    boolean canMove( final Creature aCreature, final Point aPoint )
-    {
-        if( map.containsKey( aPoint ) )
-        {
-            return false;
-        }
-        final Point oldPosition = getPosition( aCreature );
-        return aPoint.distance( oldPosition.getX(), oldPosition.getY() ) < aCreature.getMoveRange();
+    public Optional<Creature> getCreature(Point aPoint) {
+        return Optional.of(map.get(aPoint))
+                .filter(Creature.class::isInstance)
+                .map(Creature.class::cast);
     }
 
-    Point getPosition( Defendable aDefendable )
-    {
+    boolean canMove(final Creature aCreature, final Point aPoint) {
+        if (map.containsKey(aPoint)) {
+            return false;
+        }
+        final Point oldPosition = getPosition(aCreature);
+        return aPoint.distance(oldPosition.getX(), oldPosition.getY()) < aCreature.getMoveRange();
+    }
+
+    Point getPosition(Defendable aDefendable) {
         return map.inverse()
-            .get( aDefendable );
+                .get(aDefendable);
     }
 }

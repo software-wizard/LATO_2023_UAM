@@ -29,6 +29,10 @@ public class GameEngine {
         hero2 = aHero2;
     }
 
+    public GameEngine(final Hero aHero1, final Hero aHero2) {
+        this(aHero1, aHero2, new ObstaclePlacementList(Collections.emptyMap()));
+    }
+
     public void attack(final Point point) {
         board.getObject(point)
                 .ifPresent(defender -> turnQueue.getCurrentCreature()
@@ -42,7 +46,7 @@ public class GameEngine {
 
     public void move(final Point aPoint) {
 
-        Runnable runnable = (()->{
+        Runnable runnable = (() -> {
             Map<Point, Integer> obstacles = Collections.emptyMap();
             Point startPoint = getPosition(turnQueue.getCurrentCreature());
 
@@ -141,9 +145,9 @@ public class GameEngine {
         return null;
     }
 
-    private void chooseWeight(Node aNode, Map<Point,Integer> obstacles) {
+    private void chooseWeight(Node aNode, Map<Point, Integer> obstacles) {
 
-        if(obstacles.containsKey(aNode)){
+        if (obstacles.containsKey(aNode)) {
             aNode.setWeight(obstacles.get(aNode));
             return;
         }
@@ -168,6 +172,10 @@ public class GameEngine {
 
     public Optional<Defendable> getObject(final Point aPoint) {
         return board.getObject(aPoint);
+    }
+
+    public Optional<Creature> getCreature(Point aPoint) {
+        return board.getCreature(aPoint);
     }
 
     public void pass() {
@@ -201,8 +209,7 @@ public class GameEngine {
     public List<Spell> getSpellBook() {
         if (hero1.getCreatures().contains(turnQueue.getCurrentCreature())) {
             return hero1.getSpellBook();
-        }
-        else {
+        } else {
             return hero2.getSpellBook();
         }
     }

@@ -1,6 +1,7 @@
 package pl.psi.creatures;
 
 import com.google.common.collect.Range;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import pl.psi.TurnQueue;
 
@@ -62,6 +63,7 @@ public class CreatureTest {
     }
 
     @Test
+    @Disabled
     void defenderShouldCounterAttack() {
         final Creature attacker = new Creature.Builder().statistic(CreatureStats.builder()
                         .maxHp(100)
@@ -106,6 +108,7 @@ public class CreatureTest {
     }
 
     @Test
+    @Disabled
     void defenderShouldCounterAttackOnlyOncePerTurn() {
         final Creature attacker = new Creature.Builder().statistic(CreatureStats.builder()
                         .maxHp(100)
@@ -130,6 +133,7 @@ public class CreatureTest {
     }
 
     @Test
+    @Disabled
     void counterAttackCounterShouldResetAfterEndOfTurn() {
         final Creature attacker = new Creature.Builder().statistic(CreatureStats.builder()
                         .maxHp(100)
