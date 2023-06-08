@@ -5,7 +5,7 @@ import com.google.common.collect.Table;
 
 import java.util.Random;
 
-public class Spell {
+public class Spell implements SpellFailureIf{
 
     private SpellStatisticIf stats;
 
@@ -15,8 +15,22 @@ public class Spell {
 
     public void cast(Creature creature) {
         if (creature.isAlive()) {
-            applySpell(creature, stats);
+            Random random = new Random();
+            int randomNumber = random.nextInt(10);
+
+            if ( randomNumber < chancesOfSpellFailure()) {
+                applySpell(creature, stats);
+            }
+//            applySpell(creature, stats);
         }
+    }
+    public int chancesOfSpellFailure()
+    {
+        return 100;
+    }
+
+    public int getChancesOfSpellFailure(){
+        return chancesOfSpellFailure();
     }
 
     void applySpell(Creature creature, SpellStatisticIf stats) {
@@ -64,11 +78,11 @@ public class Spell {
         public Spell build() {
             return new Spell(statistic);
         }
+
     }
 
     public String getName() {
         return this.stats.getName();
     }
-
 
 }

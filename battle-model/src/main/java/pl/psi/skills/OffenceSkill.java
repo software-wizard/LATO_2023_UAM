@@ -21,7 +21,7 @@ public class OffenceSkill extends DefaultDamageCalculator implements SkillsInter
         List<Creature> creatures = hero.getCreatures();
         for (Creature s : creatures) {
             DamageCalculatorIf currentCalculator = s.getDamageCalculator();
-            s.setDamageCalculator(new OffenceDecorator(currentCalculator, getValueFromEnum()));
+            s.setDamageCalculator(new SkillDecorator(currentCalculator, getValueFromEnum()));
         }
     }
 

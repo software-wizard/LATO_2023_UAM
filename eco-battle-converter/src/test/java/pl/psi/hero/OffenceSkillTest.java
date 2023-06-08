@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import pl.psi.converter.EcoBattleConverter;
 import pl.psi.creatures.Creature;
 import pl.psi.creatures.EconomyNecropolisFactory;
-import pl.psi.creatures.SkillEnum;
+import pl.psi.skills.SkillEnum;
 import pl.psi.skills.OffenceSkill;
 
 import java.util.List;
