@@ -59,11 +59,11 @@ abstract class AbstractCalculateDamageStrategy implements DamageCalculatorIf
             oneCreatureDamageToDeal = 0;
         }
 
-        return applyDamageStrategy((int) (aAttacker.getAmount() * oneCreatureDamageToDeal));
+        return changeAfterCalculation((int) (aAttacker.getAmount() * oneCreatureDamageToDeal));
 
     }
 
-    public int applyDamageStrategy(int calculateDamageResult)
+    public int changeAfterCalculation(int calculateDamageResult)
     {
         return calculateDamageResult;
     }

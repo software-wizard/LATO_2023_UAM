@@ -12,10 +12,10 @@ public class ArmourDecorator implements DamageCalculatorIf {
     @Override
     public int calculateDamage(Creature attacker, Creature defender) {
         int damage = decorated.calculateDamage(attacker, defender);
-        return applyDamageStrategy(damage);
+        return changeAfterCalculation(damage);
     }
     @Override
-    public int applyDamageStrategy(int calculateDamageResult) {
+    public int changeAfterCalculation(int calculateDamageResult) {
         return (int) (calculateDamageResult * enumValue);
     }
 

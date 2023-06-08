@@ -3,8 +3,8 @@ package pl.psi.hero;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.psi.converter.SkillsInterface;
 import pl.psi.creatures.EconomyCreature;
+import pl.psi.interfaces.SkillsInterface;
 
 public class EconomyHero
 {
@@ -13,6 +13,7 @@ public class EconomyHero
     private final List< EconomyCreature > creatureList;
     private int gold;
     private final List<SkillsInterface> skillsList;
+
 
     public EconomyHero( final Fraction aFraction, final int aGold )
     {
@@ -73,4 +74,5 @@ public class EconomyHero
         }
         skillsList.add( skillsInterface );
     }
+
 }

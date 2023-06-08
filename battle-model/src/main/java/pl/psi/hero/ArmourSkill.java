@@ -1,5 +1,9 @@
-package pl.psi.creatures;
-import pl.psi.converter.SkillsInterface;
+package pl.psi.hero;
+
+import pl.psi.Hero;
+import pl.psi.creatures.*;
+import pl.psi.interfaces.SkillsInterface;
+
 import java.util.List;
 import java.util.Random;
 
@@ -13,14 +17,13 @@ public class ArmourSkill extends DefaultDamageCalculator implements SkillsInterf
     }
 
     @Override
-    public void apply(List<Creature> creatures) {
+    public void apply(Hero hero) {
+        List<Creature> creatures = hero.getCreatures();
         for (Creature s : creatures) {
             DamageCalculatorIf currentCalculator = s.getDamageCalculator();
             s.setDamageCalculator(new ArmourDecorator(currentCalculator, getValueFromEnum()));
         }
-        //creatures.forEach(s  -> s.setDamageCalculator( new ArmourDecorator(this)));
     }
-
 
     double getValueFromEnum() {
         if (skillEnum == SkillEnum.BASIC){
