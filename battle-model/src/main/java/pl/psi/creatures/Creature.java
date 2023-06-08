@@ -11,6 +11,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Random;
 
 import lombok.Setter;
+import pl.psi.Defendable;
 import pl.psi.TurnQueue;
 
 import com.google.common.collect.Range;
@@ -21,7 +22,7 @@ import lombok.Getter;
  * TODO: Describe this class (The first line - until the first dot - will interpret as the brief description).
  */
 @Getter
-public class Creature implements PropertyChangeListener {
+public class Creature implements PropertyChangeListener, Defendable {
     private CreatureStatisticIf stats;
     @Setter
     private int amount;
@@ -29,8 +30,7 @@ public class Creature implements PropertyChangeListener {
     private int counterAttackCounter = 1;
     private DamageCalculatorIf calculator;
 
-    Creature() {
-    }
+    Creature() {}
 
     Creature(final CreatureStatisticIf aStats, final DamageCalculatorIf aCalculator,
              final int aAmount) {
@@ -39,66 +39,79 @@ public class Creature implements PropertyChangeListener {
         currentHp = stats.getMaxHp();
         calculator = aCalculator;
     }
-
-
-    public void attack(final Creature aDefender) {
+    @Override
+    public void attack(final Defendable aDefender) {
         if (isAlive()) {
             final int damage = getCalculator().calculateDamage(this, aDefender);
-            applyDamage(aDefender, damage);
+            aDefender.applyDamage(damage);
             if (canCounterAttack(aDefender)) {
-                counterAttack(aDefender);
+                aDefender.counterAttack(this);
             }
         }
     }
 
-    public boolean isAlive() {
+    protected boolean isAlive() {
         return getAmount() > 0;
     }
+    @Override
+    public void applyDamage(final int aDamage) {
+        int hpToSubstract = aDamage % this.getMaxHp();
+        int amountToSubstract = Math.round(aDamage / this.getMaxHp());
 
-    void applyDamage(final Creature aDefender, final int aDamage) {
-        int hpToSubstract = aDamage % aDefender.getMaxHp();
-        int amountToSubstract = Math.round(aDamage / aDefender.getMaxHp());
-
-        int hp = aDefender.getCurrentHp() - hpToSubstract;
+        int hp = this.getCurrentHp() - hpToSubstract;
         if (hp <= 0) {
-            aDefender.setCurrentHp(aDefender.getMaxHp() - hp);
-            aDefender.setAmount(aDefender.getAmount() - 1);
+            this.setCurrentHp(this.getMaxHp() - hp);
+            this.setAmount(this.getAmount() - 1);
         }
         else{
-            aDefender.setCurrentHp(hp);
+            this.setCurrentHp(hp);
         }
-        aDefender.setAmount(aDefender.getAmount() - amountToSubstract);
+        this.setAmount(this.getAmount() - amountToSubstract);
     }
 
+    @Override
     public int getMaxHp() {
         return stats.getMaxHp();
     }
 
-    protected void setCurrentHp(final int aCurrentHp) {
+    void updateStats(CreatureStatisticIf stats){
+        this.stats = this.stats.plus(stats);
+    }
+
+    protected CreatureStatisticIf getStats() {
+        return stats;
+    }
+
+    public void setCurrentHp(final int aCurrentHp) {
         currentHp = aCurrentHp;
     }
 
-    boolean canCounterAttack(final Creature aDefender) {
+    public boolean canCounterAttack(final Defendable aDefender) {
         return aDefender.getCounterAttackCounter() > 0 && aDefender.getCurrentHp() > 0;
     }
 
-    void counterAttack(final Creature aAttacker) {
+    @Override
+    public void counterAttack(final Creature aAttacker) {
         final int damage = aAttacker.getCalculator()
                 .calculateDamage(aAttacker, this);
-        applyDamage(this, damage);
-        aAttacker.counterAttackCounter--;
+        aAttacker.applyDamage(damage);
+        aAttacker.lowerCounter();
     }
 
-    Range<Integer> getDamage() {
+    protected Range<Integer> getDamage() {
         return stats.getDamage();
     }
 
-    int getAttack() {
+    protected int getAttack() {
         return stats.getAttack();
     }
-
-    int getArmor() {
+    @Override
+    public int getArmor() {
         return stats.getArmor();
+    }
+
+    SpellProtection getSpellDamageProtection() {
+        return stats.getSpellDamageProtection();
     }
 
     @Override
@@ -118,6 +131,10 @@ public class Creature implements PropertyChangeListener {
 
     public int getMoveRange() {
         return stats.getMoveRange();
+    }
+
+    private void lowerCounter() {
+        counterAttackCounter--;
     }
 
     public void setDamageCalculator(DamageCalculatorIf calculator) {

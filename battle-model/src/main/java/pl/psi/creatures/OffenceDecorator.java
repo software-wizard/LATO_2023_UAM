@@ -1,5 +1,7 @@
 package pl.psi.creatures;
 
+import pl.psi.Defendable;
+
 public class OffenceDecorator implements DamageCalculatorIf{
 
     private final DamageCalculatorIf decorated;
@@ -11,7 +13,7 @@ public class OffenceDecorator implements DamageCalculatorIf{
     }
 
     @Override
-    public int calculateDamage(Creature attacker, Creature defender) {
+    public int calculateDamage(Creature attacker, Defendable defender) {
         int damage = decorated.calculateDamage(attacker, defender);
         return changeAfterCalculation(damage);
     }

@@ -32,7 +32,7 @@ public class EcoController implements PropertyChangeListener
     @FXML
     Label roundNumberLabel;
 
-    public EcoController( final EconomyHero aHero1, final EconomyHero aHero2 )
+    public EcoController(final EconomyHero aHero1, final EconomyHero aHero2)
     {
         economyEngine = new EconomyEngine( aHero1, aHero2 );
     }
@@ -59,7 +59,7 @@ public class EcoController implements PropertyChangeListener
 
     private void goToBattle()
     {
-        EcoBattleConverter.startBattle( economyEngine.getPlayer1(), economyEngine.getPlayer2() );
+        EcoBattleConverter.startBattle( economyEngine.getPlayer1(), economyEngine.getPlayer2(), null);
     }
 
     void refreshGui()
