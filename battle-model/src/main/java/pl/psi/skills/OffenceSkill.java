@@ -1,4 +1,4 @@
-package pl.psi.hero;
+package pl.psi.skills;
 
 import pl.psi.Hero;
 import pl.psi.creatures.*;

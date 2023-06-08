@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import pl.psi.creatures.EconomyNecropolisFactory;
 import pl.psi.creatures.SkillEnum;
+import pl.psi.skills.ArmourSkill;
+import pl.psi.skills.OffenceSkill;
 
 class EconomyHeroTest
 {

@@ -1,6 +1,8 @@
-package pl.psi.creatures;
+package pl.psi.skills;
 
 import pl.psi.Defendable;
+import pl.psi.creatures.Creature;
+import pl.psi.creatures.DamageCalculatorIf;
 
 public class ArmourDecorator implements DamageCalculatorIf {
 

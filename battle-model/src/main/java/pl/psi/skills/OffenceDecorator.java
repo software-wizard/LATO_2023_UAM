@@ -1,8 +1,10 @@
-package pl.psi.creatures;
+package pl.psi.skills;
 
 import pl.psi.Defendable;
+import pl.psi.creatures.Creature;
+import pl.psi.creatures.DamageCalculatorIf;
 
-public class OffenceDecorator implements DamageCalculatorIf{
+public class OffenceDecorator implements DamageCalculatorIf {
 
     private final DamageCalculatorIf decorated;
     private final double enumValue;

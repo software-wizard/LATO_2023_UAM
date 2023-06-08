@@ -9,6 +9,10 @@ import org.junit.jupiter.api.Test;
 
 import pl.psi.converter.EcoBattleConverter;
 import pl.psi.creatures.*;
+import pl.psi.skills.ArmourDecorator;
+import pl.psi.skills.ArmourSkill;
+import pl.psi.skills.OffenceDecorator;
+import pl.psi.skills.OffenceSkill;
 
 class EcoBattleConverterTest
 {
@@ -68,7 +72,7 @@ class EcoBattleConverterTest
     }
 
     @Test
-    void ConverterShouldAddOffenceSkillToHeroCorrectly()
+    void shouldAddOffenceSkillToHeroCorrectly()
     {
         final EconomyHero ecoHero = new EconomyHero( EconomyHero.Fraction.NECROPOLIS, 1000 );
         final EconomyNecropolisFactory factory = new EconomyNecropolisFactory();
@@ -90,7 +94,7 @@ class EcoBattleConverterTest
     }
 
     @Test
-    void ConverterShouldAddArmourSkillToHeroCorrectly()
+    void shouldAddArmourSkillToHeroCorrectly()
     {
         final EconomyHero ecoHero = new EconomyHero( EconomyHero.Fraction.NECROPOLIS, 1000 );
         final EconomyNecropolisFactory factory = new EconomyNecropolisFactory();
