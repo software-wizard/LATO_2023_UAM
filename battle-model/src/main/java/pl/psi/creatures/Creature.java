@@ -127,6 +127,11 @@ public class Creature implements PropertyChangeListener, Defendable {
         counterAttackCounter--;
     }
 
+    @Override
+    public boolean isTransparent() {
+        return false;
+    }
+
     public static class Builder {
         private int amount = 1;
         private DamageCalculatorIf calculator = new DefaultDamageCalculator(new Random());

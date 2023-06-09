@@ -4,6 +4,9 @@ import com.google.common.collect.Range;
 import org.junit.jupiter.api.Test;
 import pl.psi.creatures.Creature;
 import pl.psi.creatures.CreatureStats;
+
+import java.util.Objects;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ObstacleTest {
@@ -26,4 +29,23 @@ public class ObstacleTest {
 
         assertThat(basicRock.getCurrentHp()).isEqualTo(3);
     }
+
+    @Test
+    void ObjectShouldRemoveWhenDestroyed(){
+        final Obstacle basicRock = new Obstacle.Builder().statistic(
+                        ObstacleTestStats.builder()
+                                .maxHp(4)
+                                .build())
+                .build();
+
+        basicRock.applyDamage(1);
+        basicRock.applyDamage(1);
+        basicRock.applyDamage(1);
+        basicRock.applyDamage(1);
+
+        assertThat(Objects.isNull(basicRock));
+        assertThat(basicRock.getAmount()).isEqualTo(0);
+    }
+
+
 }

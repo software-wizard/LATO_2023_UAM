@@ -22,6 +22,7 @@ public class Obstacle implements PropertyChangeListener, Defendable {
         stats = aStats;
         amount = aAmount;
         currentHp = stats.getMaxHp();
+        obstacleRemoveMethod = (c) ->{};
     }
 
     public int getMaxHp() {
@@ -80,6 +81,11 @@ public class Obstacle implements PropertyChangeListener, Defendable {
         if (amount <= 0) {
             obstacleRemoveMethod.accept(this);
         }
+    }
+
+    @Override
+    public boolean isTransparent() {
+        return false;
     }
 
     public static class Builder {
