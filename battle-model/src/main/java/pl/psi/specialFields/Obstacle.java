@@ -22,6 +22,7 @@ public class Obstacle implements PropertyChangeListener, Defendable {
         stats = aStats;
         amount = aAmount;
         currentHp = stats.getMaxHp();
+        obstacleRemoveMethod = (c) -> {};
     }
 
     public int getMaxHp() {
