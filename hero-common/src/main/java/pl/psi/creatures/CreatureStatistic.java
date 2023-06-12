@@ -49,7 +49,17 @@ public enum CreatureStatistic implements CreatureStatisticIf
         "I think it's the best lvl6 unit in the game! Double damage ability puts Dread Knights above Naga Queens.\nSpecial: 20% chance to curse enemy ; 20% chance to do double damage.\n", true ), //
     GHOST_DRAGON( "Ghost Dragon", 19, 17, 200, 14, Range.closed( 25, 50 ), 7,  new SpellProtection.spellProtectionBuilder()
             .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
-        "When situation seems hopeless, take a chance on the best enemy stack! If you'll get lucky, half their hit points will be gone instantly!! Ageing ability makes ghost dragons as dangerous as other lvl7 creatures.\nSpecial: -1 to enemy morale ; 20% chance to age enemy (halve hit points of all stack members).\n", true );//
+        "When situation seems hopeless, take a chance on the best enemy stack! If you'll get lucky, half their hit points will be gone instantly!! Ageing ability makes ghost dragons as dangerous as other lvl7 creatures.\nSpecial: -1 to enemy morale ; 20% chance to age enemy (halve hit points of all stack members).\n", true ),//
+    //Castle faction
+    PIKEMAN("Pikeman", 4, 5, 10, 4, Range.closed(1, 3),1, new SpellProtection.spellProtectionBuilder()
+        .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+    "Toughest lvl1 unit, but a bit slow.", false),
+    ARCHER("Archer",6,3,10,4,Range.closed(2,3),2,new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "Archer's upgrade is literally 2 times better. Upgrade them quickly.", false),
+    GRIFFIN("Griffin",8,8,25,6,Range.closed(3,6),3,new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "High in population, griffins become castle's main unit for the midgame.", false);
 
     private final String name;
     private final int attack;
