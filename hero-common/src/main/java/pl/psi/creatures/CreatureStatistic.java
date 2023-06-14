@@ -59,8 +59,40 @@ public enum CreatureStatistic implements CreatureStatisticIf
             "Archer's upgrade is literally 2 times better. Upgrade them quickly.", false),
     GRIFFIN("Griffin",8,8,25,6,Range.closed(3,6),3,new SpellProtection.spellProtectionBuilder()
             .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
-            "High in population, griffins become castle's main unit for the midgame.", false);
-
+            "High in population, griffins become castle's main unit for the midgame.", false),
+    ARMED( "Armed", 10, 12, 35, 5, Range.closed( 6, 9 ), 4,  new SpellProtection.spellProtectionBuilder()
+        .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+        "A unit that counts only in the upgraded version.\n", false ),
+    MONK( "Monk", 12, 7, 30, 5, Range.closed( 10, 12 ), 5,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "From a technical standpoint, this unit is weaker than the previous tier, but it is capable of shooting, which puts it in an advantageous position\n", false ),
+    CAVALRYMAN( "Cavalryman", 15, 15, 100, 7, Range.closed( 15, 25 ), 6,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "One of the best units at this level - fast, high health, excellent attack and defense parameters, with above-average damage.\nSpecial : +5% to damage for every step in battlefield.\n", false ),
+    ANGEL( "Angel", 20, 20, 200, 12, Range.closed( 50, 50 ), 7,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "They are blessed, which is why they deal constant, very high damage.\nSpecial : They raise the army's morale by 1 point and have a 50% damage bonus against demons.\n", false ),
+    HALBERDIER("Halberdier", 6, 5, 10, 5, Range.closed(2, 3),1, new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "Physically, it is the strongest unit at this level.", true),
+    CROSSBOWMAN("Crossbowman",6,3,10,6,Range.closed(2,3),2,new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "Crossbowman is two times better than archer because it is shooting two times and has double amount of arrows.\n", true),
+    ROYAL_GRIFFIN("Royal Griffin",9,9,25,9,Range.closed(3,6),3,new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "Counterattack is limitless.\n", true),
+    CRUSADER( "Crusader", 12, 12, 35, 6, Range.closed( 7, 10 ), 4,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "Better option of Armed unit - has double attack.\n", true ),
+    PRIEST( "Priest", 12, 10, 30, 7, Range.closed( 10, 12 ), 5,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "Double amount of arrows and no penalties in close combat\n", true ),
+    CHAMPION( "Champion", 16, 16, 100, 9, Range.closed( 20, 25 ), 6,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "Upgraded Cavalryman gives more minimal damage, movement range, attack and defend.\nSpecial : +5% to damage for every step in battlefield.\n", true ),
+    ARCHANGEL( "Archangel", 30, 30, 250, 18, Range.closed( 50, 50 ), 7,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "They are blessed, which is why they deal constant, very high damage.\nSpecial : They raise the army's morale by 1 point, are capable of resurrecting fallen units, and have a 50% damage bonus against demons.\n", true );
     private final String name;
     private final int attack;
     private final int armor;
