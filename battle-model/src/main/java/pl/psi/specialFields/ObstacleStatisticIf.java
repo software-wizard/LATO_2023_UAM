@@ -6,4 +6,5 @@ public interface ObstacleStatisticIf {
 
     String getName();
     String getDescription();
+    Integer getWeight();
 }

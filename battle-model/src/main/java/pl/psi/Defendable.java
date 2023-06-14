@@ -12,9 +12,6 @@ public interface Defendable extends Transparency{
 
      void setCurrentHp(int i);
 
-     int getAmount();
-     void setAmount(int i);
-
      void applyDamage(int i);
 
      void counterAttack(Creature aDefender);

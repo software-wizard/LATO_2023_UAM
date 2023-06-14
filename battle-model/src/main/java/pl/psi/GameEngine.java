@@ -6,6 +6,7 @@ import java.util.*;
 
 import pl.psi.creatures.Creature;
 import pl.psi.creatures.Spell;
+import pl.psi.specialFields.Obstacle;
 
 import static java.lang.Math.abs;
 
@@ -153,6 +154,29 @@ public class GameEngine {
         }
         aNode.setWeight(1);
     }
+
+//    private int setObstacleWeight(Map<Point, Obstacle> aObstaclePlacement){
+//        return 0;
+//    }
+
+//    private class ObstaclesWeight{
+//        Map<Obstacle, Integer> obstacleWeights;
+//    }
+
+//    private enum ObstaclesWeight{
+//
+//        ROCK("Rock", Integer.MAX_VALUE),
+//        TREE("Tree", Integer.MAX_VALUE),
+//        BOULDER("Boulder", Integer.MAX_VALUE),
+//        SPIKES("Spikes", 500);
+//
+//        private final String name;
+//        private final Integer weight;
+//        ObstaclesWeight(final String aName, final Integer aWeight){
+//            this.name = aName;
+//            this.weight = aWeight;
+//        }
+//    }
 
     private List<Node> reconstructPath(Node current) {
         List<Node> path = new ArrayList<>();

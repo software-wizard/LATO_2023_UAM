@@ -37,9 +37,13 @@ public class TransparentObstacle extends Obstacle{
     public int getCounterAttackCounter() {
         return decorated.getCounterAttackCounter();
     }
-
+    @Override
     public String getName() {
         return decorated.getName();
+    }
+    @Override
+    public Integer getWeight(){
+        return decorated.getWeight();
     }
 
     @Override
@@ -61,11 +65,6 @@ public class TransparentObstacle extends Obstacle{
 
     public void setObstacleRemoveMethod(Consumer<Obstacle> aObstacleRemoverMethod) {
         decorated.setObstacleRemoveMethod(aObstacleRemoverMethod);
-    }
-
-    @Override
-    public void setAmount(int amount) {
-        decorated.setAmount(amount);
     }
 
     @Override
