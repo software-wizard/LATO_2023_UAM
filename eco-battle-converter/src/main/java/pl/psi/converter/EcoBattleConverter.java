@@ -45,9 +45,16 @@ public class EcoBattleConverter
     {
         final List< Creature > creatures = new ArrayList<>();
         final NecropolisFactory factory = new NecropolisFactory();
+
+        Hero newHero =  new Hero( creatures );
+
         aPlayer1.getCreatures()
             .forEach( ecoCreature -> creatures.add( factory.create( ecoCreature.isUpgraded(),
                 ecoCreature.getTier(), ecoCreature.getAmount() ) ) );
         return new Hero( creatures.stream().map(BattleUnit::new).collect(Collectors.toList()) );
+
+        aPlayer1.getSkills().forEach(s  -> s.apply(newHero));
+
+        return new Hero( creatures );
     }
 }

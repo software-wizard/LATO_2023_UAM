@@ -4,4 +4,5 @@ public interface DamageCalculatorIf
 {
     int calculateDamage( Creature aAttacker, Creature aDefender );
     int calculateDamage(Creature aAttacker, WarMachine aDefender);
+    int changeAfterCalculation(int i);
 }
