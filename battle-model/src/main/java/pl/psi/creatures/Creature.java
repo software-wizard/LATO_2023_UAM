@@ -29,6 +29,7 @@ public class Creature implements PropertyChangeListener, Defendable {
     private int currentHp;
     private int counterAttackCounter = 1;
     private DamageCalculatorIf calculator;
+    private int percentOfSpellResistance;
 
     Creature() {}
 
@@ -74,7 +75,7 @@ public class Creature implements PropertyChangeListener, Defendable {
         return stats.getMaxHp();
     }
 
-    void updateStats(CreatureStatisticIf stats){
+    public void updateStats(CreatureStatisticIf stats){
         this.stats = this.stats.plus(stats);
     }
 
@@ -139,6 +140,15 @@ public class Creature implements PropertyChangeListener, Defendable {
 
     public void setDamageCalculator(DamageCalculatorIf calculator) {
         this.calculator = calculator;
+    }
+
+    public void setPercentOfSpellResistance(int i)
+    {
+        this.percentOfSpellResistance = i;
+    }
+
+    public int getPercentOfSpellResistance() {
+        return this.percentOfSpellResistance;
     }
 
     public DamageCalculatorIf getDamageCalculator() { return calculator; }

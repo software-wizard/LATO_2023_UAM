@@ -3,14 +3,11 @@ package pl.psi.creatures;
 import java.util.Random;
 
 public class SpellFailureCalculator {
-    public boolean spellWillNotFail(Spell spell) {
+    public boolean spellWillNotFail(Creature aCreature) {
         Random random = new Random();
+        int spellFailurePercent = 100 - aCreature.getPercentOfSpellResistance();
         int randomNumber = random.nextInt(10);
 
-        if ( randomNumber < spell.chancesOfSpellFailure()) {
-            return true;
-        }
-        return false;
+        return randomNumber < spellFailurePercent;
     }
-
 }

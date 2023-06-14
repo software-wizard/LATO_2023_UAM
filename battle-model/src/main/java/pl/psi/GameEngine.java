@@ -198,11 +198,14 @@ public class GameEngine {
 
     public void castSpell(final Point aPoint, Spell aSpell) {
         if (board.getCreature(aPoint).isPresent()) {
+
             SpellFailureCalculator s = new SpellFailureCalculator();
-            if(s.spellWillNotFail(aSpell)){
+            Creature c = (board.getCreature(aPoint).get());
+
+            if(s.spellWillNotFail(c)){
                 aSpell.cast(board.getCreature(aPoint).get());
-                pass();
             }
+            pass();
         }
     }
 

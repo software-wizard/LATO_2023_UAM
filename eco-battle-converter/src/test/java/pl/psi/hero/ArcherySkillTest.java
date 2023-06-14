@@ -18,8 +18,8 @@ public class ArcherySkillTest {
     int maxDamageWithoutSkills = 3;
 
     double ARCHERY_SKILL_BASIC = 1.1;
-    double ARCHERY_SKILL_ADVANCED = 1.2;
-    double ARCHERY_SKILL_EXPERT = 1.3;
+    double ARCHERY_SKILL_ADVANCED = 1.25;
+    double ARCHERY_SKILL_EXPERT = 1.5;
 
     int predictHp(final int aDamage, int maxHp) {
         int hpToSubtract = aDamage % maxHp;

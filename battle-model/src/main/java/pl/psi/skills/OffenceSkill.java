@@ -16,15 +16,6 @@ public class OffenceSkill extends DefaultDamageCalculator implements SkillsInter
         this.skillEnum = skillEnum;
     }
 
-    @Override
-    public void apply(Hero hero) {
-        List<Creature> creatures = hero.getCreatures();
-        for (Creature s : creatures) {
-            DamageCalculatorIf currentCalculator = s.getDamageCalculator();
-            s.setDamageCalculator(new SkillDecorator(currentCalculator, getValueFromEnum()));
-        }
-    }
-
     double getValueFromEnum() {
         if (skillEnum == SkillEnum.BASIC){
             return 1.1;
@@ -35,6 +26,14 @@ public class OffenceSkill extends DefaultDamageCalculator implements SkillsInter
         }
     }
 
+    @Override
+    public void apply(Hero hero) {
+        List<Creature> creatures = hero.getCreatures();
+        for (Creature s : creatures) {
+            DamageCalculatorIf currentCalculator = s.getDamageCalculator();
+            s.setDamageCalculator(new SkillDecorator(currentCalculator, getValueFromEnum()));
+        }
+    }
 }
 
 

@@ -21,7 +21,7 @@ public enum SpellStatistic implements SpellStatisticIf
     EARTHQUAKE("Earthquake", 2, 20, 5,0,0,0,0,4, "Sends a wave of death across the battlefield which damages all non-undead units."),//
 
     ICE_BOLT("Ice bolt", 3,8,10,0,0,0,0,1,"Drains the body heat from the selected enemy unit"),//
-    WEAKNESS("Weakness", 3,8,0,0,-3,0,0,1,"Reduces the selected enemy unit's attack strength."),//
+    WEAKNESS("Weakness", 3,8,0,0,-3,0,0,2,"Reduces the selected enemy unit's attack strength."),//
     PROTECTION_FROM_WATER("Protection from water", 3, 5, 0,0,0,0,10,3, "Protects the selected unit, reducing damage received from Water spells."),//
     CURE("Cure", 3, 6, -5,0,0,0,0,4, "Healing."),//
     ;
@@ -32,11 +32,11 @@ public enum SpellStatistic implements SpellStatisticIf
     private final int armorChange;
     private final int damageChange;
     private final int moveRangeChange;
-    private final int spellProtection;
+    private final int spellProtectionChange;
     private final int tier;
     private final String description;
 
-    SpellStatistic(String name, int classOfSpell, int cost, int spellDamage, int armorChange, int damageChange, int moveRangeChange, int spellProtection, int tier, String description) {
+    SpellStatistic(String name, int classOfSpell, int cost, int spellDamage, int armorChange, int damageChange, int moveRangeChange, int spellProtectionChange, int tier, String description) {
         this.name = name;
         this.classOfSpell = classOfSpell;
         this.cost = cost;
@@ -44,7 +44,7 @@ public enum SpellStatistic implements SpellStatisticIf
         this.armorChange = armorChange;
         this.damageChange = damageChange;
         this.moveRangeChange = moveRangeChange;
-        this.spellProtection = spellProtection;
+        this.spellProtectionChange = spellProtectionChange;
         this.tier = tier;
         this.description = description;
     }

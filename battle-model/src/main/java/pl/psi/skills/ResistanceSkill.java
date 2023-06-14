@@ -1,13 +1,12 @@
 package pl.psi.skills;
 
 import pl.psi.Hero;
-import pl.psi.creatures.Spell;
-import pl.psi.creatures.SpellFailureIf;
+import pl.psi.creatures.Creature;
 import pl.psi.interfaces.SkillsInterface;
 
 import java.util.List;
 
-public class ResistanceSkill implements SpellFailureIf, SkillsInterface {
+public class ResistanceSkill implements SkillsInterface {
     private final SkillEnum skillEnum;
 
     public ResistanceSkill(SkillEnum skillEnum) {
@@ -16,25 +15,19 @@ public class ResistanceSkill implements SpellFailureIf, SkillsInterface {
 
     int getValueFromEnum() {
         if (skillEnum == SkillEnum.BASIC){
-            return 95;
+            return 5;
         }else if (skillEnum == SkillEnum.ADVANCED) {
-            return 90;
+            return 10;
         }else {
-            return 80;
+            return 20;
         }
     }
 
     @Override
-    public int chancesOfSpellFailure() {
-        return getValueFromEnum();
-    }
-
-    @Override
     public void apply(Hero hero) {
-        List<Spell> spellBook = hero.getSpellBook();
-        for (Spell s : spellBook) {
-            System.out.println(chancesOfSpellFailure());
-            s.chancesOfSpellFailure();
+        List<Creature> creatures = hero.getCreatures();
+        for (Creature s : creatures) {
+          s.setPercentOfSpellResistance(getValueFromEnum());
         }
     }
 }

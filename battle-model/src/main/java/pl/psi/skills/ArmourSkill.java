@@ -16,15 +16,6 @@ public class ArmourSkill extends DefaultDamageCalculator implements SkillsInterf
         this.skillEnum = skillEnum;
     }
 
-    @Override
-    public void apply(Hero hero) {
-        List<Creature> creatures = hero.getCreatures();
-        for (Creature s : creatures) {
-            DamageCalculatorIf currentCalculator = s.getDamageCalculator();
-            s.setDamageCalculator(new SkillDecorator(currentCalculator, getValueFromEnum()));
-        }
-    }
-
     double getValueFromEnum() {
         if (skillEnum == SkillEnum.BASIC){
             return 0.95;
@@ -35,4 +26,12 @@ public class ArmourSkill extends DefaultDamageCalculator implements SkillsInterf
         }
     }
 
+    @Override
+    public void apply(Hero hero) {
+        List<Creature> creatures = hero.getCreatures();
+        for (Creature s : creatures) {
+            DamageCalculatorIf currentCalculator = s.getDamageCalculator();
+            s.setDamageCalculator(new SkillDecorator(currentCalculator, getValueFromEnum()));
+        }
+    }
 }

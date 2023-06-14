@@ -57,6 +57,6 @@ public class EcoBattleConverter
 
         aPlayer1.getSkills().forEach(s  -> s.apply(newHero));
 
-        return new Hero( creatures, spellBook );
+        return newHero;
     }
 }

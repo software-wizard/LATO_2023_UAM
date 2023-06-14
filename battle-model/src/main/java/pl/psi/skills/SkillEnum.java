@@ -4,5 +4,4 @@ public enum SkillEnum {
     BASIC,
     ADVANCED,
     EXPERT,
-    NONE
 }
