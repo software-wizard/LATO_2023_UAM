@@ -60,13 +60,13 @@ public enum CreatureStatistic implements CreatureStatisticIf
     GRIFFIN("Griffin",8,8,25,6,Range.closed(3,6),3,new SpellProtection.spellProtectionBuilder()
             .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
             "High in population, griffins become castle's main unit for the midgame.", false),
-    ARMED( "Armed", 10, 12, 35, 5, Range.closed( 6, 9 ), 4,  new SpellProtection.spellProtectionBuilder()
+    SWORDSMAN( "Swordsman", 10, 12, 35, 5, Range.closed( 6, 9 ), 4,  new SpellProtection.spellProtectionBuilder()
         .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
         "A unit that counts only in the upgraded version.\n", false ),
     MONK( "Monk", 12, 7, 30, 5, Range.closed( 10, 12 ), 5,  new SpellProtection.spellProtectionBuilder()
             .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
             "From a technical standpoint, this unit is weaker than the previous tier, but it is capable of shooting, which puts it in an advantageous position\n", false ),
-    CAVALRYMAN( "Cavalryman", 15, 15, 100, 7, Range.closed( 15, 25 ), 6,  new SpellProtection.spellProtectionBuilder()
+    CAVALIER( "Cavalier", 15, 15, 100, 7, Range.closed( 15, 25 ), 6,  new SpellProtection.spellProtectionBuilder()
             .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
             "One of the best units at this level - fast, high health, excellent attack and defense parameters, with above-average damage.\nSpecial : +5% to damage for every step in battlefield.\n", false ),
     ANGEL( "Angel", 20, 20, 200, 12, Range.closed( 50, 50 ), 7,  new SpellProtection.spellProtectionBuilder()
@@ -75,7 +75,7 @@ public enum CreatureStatistic implements CreatureStatisticIf
     HALBERDIER("Halberdier", 6, 5, 10, 5, Range.closed(2, 3),1, new SpellProtection.spellProtectionBuilder()
             .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
             "Physically, it is the strongest unit at this level.", true),
-    CROSSBOWMAN("Crossbowman",6,3,10,6,Range.closed(2,3),2,new SpellProtection.spellProtectionBuilder()
+    MARKSMAN("Marksman",6,3,10,6,Range.closed(2,3),2,new SpellProtection.spellProtectionBuilder()
             .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
             "Crossbowman is two times better than archer because it is shooting two times and has double amount of arrows.\n", true),
     ROYAL_GRIFFIN("Royal Griffin",9,9,25,9,Range.closed(3,6),3,new SpellProtection.spellProtectionBuilder()
@@ -84,7 +84,7 @@ public enum CreatureStatistic implements CreatureStatisticIf
     CRUSADER( "Crusader", 12, 12, 35, 6, Range.closed( 7, 10 ), 4,  new SpellProtection.spellProtectionBuilder()
             .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
             "Better option of Armed unit - has double attack.\n", true ),
-    PRIEST( "Priest", 12, 10, 30, 7, Range.closed( 10, 12 ), 5,  new SpellProtection.spellProtectionBuilder()
+    ZEALOT( "Zealot", 12, 10, 30, 7, Range.closed( 10, 12 ), 5,  new SpellProtection.spellProtectionBuilder()
             .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
             "Double amount of arrows and no penalties in close combat\n", true ),
     CHAMPION( "Champion", 16, 16, 100, 9, Range.closed( 20, 25 ), 6,  new SpellProtection.spellProtectionBuilder()
@@ -92,7 +92,50 @@ public enum CreatureStatistic implements CreatureStatisticIf
             "Upgraded Cavalryman gives more minimal damage, movement range, attack and defend.\nSpecial : +5% to damage for every step in battlefield.\n", true ),
     ARCHANGEL( "Archangel", 30, 30, 250, 18, Range.closed( 50, 50 ), 7,  new SpellProtection.spellProtectionBuilder()
             .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
-            "They are blessed, which is why they deal constant, very high damage.\nSpecial : They raise the army's morale by 1 point, are capable of resurrecting fallen units, and have a 50% damage bonus against demons.\n", true );
+            "They are blessed, which is why they deal constant, very high damage.\nSpecial : They raise the army's morale by 1 point, are capable of resurrecting fallen units, and have a 50% damage bonus against demons.\n", true ),
+    //Bastion faction
+    CENTAUR( "Centaur", 5, 3, 8, 6, Range.closed( 2, 3 ), 1,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "The best unit at lvl1.\n", false ),
+    DWARF( "Dwarf", 6, 7, 20, 3, Range.closed( 2, 4 ), 2,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "Dwarves are very strong units, with both good attack and defense capabilities but slow.\nSpecial : +20% magic resistance ", false ),
+    WOOD_ELF( "Wood elf", 9, 5, 15, 6, Range.closed( 3, 5 ), 3,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "One of the best 3lvl units in upgraded version.\n", false ),
+    PEGASUS( "Pegasus", 9, 8, 30, 8, Range.closed( 5, 9 ), 4,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "The presence of a Pegasus on the battlefield increases the cost of spells for the enemy hero by 2 points.\n", false ),
+    DENDROID_GUARD( "Dendroid guard", 9, 12, 55, 3, Range.closed( 10, 14 ), 5,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "It immobilizes the enemy, has good stats, but has low movement range.\n", false ),
+    UNICORN( "Unicorn", 15, 14, 90, 7, Range.closed( 18, 22 ), 6,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "Units that come into contact with a unicorn gain a 20% magic resistance. Additionally, when a unicorn attacks, it has a 20% chance to cast Blindness on the enemy.\n", false ),
+    GREEN_DRAGON( "Green dragon", 18, 18, 180, 10, Range.closed( 40, 50 ), 7,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "Slightly weaker and cheaper than the red ones, green dragons perform well in the midgame.\n", false ),
+    CENTAUR_CAPTAIN( "Centaur captain", 6, 3, 10, 8, Range.closed( 2, 3 ), 1,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "Upgraded is not much worse than halberdier.\n", true ),
+    BATTLE_DWARF( "Battle dwarf", 7, 7, 20, 5, Range.closed( 2, 4 ), 2,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "+66 % more movement range than not upgraded.\nSpecial : +40% magic resistance ", true ),
+    GRAND_ELF( "Grand elf", 9, 5, 15, 7, Range.closed( 3, 5 ), 3,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "Capable of double attack.\n", true ),
+    SILVER_PEGASUS( "Silver pegasus", 9, 10, 30, 12, Range.closed( 5, 9 ), 4,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "Move range increased 1.5 times. The presence of a Pegasus on the battlefield increases the cost of spells for the enemy hero by 2 points.\n", true ),
+    DENDROID_SOLDIER( "Dendroid soldier", 9, 12, 65, 4, Range.closed( 10, 14 ), 5,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "This upgraded version on dendroid guard is useful.\n", true ),
+    WAR_UNICORN( "War unicorn", 15, 14, 110, 9, Range.closed( 18, 22 ), 6,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "It has the same advantages as the unicorn, plus it receives a +20 HP and a larger movement range.\n", true ),
+    GOLD_DRAGON( "Gold dragon", 27, 27, 250, 16, Range.closed( 40, 50 ), 7,  new SpellProtection.spellProtectionBuilder()
+            .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
+            "They gain a lot of attack and defense, 70 life and a lot more movement range.\n", false ),
     private final String name;
     private final int attack;
     private final int armor;
