@@ -135,7 +135,7 @@ public enum CreatureStatistic implements CreatureStatisticIf
             "It has the same advantages as the unicorn, plus it receives a +20 HP and a larger movement range.\n", true ),
     GOLD_DRAGON( "Gold dragon", 27, 27, 250, 16, Range.closed( 40, 50 ), 7,  new SpellProtection.spellProtectionBuilder()
             .airProtection(0).fireProtection(0).earthProtection(0).waterProtection(0).build(),
-            "They gain a lot of attack and defense, 70 life and a lot more movement range.\n", false ),
+            "They gain a lot of attack and defense, 70 life and a lot more movement range.\n", false );
     private final String name;
     private final int attack;
     private final int armor;

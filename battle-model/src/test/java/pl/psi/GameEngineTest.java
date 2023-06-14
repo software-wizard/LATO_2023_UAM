@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import pl.psi.creatures.CastleCreatureFactory;
+import pl.psi.creatures.BastionCreatureFactory;
 import pl.psi.creatures.Creature;
 
 
@@ -22,6 +23,15 @@ public class GameEngineTest {
                         new Hero(List.of(creatureFactory.create(1, false, 5)), Collections.emptyList()));
 
         gameEngine.attack(new Point(1, 1));
+    }
+
+    @Test
+    void bastionCreatureFactoryTest(){
+        final BastionCreatureFactory creatureFactory = new BastionCreatureFactory();
+            final GameEngine gameEngine =
+                    new GameEngine(new Hero(List.of(creatureFactory.create(1, false, 5)), Collections.emptyList()),
+                            new Hero(List.of(creatureFactory.create(1, false, 5)), Collections.emptyList()));
+            gameEngine.attack(new Point(1, 1));
     }
 
     @Test
