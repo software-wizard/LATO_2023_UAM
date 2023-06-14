@@ -83,6 +83,11 @@ public class Obstacle implements PropertyChangeListener, Defendable {
         }
     }
 
+    @Override
+    public boolean isTransparent() {
+        return false;
+    }
+
     public static class Builder {
         private int amount = 1;
         private ObstacleStatisticIf statistic;

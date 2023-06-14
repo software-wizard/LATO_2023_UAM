@@ -2,7 +2,7 @@ package pl.psi;
 
 import pl.psi.creatures.Creature;
 
-public interface Defendable{
+public interface Defendable extends Transparency{
 
      int getMaxHp();
 
