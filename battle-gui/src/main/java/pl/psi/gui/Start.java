@@ -81,9 +81,10 @@ public class Start extends Application
     private ObstaclePlacementList createObstacles()
     {
         HashMap<Point, Obstacle> aObstaclePlacement = new HashMap<>();
-        aObstaclePlacement.put(new Point(3,4),new ObstacleFactory().create(1,1) );
-        aObstaclePlacement.put(new Point(6,7),new ObstacleFactory().create(1,1) );
-        aObstaclePlacement.put(new Point(10,3),new ObstacleFactory().create(2,1) );
+        aObstaclePlacement.put(new Point(3,4),new ObstacleFactory().create("Rock",1) );
+        aObstaclePlacement.put(new Point(6,7),new ObstacleFactory().create("Tree",1) );
+        aObstaclePlacement.put(new Point(10,3),new ObstacleFactory().create("Boulder",1) );
+        aObstaclePlacement.put(new Point(5,5),new ObstacleFactory().create("Spikes",1) );
 
         final ObstaclePlacementList ret = new ObstaclePlacementList(aObstaclePlacement
         );
