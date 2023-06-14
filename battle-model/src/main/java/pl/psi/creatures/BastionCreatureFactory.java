@@ -5,7 +5,7 @@ public class BastionCreatureFactory {
     private static final String EXCEPTION_MESSAGE = "We support tiers from 1 to 7";
     public Creature create( final int aTier, final boolean aIsUpgraded, final int aAmount )
     {
-        if( aIsUpgraded )
+        if( !aIsUpgraded )
         {
             switch( aTier )
             {
@@ -77,6 +77,5 @@ public class BastionCreatureFactory {
                     throw new IllegalArgumentException( EXCEPTION_MESSAGE );
             }
         }
-        throw new IllegalArgumentException( "Cannot recognize creature by tier and upgrade or not." );
     }
 }
