@@ -1,13 +1,15 @@
-package pl.psi.creatures;
+package pl.psi.skills;
 
 import pl.psi.Defendable;
+import pl.psi.creatures.Creature;
+import pl.psi.creatures.DamageCalculatorIf;
 
-public class OffenceDecorator implements DamageCalculatorIf{
+public class SkillDecorator implements DamageCalculatorIf {
 
     private final DamageCalculatorIf decorated;
     private final double enumValue;
 
-    public OffenceDecorator(DamageCalculatorIf calculatorIf, double enumValue) {
+    public SkillDecorator(DamageCalculatorIf calculatorIf, double enumValue) {
         this.decorated = calculatorIf;
         this.enumValue = enumValue;
     }
@@ -15,14 +17,14 @@ public class OffenceDecorator implements DamageCalculatorIf{
     @Override
     public int calculateDamage(Creature attacker, Defendable defender) {
         int damage = decorated.calculateDamage(attacker, defender);
-        return applyDamageStrategy(damage);
+        return changeAfterCalculation(damage);
     }
 
     @Override
-    public int applyDamageStrategy(int calculateDamageResult) {
+    public int changeAfterCalculation(int calculateDamageResult) {
         return (int) (calculateDamageResult * enumValue);
     }
-    
+
 }
 
 

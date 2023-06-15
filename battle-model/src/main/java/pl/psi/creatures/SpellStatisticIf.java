@@ -1,7 +1,5 @@
 package pl.psi.creatures;
 
-import com.google.common.collect.Range;
-
 public interface SpellStatisticIf {
     String getName();
     int getClassOfSpell();
@@ -10,7 +8,7 @@ public interface SpellStatisticIf {
     int getArmorChange();
     int getDamageChange();
     int getMoveRangeChange();
-    int getSpellProtection();
+    int getSpellProtectionChange();
     int getTier();
     String getDescription();
 }

@@ -4,6 +4,7 @@ import pl.psi.Defendable;
 
 public interface DamageCalculatorIf
 {
-    int calculateDamage( Creature aAttacker, Defendable aDefender );
-    int applyDamageStrategy(int i);
+    int calculateDamage(Creature aAttacker, Defendable aDefender);
+    int changeAfterCalculation(int calculateDamageResult);
+
 }

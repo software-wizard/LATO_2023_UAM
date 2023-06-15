@@ -6,6 +6,7 @@ import java.util.*;
 
 import pl.psi.creatures.Creature;
 import pl.psi.creatures.Spell;
+import pl.psi.creatures.SpellFailureCalculator;
 
 import static java.lang.Math.abs;
 
@@ -198,7 +199,13 @@ public class GameEngine {
 
     public void castSpell(final Point aPoint, Spell aSpell) {
         if (board.getCreature(aPoint).isPresent()) {
-            aSpell.cast(board.getCreature(aPoint).get());
+
+            SpellFailureCalculator s = new SpellFailureCalculator();
+            Creature c = (board.getCreature(aPoint).get());
+
+            if(s.spellWillNotFail(c)){
+                aSpell.cast(board.getCreature(aPoint).get());
+            }
             pass();
         }
     }

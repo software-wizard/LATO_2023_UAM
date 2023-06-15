@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import pl.psi.creatures.ArmourSkill;
 import pl.psi.creatures.EconomyNecropolisFactory;
-import pl.psi.creatures.OffenceSkill;
-import pl.psi.creatures.SkillEnum;
+import pl.psi.skills.SkillEnum;
+import pl.psi.skills.ArmourSkill;
+import pl.psi.skills.OffenceSkill;
 
 class EconomyHeroTest
 {
@@ -53,6 +53,5 @@ class EconomyHeroTest
 
         assertTrue(hero.getSkills().get(0) instanceof OffenceSkill);
         assertTrue(hero.getSkills().get(1) instanceof ArmourSkill);
-
     }
 }

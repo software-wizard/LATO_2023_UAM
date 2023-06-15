@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import pl.psi.converter.EcoBattleConverter;
 import pl.psi.creatures.*;
+import pl.psi.skills.ArmourSkill;
+import pl.psi.skills.OffenceSkill;
+import pl.psi.skills.SkillEnum;
 
 class EcoBattleConverterTest
 {
@@ -65,31 +68,5 @@ class EcoBattleConverterTest
             .getName() );
         assertEquals( 7, convertedCreatures.get( 6 )
             .getAmount() );
-    }
-
-    @Test
-    void shouldAddOffenceSkillCorrectly()
-    {
-        final EconomyHero ecoHero = new EconomyHero( EconomyHero.Fraction.NECROPOLIS, 1000 );
-        final EconomyNecropolisFactory factory = new EconomyNecropolisFactory();
-        ecoHero.addCreature( factory.create( false, 1, 1 ) );
-//        ecoHero.addCreature( factory.create( false, 2, 2 ) );
-//        ecoHero.addCreature( factory.create( false, 3, 3 ) );
-//        ecoHero.addCreature( factory.create( false, 4, 4 ) );
-
-        ecoHero.addSkill(new ArmourSkill(SkillEnum.BASIC));
-        ecoHero.addSkill(new OffenceSkill(SkillEnum.BASIC));
-
-
-        final List< Creature > convertedCreatures = EcoBattleConverter.convert( ecoHero )
-                .getCreatures();
-
-//        assertTrue(convertedCreatures.get( 0 ).getCalculator() instanceof OffenceSkill);
-//        assertTrue(convertedCreatures.get( 0 ).getCalculator() instanceof ArmourSkill);
-        System.out.println(convertedCreatures.get( 0 ).getCalculator());
-//        assertTrue(convertedCreatures.get( 1 ).getCalculator() instanceof OffenceSkill);
-//        assertTrue(convertedCreatures.get( 2 ).getCalculator() instanceof OffenceSkill);
-//        assertTrue(convertedCreatures.get( 3 ).getCalculator() instanceof OffenceSkill);
-
     }
 }

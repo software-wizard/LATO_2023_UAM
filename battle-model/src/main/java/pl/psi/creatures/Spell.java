@@ -1,9 +1,6 @@
 package pl.psi.creatures;
 
 import com.google.common.collect.Range;
-import com.google.common.collect.Table;
-
-import java.util.Random;
 
 public class Spell {
 
@@ -35,7 +32,7 @@ public class Spell {
         }
 
         int[] spellProtectionCalc = {0,0,0,0};
-        spellProtectionCalc[stats.getClassOfSpell()] += stats.getSpellProtection();
+        spellProtectionCalc[stats.getClassOfSpell()] += stats.getSpellProtectionChange();
         SpellProtection spellProtection1 = new SpellProtection.spellProtectionBuilder()
                 .airProtection(spellProtectionCalc[0])
                 .fireProtection(spellProtectionCalc[1])
@@ -64,11 +61,11 @@ public class Spell {
         public Spell build() {
             return new Spell(statistic);
         }
+
     }
 
     public String getName() {
         return this.stats.getName();
     }
-
 
 }
