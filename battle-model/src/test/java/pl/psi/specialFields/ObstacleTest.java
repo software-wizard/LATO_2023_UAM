@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import pl.psi.*;
 import pl.psi.creatures.Creature;
 import pl.psi.creatures.CreatureStats;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -60,8 +59,8 @@ public class ObstacleTest {
                 new Hero(Collections.emptyList(), Collections.emptyList()),
                 placementList);
 
-        assertThat(gameEngine.getObject(rockPoint)).contains(basicRock);
-        assertThat(gameEngine.getObject(emptyPoint)).isEmpty();
-        assertThat((gameEngine.canMove(rockPoint))).isEqualTo(false);
+        assertThat(gameEngine.getObject(rockPoint)).contains(basicRock);    //obstacle on the map
+        assertThat(gameEngine.getObject(emptyPoint)).isEmpty(); //empty point is empty
+        assertThat((gameEngine.canMove(rockPoint))).isEqualTo(false);   //obstacle cannot move
     }
 }

@@ -1,9 +1,6 @@
 package pl.psi;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -17,6 +14,7 @@ import pl.psi.specialFields.Obstacle;
 public class Board {
     private static final int MAX_WITDH = 14;
     private final BiMap<Point, Defendable> map = HashBiMap.create();
+    private final BiMap<Point, Defendable> overrideMap = HashBiMap.create();
 
     public Board(final List<Creature> aCreatures1,
                  final List<Creature> aCreatures2,
@@ -51,9 +49,12 @@ public class Board {
 
     void move(final Creature aCreature, final Point aPoint) {
         if (canMove(aCreature, aPoint)) {
+            final Point oldPoint = map.inverse().get(aCreature);
+            overridePositionOnMap(map, overrideMap, aPoint);
             map.inverse()
                     .remove(aCreature);
             map.put(aPoint, aCreature);
+            overridePositionOnMap(overrideMap, map, oldPoint);
         }
     }
 
@@ -73,6 +74,24 @@ public class Board {
         }
         final Point oldPosition = getPosition(aCreature);
         return aPoint.distance(oldPosition.getX(), oldPosition.getY()) < aCreature.getMoveRange();
+    }
+
+    void overridePositionOnMap(BiMap<Point, Defendable> fromMap, BiMap<Point, Defendable> toMap, Point ref){
+        if (fromMap.containsKey(ref)){
+            toMap.put(ref, fromMap.get(ref));
+            fromMap.remove(ref);
+        }
+    }
+
+    boolean objectsStandAtSamePoint(Point aPoint){
+        if (map.containsKey(aPoint) && overrideMap.containsKey(aPoint)){
+            return true;
+        }
+        return false;
+    }
+
+    void DefendableGetsCreatureAtPoint(){
+
     }
 
     Point getPosition(Defendable aDefendable) {
