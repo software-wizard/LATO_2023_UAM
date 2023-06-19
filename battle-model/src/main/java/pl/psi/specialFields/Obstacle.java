@@ -85,6 +85,9 @@ public class Obstacle implements PropertyChangeListener, Defendable {
     }
 
     @Override
+    public void applyEffectOnTouch(Defendable aDefendable) {}
+
+    @Override
     public String toString() {
         return getName();
     }

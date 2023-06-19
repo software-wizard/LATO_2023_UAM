@@ -51,7 +51,7 @@ public class Creature implements PropertyChangeListener, Defendable {
         }
     }
 
-    protected boolean isAlive() {
+    public boolean isAlive() {
         return getAmount() > 0;
     }
     @Override
@@ -157,6 +157,9 @@ public class Creature implements PropertyChangeListener, Defendable {
     public boolean isTransparent() {
         return false;
     }
+
+    @Override
+    public void applyEffectOnTouch(Defendable aDefendable) {}
 
     public static class Builder {
         private int amount = 1;

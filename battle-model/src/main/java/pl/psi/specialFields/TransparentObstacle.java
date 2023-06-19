@@ -6,12 +6,23 @@ import pl.psi.creatures.Creature;
 import java.beans.PropertyChangeEvent;
 import java.util.function.Consumer;
 
-public class TransparentObstacle extends Obstacle{
+abstract class TransparentObstacle extends Obstacle{
     private final Obstacle decorated;
 
     public TransparentObstacle (final Obstacle aObstacle){
         decorated = aObstacle;
     }
+//    private Effect effect = aDefendable -> {applyEffectOnTouch(aDefendable);};
+////    private Damage damage = aDefendable -> {};
+
+
+
+    @Override
+    public void applyEffectOnTouch(Defendable aDefendable){
+        //do sth when stomped at
+    }
+
+
     @Override
     public int getMaxHp() {
         return decorated.getMaxHp();
@@ -76,6 +87,4 @@ public class TransparentObstacle extends Obstacle{
     public String toString(){
         return decorated.toString();
     }
-
-
 }

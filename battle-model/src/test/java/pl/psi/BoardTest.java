@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.*;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +13,7 @@ import pl.psi.creatures.Creature;
 import pl.psi.creatures.CreatureStats;
 import pl.psi.specialFields.Obstacle;
 import pl.psi.specialFields.ObstacleTestStats;
-import pl.psi.specialFields.TransparentObstacle;
+import pl.psi.specialFields.PhysicalDamageTrap;
 
 class BoardTest
 {
@@ -34,10 +36,10 @@ class BoardTest
     }
     @Test
     void TransparentObstacleShouldBeOverriddenWhenTranspassed(){
-        final TransparentObstacle spikes = new TransparentObstacle(
+        final PhysicalDamageTrap spikes = new PhysicalDamageTrap(
                 new Obstacle(ObstacleTestStats.builder()
                         .maxHp(2)
-                        .build()));
+                        .build()), 0);
         final Creature angel = new Creature.Builder().statistic(CreatureStats.builder()
                         .maxHp(100)
                         .moveRange(20)
@@ -48,7 +50,7 @@ class BoardTest
 
         final List<Creature> creatures = new ArrayList<>();
         creatures.add(angel);
-        final Map<Point, Obstacle> obstacles = new HashMap<>();
+        final BiMap<Point, Obstacle> obstacles = HashBiMap.create();
         obstacles.put(destination, spikes);
 
         final Board board = new Board(creatures, Collections.emptyList(), obstacles);
@@ -60,5 +62,35 @@ class BoardTest
         board.move(angel, new Point(20,2)); //moves elsewhere second time
         assertThat(board.getObject(destination)).contains(spikes);  //spikes are back on the board
 
+    }
+
+    @Test
+    void ShouldDamageWhenTranspassed() {
+        final PhysicalDamageTrap spikes = new PhysicalDamageTrap(
+                new Obstacle(ObstacleTestStats.builder()
+                        .maxHp(2)
+                        .build()), 5);
+        final Creature angel = new Creature.Builder().statistic(CreatureStats.builder()
+                        .maxHp(100)
+                        .moveRange(20)
+                        .build())
+                .build();
+
+        final Point destination = new Point(3,2);
+
+        final List<Creature> creatures = new ArrayList<>();
+        creatures.add(angel);
+        final BiMap<Point, Obstacle> obstacles = HashBiMap.create();
+        obstacles.put(destination, spikes);
+
+        final Board board = new Board(creatures, Collections.emptyList(), obstacles);
+        assertThat(board.getObject(destination)).contains(spikes);  //spikes are on the board
+
+        board.move(angel, destination); //moves onto the spikes, stomps on them
+        assertThat(board.getObject(destination)).contains(angel);
+
+        board.performOnTouch(destination);  //angel should be damaged because it stands on the spikes
+
+        assertThat(angel.getCurrentHp()).isEqualTo(95); //spikes does 5 dmg on hit
     }
 }

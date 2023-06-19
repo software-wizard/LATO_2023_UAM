@@ -12,7 +12,9 @@ public class ObstacleFactory {
             case "Boulder":
                 return new Obstacle(ObstacleStatistic.BOULDER);
             case "Spikes":
-                return new TransparentObstacle(new Obstacle(ObstacleStatistic.SPIKES));
+                return new PhysicalDamageTrap(new Obstacle(ObstacleStatistic.SPIKES), 5);
+            case "Totem":
+                return new EffectStatusTrap(new Obstacle(ObstacleStatistic.TOTEM));
             default:
                 throw new IllegalArgumentException( EXCEPTION_MESSAGE );
         }
