@@ -7,6 +7,7 @@ import pl.psi.creatures.CreatureStats;
 import pl.psi.creatures.WarMachine;
 import pl.psi.warmachines.WarMachineStats;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,29 +22,29 @@ public class HeroTest {
             .build());
     @Test
     void battleUnitShouldBeAllied(){
-        final Hero aHero1 = new Hero(List.of(aBattleUnit1, aBattleUnit2));
+        final Hero aHero1 = new Hero(List.of(aBattleUnit1, aBattleUnit2), Collections.emptyList());
 
         assertThat(aHero1.isAlly(aBattleUnit1, aBattleUnit2)).isTrue();
     }
 
     @Test
     void battleUnitShouldNotBeAllied(){
-        final Hero aHero1 = new Hero(List.of(aBattleUnit1));
-        final Hero aHero2 = new Hero(List.of(aBattleUnit2));
+        final Hero aHero1 = new Hero(List.of(aBattleUnit1), Collections.emptyList());
+        final Hero aHero2 = new Hero(List.of(aBattleUnit2), Collections.emptyList());
 
         assertThat(aHero1.isAlly(aBattleUnit1, aBattleUnit2)).isFalse();
     }
 
     @Test
     void herolessBattleUnitShouldNotBeAllied(){
-        final Hero aHero1 = new Hero(List.of(aBattleUnit1));
+        final Hero aHero1 = new Hero(List.of(aBattleUnit1), Collections.emptyList());
         assertThat(aHero1.isAlly(aBattleUnit1, aBattleUnit2)).isFalse();
     }
 
     @Test
     void getCreaturesAndGetWarMachinesShouldReturnCorrectResults(){
         final BattleUnit aBattleUnit3 = new BattleUnit(new WarMachine.Builder().statistic(WarMachineStats.builder().build()).build());
-        final Hero aHero1 = new Hero(List.of(aBattleUnit1, aBattleUnit2, aBattleUnit3));
+        final Hero aHero1 = new Hero(List.of(aBattleUnit1, aBattleUnit2, aBattleUnit3), Collections.emptyList());
         assertThat(aHero1.getCreatures()).isEqualTo(List.of(aBattleUnit1.getCreatureVal(), aBattleUnit2.getCreatureVal()));
         assertThat(aHero1.getWarMachines()).isEqualTo(List.of(aBattleUnit3.getWarMachineVal()));
     }

@@ -2,12 +2,13 @@ package pl.psi.creatures;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.psi.Defendable;
 import pl.psi.warmachines.WarMachineStatisticIf;
 
 import java.util.Random;
 
 @Getter
-public class WarMachine{
+public class WarMachine implements Defendable {
     private WarMachineStatisticIf stats;
     @Setter
     private int currentHp;
@@ -35,21 +36,6 @@ public class WarMachine{
         }
     }
 
-    public void attack(final Creature aDefender){
-        if(isAlive()){
-            //TODO: once Hero skills are done, prepare the formula for calculating damage. base is range(2-3)*(hero's attack+1), 0-10%-25%-50% additional depending on Archery, 0% chance to inflict double damage, 50% chance to inflict double damage, 75% to inflict double damage + shoots twice, 100% double damage and shoots twice
-            final int aDamage = 10;
-            aDefender.applyDamage(aDefender, aDamage);
-        }
-    }
-    public void attack(final WarMachine aDefender){
-        if(isAlive()){
-            //TODO: once Hero skills are done, prepare the formula for calculating damage. base is range(2-3)*(hero's attack+1), 0-10%-25%-50% additional depending on Archery, 0% chance to inflict double damage, 50% chance to inflict double damage, 75% to inflict double damage + shoots twice, 100% double damage and shoots twice
-            final int aDamage = 10;
-            aDefender.applyDamage(aDefender, aDamage);
-        }
-    }
-
     protected void siege(){
         if(isAlive()) {
             //TODO: method related to catapult - needs actual targets to be implemented.
@@ -70,13 +56,46 @@ public class WarMachine{
 
     public boolean canSiege() { return getStats().getName().equals("Catapult");}
 
-    protected void applyDamage(final WarMachine aDefender, final int aDamage){
-        aDefender.setCurrentHp(aDefender.getCurrentHp()-aDamage);
+    @Override
+    public int getMaxHp() {
+        return getStats().getMaxHp();
+    }
+
+    @Override
+    public void attack(Defendable aDefender) {
+        if(isAlive()){
+            //TODO: once Hero skills are done, prepare the formula for calculating damage. base is range(2-3)*(hero's attack+1), 0-10%-25%-50% additional depending on Archery, 0% chance to inflict double damage, 50% chance to inflict double damage, 75% to inflict double damage + shoots twice, 100% double damage and shoots twice
+            final int aDamage = 10;
+            aDefender.applyDamage(aDamage);
+        }
+    }
+
+    public void applyDamage(final int aDamage){
+        setCurrentHp(getCurrentHp()-aDamage);
+    }
+
+    @Override
+    public void counterAttack(Creature aDefender) {
+        //does nothing, added only for Defendable compatibility
+    }
+
+    @Override
+    public int getArmor() {
+        return getStats().getArmor();
+    }
+
+    @Override
+    public int getCounterAttackCounter() {
+        return 0;
     }
 
     public boolean isControllable() {
-        //TODO: implement self-acting when not controllable
         return getRelevantSkill() != 0;
+    }
+
+    @Override
+    public boolean isTransparent() {
+        return false;
     }
 
     public static class Builder{
@@ -99,6 +118,7 @@ public class WarMachine{
             return new WarMachine(statistic, relSkill);
         }
     }
+
 
     @Override
     public String toString(){

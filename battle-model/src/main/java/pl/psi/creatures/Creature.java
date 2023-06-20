@@ -22,7 +22,7 @@ import lombok.Getter;
  * TODO: Describe this class (The first line - until the first dot - will interpret as the brief description).
  */
 @Getter
-public class Creature implements PropertyChangeListener {
+public class Creature implements PropertyChangeListener, Defendable {
     private CreatureStatisticIf stats;
     @Setter
     private int amount;
@@ -92,7 +92,7 @@ public class Creature implements PropertyChangeListener {
         return aDefender.getCounterAttackCounter() > 0 && aDefender.getCurrentHp() > 0;
     }
 
-    void counterAttack(final Creature aAttacker) {
+    public void counterAttack(final Creature aAttacker) {
         final int damage = aAttacker.getCalculator()
                 .calculateDamage(aAttacker, this);
         aAttacker.applyDamage(damage);
@@ -107,7 +107,7 @@ public class Creature implements PropertyChangeListener {
         return stats.getAttack();
     }
 
-    int getArmor() {
+    public int getArmor() {
         return stats.getArmor();
     }
 

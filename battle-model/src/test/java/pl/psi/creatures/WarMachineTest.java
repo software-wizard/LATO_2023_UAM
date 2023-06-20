@@ -21,7 +21,7 @@ public class WarMachineTest {
     void warMachineShouldTakeDamage(){
         final WarMachine aWarMachine = new WarMachine.Builder().statistic(WarMachineStats.builder().maxHp(100).build()).build();
         assertThat(aWarMachine.getCurrentHp()).isEqualTo(aWarMachine.getStats().getMaxHp());
-        aWarMachine.applyDamage(aWarMachine, 10);
+        aWarMachine.applyDamage(10);
         assertThat(aWarMachine.getCurrentHp()).isEqualTo(aWarMachine.getStats().getMaxHp()-10);
     }
     @Test

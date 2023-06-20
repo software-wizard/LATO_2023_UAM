@@ -1,12 +1,13 @@
 package pl.psi.creatures;
 
 import lombok.Getter;
+import pl.psi.Defendable;
 
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class BattleUnit {
+public class BattleUnit implements Defendable {
     //wrapper for Creature and WarMachine to co-exist within turnQueue etc.
     @Getter
     private final Creature creatureVal;
@@ -38,6 +39,7 @@ public class BattleUnit {
         }
     }
 
+    @Override
     public int getCurrentHp(){
         if(isCreature()){
             return getCreatureVal().getCurrentHp();
@@ -46,6 +48,7 @@ public class BattleUnit {
         }
     }
 
+    @Override
     public int getMaxHp(){
         if(isCreature()){
             return getCreatureVal().getMaxHp();
@@ -54,19 +57,37 @@ public class BattleUnit {
         }
     }
 
-    public void attack(final BattleUnit defender){
-        if(defender.isCreature()){
-            if(isCreature()){
-                getCreatureVal().attack(defender.getCreatureVal());
-            }else{
-                if(getWarMachineVal().canAttack()) {
-                    getWarMachineVal().attack(defender.getCreatureVal());
-                }
-            }
+    @Override
+    public void setCurrentHp(int i){
+        if(isCreature()){
+            getCreatureVal().setCurrentHp(i);
         }else{
-            if(isCreature()){
-                getCreatureVal().attack(defender.getWarMachineVal());
-            }
+            getWarMachineVal().setCurrentHp(i);
+        }
+    }
+
+    @Override
+    public void counterAttack(Creature aDefender){
+        if(isCreature()){
+            getCreatureVal().counterAttack(aDefender);
+        }
+    }
+
+    @Override
+    public int getArmor() {
+        if(isCreature()){
+            return getCreatureVal().getArmor();
+        }else{
+            return getWarMachineVal().getStats().getArmor();
+        }
+    }
+
+    @Override
+    public void attack(final Defendable aDefender){
+        if(isCreature()){
+            getCreatureVal().attack(aDefender);
+        }else{
+            getWarMachineVal().attack(aDefender);
         }
     }
 
@@ -126,12 +147,27 @@ public class BattleUnit {
         }
     }
 
-    public void applyDamage(final BattleUnit aDefender, final int aDamage){
+    @Override
+    public void applyDamage(final int aDamage){
         if(isCreature()){
-            getCreatureVal().applyDamage(aDefender.getCreatureVal(), aDamage);
+            getCreatureVal().applyDamage(aDamage);
         }else{
-            getWarMachineVal().applyDamage(aDefender.getWarMachineVal(), aDamage);
+            getWarMachineVal().applyDamage(aDamage);
         }
+    }
+
+    @Override
+    public int getCounterAttackCounter(){
+        if(isCreature()){
+            return getCreatureVal().getCounterAttackCounter();
+        }else{
+            return 0;
+        }
+    }
+
+    @Override
+    public boolean isTransparent() {
+        return false;
     }
 
     @Override

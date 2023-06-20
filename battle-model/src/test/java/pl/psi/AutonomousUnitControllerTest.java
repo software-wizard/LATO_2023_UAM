@@ -7,6 +7,7 @@ import pl.psi.creatures.CreatureStats;
 import pl.psi.creatures.WarMachine;
 import pl.psi.warmachines.WarMachineStatistic;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,8 +25,8 @@ public class AutonomousUnitControllerTest {
 
     @Test
     void turnShouldPassWhenWarMachineIsNotControllable(){
-        final Hero aHero1 = new Hero(List.of(aCreature1, aWarMachine));
-        final Hero aHero2 = new Hero(List.of(aCreature2));
+        final Hero aHero1 = new Hero(List.of(aCreature1, aWarMachine), Collections.emptyList());
+        final Hero aHero2 = new Hero(List.of(aCreature2), Collections.emptyList());
 
         final TurnQueue turnQueue = new TurnQueue( aHero1.getBattleUnits(), aHero2.getBattleUnits());
 

@@ -68,7 +68,7 @@ public class MainBattleController implements PropertyChangeListener {
                     gridMap.add(mapTile, x, y);
                 }
             }
-        }
+        });
     }
 
     @Override

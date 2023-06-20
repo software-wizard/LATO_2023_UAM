@@ -31,7 +31,7 @@ public class GameEngine {
         hero1 = aHero1;
         hero2 = aHero2;
         turnQueue = new TurnQueue(hero1.getBattleUnits(), hero2.getBattleUnits());
-        board = new Board(hero1.getBattleUnits(), hero2.getBattleUnits());
+        board = new Board(hero1.getBattleUnits(), hero2.getBattleUnits(), obstaclesList.getObstaclePlacement());
 
         autonomousUnitController = new AutonomousUnitController(aHero1, aHero2, this::pass);
         addObserver(autonomousUnitController);
@@ -62,14 +62,14 @@ public class GameEngine {
     public void move(final Point aPoint) {
             Runnable runnable = (() -> {
                 Map<Point, Integer> obstacles = Collections.emptyMap();
-                Point startPoint = getPosition(turnQueue.getCurrentCreature());
+                Point startPoint = getPosition(turnQueue.getCurrentBattleUnit());
 
                 Node startingNode = new Node(startPoint.getX(), startPoint.getY());
                 Node goalNode = new Node(aPoint.getX(), aPoint.getY());
                 List<Node> path = generateMovesList(startingNode, goalNode, obstacles);
                 if (path != null) {
                     for (Node node : path) {
-                        board.move(turnQueue.getCurrentCreature(), node);
+                        board.move(turnQueue.getCurrentBattleUnit(), node);
                         observerSupport.firePropertyChange(UNIT_MOVED, startingNode, node);
                         try {
                             Thread.sleep(500);
@@ -229,14 +229,15 @@ public class GameEngine {
 
     public void castSpell(final Point aPoint, Spell aSpell) {
         if (board.getBattleUnit(aPoint).isPresent()) {
+            if (board.getBattleUnit(aPoint).get().isCreature()) {
+                SpellFailureCalculator s = new SpellFailureCalculator();
+                Creature c = (board.getBattleUnit(aPoint).get().getCreatureVal());
 
-            SpellFailureCalculator s = new SpellFailureCalculator();
-            Creature c = (board.getBattleUnit(aPoint).get());
-
-            if(s.spellWillNotFail(c)){
-                aSpell.cast(board.getBattleUnit(aPoint).get());
+                if (s.spellWillNotFail(c)) {
+                    aSpell.cast(board.getBattleUnit(aPoint).get().getCreatureVal());
+                }
+                pass();
             }
-            pass();
         }
     }
 
@@ -245,7 +246,7 @@ public class GameEngine {
     }
 
     public List<Spell> getSpellBook() {
-        if (hero1.getCreatures().contains(turnQueue.getCurrentCreature())) {
+        if (hero1.getBattleUnits().contains(turnQueue.getCurrentBattleUnit())) {
             return hero1.getSpellBook();
         } else {
             return hero2.getSpellBook();
