@@ -7,9 +7,12 @@ import org.junit.jupiter.api.Test;
 import pl.psi.*;
 import pl.psi.creatures.Creature;
 import pl.psi.creatures.CreatureStats;
+import pl.psi.creatures.NecropolisFactory;
+
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class ObstacleTest {
     @Test
@@ -28,18 +31,18 @@ public class ObstacleTest {
         assertThat(basicRock.getCurrentHp()).isEqualTo(3);
     }
 
-    @Test
-    void ObjectShouldRemoveWhenDestroyed(){
-        final Obstacle basicRock = new Obstacle(ObstacleTestStats.builder().maxHp(4).build());
-
-        basicRock.applyDamage(1);
-        basicRock.applyDamage(1);
-        basicRock.applyDamage(1);
-        basicRock.applyDamage(1);
-
-        assertThat(Objects.isNull(basicRock));
-        //TODO assertion is always false
-    }
+//    @Test
+//    void ObjectShouldRemoveWhenDestroyed(){
+//        final Obstacle basicRock = new Obstacle(ObstacleTestStats.builder().maxHp(4).build());
+//
+//        basicRock.applyDamage(1);
+//        basicRock.applyDamage(1);
+//        basicRock.applyDamage(1);
+//        basicRock.applyDamage(1);
+//
+//        assertNull(basicRock);
+//        //TODO assertion is always false
+//    }
 
     @Test
     void ObstacleIsPresentOnTheMap(){
@@ -62,5 +65,15 @@ public class ObstacleTest {
         assertThat(gameEngine.getObject(rockPoint)).contains(basicRock);    //obstacle on the map
         assertThat(gameEngine.getObject(emptyPoint)).isEmpty(); //empty point is empty
         assertThat((gameEngine.canMove(rockPoint))).isEqualTo(false);   //obstacle cannot move
+    }
+    @Test
+    void ObstacleShouldCastSpell(){
+        final Obstacle firewall = new ObstacleFactory().create("Firewall");
+
+        final Creature skeleton = new NecropolisFactory().create( false, 1, 5 );
+
+        assertThat(skeleton.getCurrentHp()).isEqualTo(6);
+        firewall.applyEffectOnTouch(skeleton);  //casting spell
+        assertThat(skeleton.getCurrentHp()).isEqualTo(-11); // fireball dealt damage
     }
 }

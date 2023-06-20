@@ -86,6 +86,7 @@ public class Start extends Application
         aObstaclePlacement.put(new Point(5,5),new ObstacleFactory().create("Spikes") );
         aObstaclePlacement.put(new Point(6,2),new ObstacleFactory().create("Firewall") );
         aObstaclePlacement.put(new Point(1,1),new ObstacleFactory().create("Tree") );
+        aObstaclePlacement.put(new Point(2,7),new ObstacleFactory().create("Healing Totem") );
 
         final ObstaclePlacementList ret = new ObstaclePlacementList(aObstaclePlacement
         );

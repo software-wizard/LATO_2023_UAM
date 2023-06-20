@@ -9,8 +9,8 @@ import com.google.common.collect.HashBiMap;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import pl.psi.creatures.Creature;
-import pl.psi.creatures.CreatureStats;
+import pl.psi.creatures.*;
+import pl.psi.specialFields.EffectStatusTrap;
 import pl.psi.specialFields.Obstacle;
 import pl.psi.specialFields.ObstacleTestStats;
 import pl.psi.specialFields.PhysicalDamageTrap;
@@ -92,5 +92,36 @@ class BoardTest
         board.performOnTouch(destination);  //angel should be damaged because it stands on the spikes
 
         assertThat(angel.getCurrentHp()).isEqualTo(95); //spikes does 5 dmg on hit
+    }
+
+    @Test
+    void ShouldApplyEffectOnTouch() {
+        final EffectStatusTrap healing_totem = new EffectStatusTrap(
+                new Obstacle(ObstacleTestStats.builder()
+                        .maxHp(100)
+                        .build()),
+                        new Spell.spellBuilder().statistic(SpellStatistic.CURE).build());
+
+
+        final Creature sceleton = new NecropolisFactory().create( false, 1, 5 );
+
+        final Point destination = new Point(3,2);
+
+        final List<Creature> creatures = new ArrayList<>();
+        creatures.add(sceleton);
+        final BiMap<Point, Obstacle> obstacles = HashBiMap.create();
+        obstacles.put(destination, healing_totem);
+
+        final Board board = new Board(creatures, Collections.emptyList(), obstacles);
+
+        board.move(sceleton, destination); //moves onto the spikes, stomps on them
+        assertThat(board.getObject(destination)).contains(sceleton);
+
+        sceleton.applyDamage(2);
+        assertThat(sceleton.getCurrentHp()).isEqualTo(4); //deal 2 damage to the creature
+
+        board.performOnTouch(destination);  //angel should be healed because it stands on the spikes
+
+        assertThat(sceleton.getCurrentHp()).isEqualTo(6); //angel should be healed back
     }
 }
