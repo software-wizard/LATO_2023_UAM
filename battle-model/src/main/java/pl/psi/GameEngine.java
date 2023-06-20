@@ -39,6 +39,7 @@ public class GameEngine {
 
     public GameEngine(final Hero aHero1, final Hero aHero2) {
         this(aHero1, aHero2, new ObstaclePlacementList(Collections.emptyMap()));
+    }
 
     public void attack(final Point point) {
         if(board.getBattleUnit(point).isPresent()){

@@ -20,7 +20,7 @@ class BoardTest
         final BattleUnit battleUnit = new BattleUnit(new Creature.Builder().statistic( CreatureStats.builder()
             .moveRange( 5 )
             .build() )
-            .build();
+            .build());
         final List< BattleUnit > b1 = List.of( battleUnit );
         final List< BattleUnit > b2 = List.of();
         final Board board = new Board( b1, b2, null );
