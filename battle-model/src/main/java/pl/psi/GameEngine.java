@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
 
+import lombok.Getter;
 import pl.psi.creatures.Creature;
 import pl.psi.creatures.Spell;
 
@@ -20,6 +21,8 @@ public class GameEngine {
     private final PropertyChangeSupport observerSupport = new PropertyChangeSupport(this);
     private final Hero hero1;
     private final Hero hero2;
+    @Getter
+    private final ObstaclePlacementList obstaclesList;
 
 
     public GameEngine(final Hero aHero1, final Hero aHero2, final ObstaclePlacementList obstaclesList) {
@@ -27,6 +30,7 @@ public class GameEngine {
         board = new Board(aHero1.getCreatures(), aHero2.getCreatures(), obstaclesList.getObstaclePlacement());
         hero1 = aHero1;
         hero2 = aHero2;
+        this.obstaclesList = obstaclesList;
     }
 
     public GameEngine(final Hero aHero1, final Hero aHero2) {
@@ -45,14 +49,12 @@ public class GameEngine {
     }
 
     public void move(final Point aPoint) {
-
         Runnable runnable = (() -> {
-            Map<Point, Integer> obstacles = Collections.emptyMap();
             Point startPoint = getPosition(turnQueue.getCurrentCreature());
 
             Node startingNode = new Node(startPoint.getX(), startPoint.getY());
             Node goalNode = new Node(aPoint.getX(), aPoint.getY());
-            List<Node> path = generateMovesList(startingNode, goalNode, obstacles);
+            List<Node> path = generateMovesList(startingNode, goalNode);
             if (path != null) {
                 for (Node node : path) {
                     board.move(turnQueue.getCurrentCreature(), node);
@@ -88,10 +90,14 @@ public class GameEngine {
             //RIGHT
             list.add(new Node(x + 1, y));
         }
+        if(!obstaclesList.getObstaclePlacement().isEmpty()){
+            list.forEach(this::chooseWeight);
+        }
+
         return list;
     }
 
-    public List<Node> generateMovesList(Node startingNode, Node destinationNode, Map<Point, Integer> obstacles) {
+    public List<Node> generateMovesList(Node startingNode, Node destinationNode) {
         PriorityQueue<Node> openNodes = new PriorityQueue<>();
         ArrayList<Node> explored = new ArrayList<>();
 
@@ -111,7 +117,7 @@ public class GameEngine {
 
             for (Node neighbour : neighbours) {
 
-                chooseWeight(neighbour, obstacles);
+//                chooseWeight(neighbour, obstacles);
                 int h = calculateHeuristic(neighbour, destinationNode);
                 int g = neighbour.getWeight() + currentNode.getCostToReach();
                 int f = g + h;
@@ -145,13 +151,18 @@ public class GameEngine {
         return null;
     }
 
-    private void chooseWeight(Node aNode, Map<Point, Integer> obstacles) {
+    private void chooseWeight(Node aNode) {
 
-        if (obstacles.containsKey(aNode)) {
-            aNode.setWeight(obstacles.get(aNode));
-            return;
+//        if (obstacles.containsKey(aNode)) {
+//            aNode.setWeight(obstacles.get(aNode));
+//            return;
+//        }
+//        aNode.setWeight(1);
+        if (obstaclesList.getObstaclePlacement().containsKey(aNode)) {
+            String name = obstaclesList.getObstaclePlacement().get(aNode).getName();
+            //TODO
+            aNode.setWeight(10);
         }
-        aNode.setWeight(1);
     }
 
     private List<Node> reconstructPath(Node current) {

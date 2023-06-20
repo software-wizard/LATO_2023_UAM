@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import pl.psi.creatures.CastleCreatureFactory;
 import pl.psi.creatures.BastionCreatureFactory;
 import pl.psi.creatures.Creature;
+import pl.psi.specialFields.Obstacle;
+import pl.psi.specialFields.ObstacleFactory;
 
 
 /**
@@ -60,38 +62,46 @@ public class GameEngineTest {
 
     @Test
     @Disabled
-    void shouldMoveToAGivenPoint() {
+    void shouldMoveToAGivenPoint(){
         final CastleCreatureFactory creatureFactory = new CastleCreatureFactory();
+        HashMap<Point, Obstacle> aObstaclePlacement = new HashMap<>();
+        ObstaclePlacementList obstaclePlacementList =  new ObstaclePlacementList(aObstaclePlacement);
+
         final GameEngine gameEngine =
                 new GameEngine(new Hero(List.of(creatureFactory.create(1, false, 5)),Collections.emptyList()),
-                        new Hero(List.of(creatureFactory.create(1, false, 5)),Collections.emptyList()));
+                        new Hero(List.of(creatureFactory.create(1, false, 5)),Collections.emptyList()),obstaclePlacementList);
         Optional<Creature> creature = gameEngine.getCreature(new Point(0, 1));
+
         gameEngine.move(new Point(2, 3));
         Optional<Creature> creature_expected = gameEngine.getCreature(new Point(2, 3));
         Assertions.assertEquals(creature, creature_expected);
     }
 
     @Test
-    @Disabled
     void shouldGenerateActualMovesList() {
         final CastleCreatureFactory creatureFactory = new CastleCreatureFactory();
+        HashMap<Point, Obstacle> aObstaclePlacement = new HashMap<>();
+        aObstaclePlacement.put(new Point(2,0),new ObstacleFactory().create(1,1) );
+        aObstaclePlacement.put(new Point(3,1),new ObstacleFactory().create(1,1) );
+        ObstaclePlacementList obstaclePlacementList =  new ObstaclePlacementList(aObstaclePlacement);
+
         final GameEngine gameEngine =
                 new GameEngine(new Hero(List.of(creatureFactory.create(1, false, 5)),Collections.emptyList()),
-                        new Hero(List.of(creatureFactory.create(1, false, 5)),Collections.emptyList()));
+                        new Hero(List.of(creatureFactory.create(1, false, 5)),Collections.emptyList()),obstaclePlacementList);
 
-        Optional<Creature> creature = gameEngine.getCreature(new Point(0, 0));
+//        Optional<Creature> creature = gameEngine.getCreature(new Point(0, 0));
         Node start = new Node(0, 0);
         Node goal = new Node(4, 0);
 
         Map<Point, Integer> obstacles = new HashMap<>();
-        obstacles.put(new Point(2, 0), Integer.MAX_VALUE);
-        obstacles.put(new Point(3, 1), Integer.MAX_VALUE);
+
 
         List<Node> actualMovesList = Arrays.asList(new Node(0, 0), new Node(1, 0),
                 new Node(1, 1), new Node(2, 1), new Node(2, 2), new Node(3, 2),
                 new Node(4, 2), new Node(4, 1), new Node(4, 0));
 
-        List<Node> expectedMovesList = gameEngine.generateMovesList(start, goal, obstacles);
+//        List<Node> expectedMovesList = gameEngine.generateMovesList(start, goal, obstacles);
+        List<Node> expectedMovesList = gameEngine.generateMovesList(start, goal);
         System.out.println(expectedMovesList);
 //        expectedMovesList.forEach(e -> System.out.println(e.getCost()));
         Assertions.assertIterableEquals(actualMovesList, expectedMovesList);

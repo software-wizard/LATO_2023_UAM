@@ -61,6 +61,7 @@ public class Board {
         return Optional.of(map.get(aPoint))
                 .filter(Creature.class::isInstance)
                 .map(Creature.class::cast);
+
     }
 
     boolean canMove(final Creature aCreature, final Point aPoint) {

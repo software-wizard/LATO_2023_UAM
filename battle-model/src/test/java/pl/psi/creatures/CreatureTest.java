@@ -199,6 +199,7 @@ public class CreatureTest {
                 .build();
 
         attacker.attack(defender);
+
         assertThat(defender.getCurrentHp()).isEqualTo(80);
     }
 }

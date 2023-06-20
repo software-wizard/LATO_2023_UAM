@@ -16,7 +16,7 @@ public class Node extends Point implements Comparable<Node> {
 
     public Node(int aX, int aY) {
         super(aX, aY);
-        this.weight = 0;
+        this.weight = 1;
         this.costToReach = 0;
         this.cost = 0;
         this.parent = null;
