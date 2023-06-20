@@ -27,8 +27,8 @@ public class Hero
         battleUnits = aBattleUnits;
         spellBook = aSpellBook;
     }
-    public boolean isAlly(BattleUnit aBattleUnit1, BattleUnit aBattleUnit2){
-        return battleUnits.contains(aBattleUnit1) == battleUnits.contains(aBattleUnit2);
+    public boolean isAlly(Defendable aBattleUnit1, Defendable aBattleUnit2){
+        return aBattleUnit1 instanceof BattleUnit && aBattleUnit2 instanceof BattleUnit && battleUnits.contains(aBattleUnit1) == battleUnits.contains(aBattleUnit2);
     }
 
     public List<Creature> getCreatures(){

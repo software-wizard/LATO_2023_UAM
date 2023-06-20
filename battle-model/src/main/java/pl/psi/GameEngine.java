@@ -206,7 +206,7 @@ public class GameEngine {
             if (turnQueue.getCurrentBattleUnit().isCreature()) {
                 double distance = board.getPosition(turnQueue.getCurrentBattleUnit())
                         .distance(point);
-                return distance < 2 && distance > 0 && !hero1.isAlly(turnQueue.getCurrentBattleUnit(), board.getBattleUnit(point).get());
+                return distance < 2 && distance > 0 && !hero1.isAlly(turnQueue.getCurrentBattleUnit(), board.getObject(point).get());
             } else {
                 if (turnQueue.getCurrentBattleUnit().canAttack()) {
                     return !hero1.isAlly(turnQueue.getCurrentBattleUnit(), board.getBattleUnit(point).get());
@@ -217,7 +217,7 @@ public class GameEngine {
     }
 
     public boolean canHeal(final Point point){
-        if(board.getBattleUnit(point).isPresent()){
+        if(board.getObject(point).isPresent()){
             if(turnQueue.getCurrentBattleUnit().isWarMachine() && board.getBattleUnit(point).get().isCreature()){
                 return hero1.isAlly(turnQueue.getCurrentBattleUnit(), board.getBattleUnit(point).get())
                         && board.getBattleUnit(point).get().getCurrentHp() < board.getBattleUnit(point).get().getMaxHp()
@@ -242,7 +242,7 @@ public class GameEngine {
     }
 
     public boolean isCurrentBattleUnit(Point aPoint) {
-        return Optional.of(turnQueue.getCurrentBattleUnit()).equals(board.getBattleUnit(aPoint));
+        return Optional.of(turnQueue.getCurrentBattleUnit()).equals(board.getObject(aPoint));
     }
 
     public List<Spell> getSpellBook() {
