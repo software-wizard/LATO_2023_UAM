@@ -1,6 +1,7 @@
 package pl.psi.warmachines;
 
 import com.google.common.collect.Range;
+import pl.psi.creatures.WarMachineType;
 
 public interface WarMachineStatisticIf {
     String getName();
@@ -9,4 +10,5 @@ public interface WarMachineStatisticIf {
     int getMaxHp();
     Range< Integer > getDamage();
     String getDescription();
+    WarMachineType getType();
 }

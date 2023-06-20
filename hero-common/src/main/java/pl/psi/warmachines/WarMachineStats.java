@@ -3,6 +3,7 @@ package pl.psi.warmachines;
 import com.google.common.collect.Range;
 import lombok.Builder;
 import lombok.Getter;
+import pl.psi.creatures.WarMachineType;
 
 @Getter
 @Builder
@@ -13,4 +14,5 @@ public class WarMachineStats implements WarMachineStatisticIf{
     private final int maxHp;
     private final Range< Integer > damage;
     private final String description;
+    private final WarMachineType type;
 }

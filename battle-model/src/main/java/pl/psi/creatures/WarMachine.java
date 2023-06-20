@@ -3,8 +3,10 @@ package pl.psi.creatures;
 import lombok.Getter;
 import lombok.Setter;
 import pl.psi.Defendable;
+import pl.psi.interfaces.SkillsInterface;
 import pl.psi.warmachines.WarMachineStatisticIf;
 
+import java.util.List;
 import java.util.Random;
 
 @Getter
@@ -13,23 +15,23 @@ public class WarMachine implements Defendable {
     @Setter
     private int currentHp;
 
-    private int relevantSkill;
+    private int controlSkill;
 
-
+    private List<SkillsInterface> relevantSkills;
     WarMachine(){
     }
 
-    private WarMachine(final WarMachineStatisticIf aStats, final int aRelevantSkill){
+    private WarMachine(final WarMachineStatisticIf aStats, final int aControlSkill){
         currentHp = aStats.getMaxHp();
         stats = aStats;
-        relevantSkill = aRelevantSkill;
+        controlSkill = aControlSkill;
     }
 
     public void heal(final Creature creature){
         if(isAlive()) {
             final Random tmpRand = new Random();
 
-            creature.setCurrentHp(creature.getCurrentHp() + (tmpRand.nextInt(25 + (25 * getRelevantSkill())) + 1));
+            creature.setCurrentHp(creature.getCurrentHp() + (tmpRand.nextInt(25 + (25 * getControlSkill())) + 1));
             if (creature.getCurrentHp() > creature.getMaxHp()) {
                 creature.setCurrentHp(creature.getMaxHp());
             }
@@ -50,11 +52,11 @@ public class WarMachine implements Defendable {
     }
 
     public boolean canAttack(){
-        return getStats().getName().equals("Ballista");
+        return getStats().getType().equals(WarMachineType.ATTACK);
     }
-    public boolean canHeal() { return getStats().getName().equals("First Aid Tent");}
+    public boolean canHeal() { return getStats().getType().equals(WarMachineType.HEAL);}
 
-    public boolean canSiege() { return getStats().getName().equals("Catapult");}
+    public boolean canSiege() { return getStats().getType().equals(WarMachineType.SIEGE);}
 
     @Override
     public int getMaxHp() {
@@ -70,13 +72,14 @@ public class WarMachine implements Defendable {
         }
     }
 
+    @Override
     public void applyDamage(final int aDamage){
         setCurrentHp(getCurrentHp()-aDamage);
     }
 
     @Override
     public void counterAttack(Creature aDefender) {
-        //does nothing, added only for Defendable compatibility
+        //does nothing, added only for Defendable interface compatibility
     }
 
     @Override
@@ -90,7 +93,7 @@ public class WarMachine implements Defendable {
     }
 
     public boolean isControllable() {
-        return getRelevantSkill() != 0;
+        return getControlSkill() != 0;
     }
 
     @Override
@@ -101,7 +104,7 @@ public class WarMachine implements Defendable {
     public static class Builder{
 
         private WarMachineStatisticIf statistic;
-        private int relSkill;
+        private int controlSkill;
 
 
         public Builder statistic(final WarMachineStatisticIf aStatistic){
@@ -109,13 +112,13 @@ public class WarMachine implements Defendable {
             return this;
         }
 
-        public Builder relSkill(final int aRelSkill){
-            relSkill = aRelSkill;
+        public Builder controlSkill(final int aControlSkill){
+            controlSkill = aControlSkill;
             return this;
         }
 
         public WarMachine build(){
-            return new WarMachine(statistic, relSkill);
+            return new WarMachine(statistic, controlSkill);
         }
     }
 

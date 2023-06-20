@@ -32,7 +32,7 @@ public class GameEngineTest
         final GameEngine gameEngine =
                 new GameEngine(new Hero(
                         List.of(
-                                new BattleUnit(new WarMachine.Builder().statistic(WarMachineStatistic.FIRST_AID_TENT).relSkill(0).build()),
+                                new BattleUnit(new WarMachine.Builder().statistic(WarMachineStatistic.FIRST_AID_TENT).controlSkill(0).build()),
                                 new BattleUnit(creatureFactory.create(1, false, 5))), Collections.emptyList()),
                         new Hero(List.of(new BattleUnit(creatureFactory.create(1, false, 5))), Collections.emptyList()));
         gameEngine.heal(new Point(1, 1));
