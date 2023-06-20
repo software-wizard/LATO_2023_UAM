@@ -93,18 +93,8 @@ public class Board {
     void performOnTouch(Point aPoint){
         if (objectsStandAtSamePoint(aPoint)){
             this.overrideMap.get(aPoint).applyEffectOnTouch(this.map.get(aPoint));
-//            this.overrideMap.get(aPoint).applyEffectOnTouch(defender -> defender.applyEffectOnTouch(this.map.get(aPoint)));
         }
     }
-
-//    public void processDefendableAt(Point key, Consumer<Defendable> defender) {
-//        if (objectsStandAtSamePoint(key)) {
-//            Defendable defendable = map.get(key);
-//            if (defendable != null) {
-//                defender.accept(defendable);
-//            }
-//        }
-//    }
 
     Point getPosition(Defendable aDefendable) {
         return map.inverse()

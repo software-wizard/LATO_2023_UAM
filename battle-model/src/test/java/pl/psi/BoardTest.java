@@ -39,7 +39,7 @@ class BoardTest
         final PhysicalDamageTrap spikes = new PhysicalDamageTrap(
                 new Obstacle(ObstacleTestStats.builder()
                         .maxHp(2)
-                        .build()), 0);
+                        .build()), 0, null);
         final Creature angel = new Creature.Builder().statistic(CreatureStats.builder()
                         .maxHp(100)
                         .moveRange(20)
@@ -69,7 +69,7 @@ class BoardTest
         final PhysicalDamageTrap spikes = new PhysicalDamageTrap(
                 new Obstacle(ObstacleTestStats.builder()
                         .maxHp(2)
-                        .build()), 5);
+                        .build()), 5, null);
         final Creature angel = new Creature.Builder().statistic(CreatureStats.builder()
                         .maxHp(100)
                         .moveRange(20)

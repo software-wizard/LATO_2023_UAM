@@ -74,12 +74,12 @@ public class Creature implements PropertyChangeListener, Defendable {
     public int getMaxHp() {
         return stats.getMaxHp();
     }
-
+    @Override
     public void updateStats(CreatureStatisticIf stats){
         this.stats = this.stats.plus(stats);
     }
-
-    protected CreatureStatisticIf getStats() {
+    @Override
+    public CreatureStatisticIf getStats() {
         return stats;
     }
 
@@ -110,8 +110,8 @@ public class Creature implements PropertyChangeListener, Defendable {
     public int getArmor() {
         return stats.getArmor();
     }
-
-    SpellProtection getSpellDamageProtection() {
+    @Override
+    public SpellProtection getSpellDamageProtection() {
         return stats.getSpellDamageProtection();
     }
 

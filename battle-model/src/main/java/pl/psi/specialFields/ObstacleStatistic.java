@@ -8,9 +8,10 @@ public enum ObstacleStatistic implements ObstacleStatisticIf {
     ROCK("Rock", 4,Integer.MAX_VALUE,"basic rock obstacle"),
     TREE("Tree", 4, Integer.MAX_VALUE, "freestanding tree obstacle"),
     BOULDER("Boulder", 7, Integer.MAX_VALUE,"a rock but much bigger and harder"),
-    SPIKES("Spikes", 4,500, "apply damage when being stomped at"),
-    TOTEM("Totem", 1, 2000, "apply course when passed by");
-    //firewall
+    SPIKES("Spikes", 1,500, "apply damage when being stomped at"),
+    FIREWALL("Firewall", 2, 3000, "deals fire damage and applies burning effect"),
+    WEAKNESS_TOTEM("Weakness Totem", 1, 1000, "apply course when passed by"),
+    HEALING_TOTEM("Healing Totem", 1, 10, "heals when passed by");
 
 
     private final String name;

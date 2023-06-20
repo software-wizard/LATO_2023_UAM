@@ -2,7 +2,7 @@ package pl.psi;
 
 import pl.psi.creatures.Creature;
 
-public interface Defendable extends Transparency{
+public interface Defendable extends Transparency, SpellProperties{
 
      int getMaxHp();
 
@@ -19,4 +19,6 @@ public interface Defendable extends Transparency{
      int getArmor();
 
      int getCounterAttackCounter();
+
+     boolean isAlive();
 }

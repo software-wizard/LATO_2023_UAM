@@ -3,6 +3,9 @@ package pl.psi.specialFields;
 import lombok.Getter;
 import pl.psi.Defendable;
 import pl.psi.creatures.Creature;
+import pl.psi.creatures.CreatureStatistic;
+import pl.psi.creatures.CreatureStatisticIf;
+import pl.psi.creatures.SpellProtection;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -49,6 +52,11 @@ public class Obstacle implements PropertyChangeListener, Defendable {
         return 0;
     }
 
+    @Override
+    public boolean isAlive() {
+        return this.getCurrentHp() > 0;
+    }
+
     public String getName() {
         return stats.getName();
     }
@@ -91,4 +99,17 @@ public class Obstacle implements PropertyChangeListener, Defendable {
     public String toString() {
         return getName();
     }
+
+    @Override
+    public SpellProtection getSpellDamageProtection() {
+        return null;
+    }
+
+    public CreatureStatisticIf getStats() {
+        CreatureStatisticIf placeholder = null;
+        return placeholder;
+    }
+
+    @Override
+    public void updateStats(CreatureStatisticIf updatedStats) {}
 }

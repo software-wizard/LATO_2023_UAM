@@ -2,15 +2,20 @@ package pl.psi.specialFields;
 
 import pl.psi.Defendable;
 import pl.psi.creatures.Creature;
+import pl.psi.creatures.CreatureStatisticIf;
+import pl.psi.creatures.SpellProtection;
 
 import java.beans.PropertyChangeEvent;
 import java.util.function.Consumer;
 
 abstract class TransparentObstacle extends Obstacle{
     private final Obstacle decorated;
+    private Consumer<Obstacle> obstacleRemoveMethod;
 
     public TransparentObstacle (final Obstacle aObstacle){
+
         decorated = aObstacle;
+        obstacleRemoveMethod = (c) -> {};
     }
 //    private Effect effect = aDefendable -> {applyEffectOnTouch(aDefendable);};
 ////    private Damage damage = aDefendable -> {};
@@ -22,6 +27,11 @@ abstract class TransparentObstacle extends Obstacle{
         //do sth when stomped at
     }
 
+    @Override
+    public CreatureStatisticIf getStats(){
+        return decorated.getStats();
+    };
+
 
     @Override
     public int getMaxHp() {
@@ -31,6 +41,11 @@ abstract class TransparentObstacle extends Obstacle{
     @Override
     public void setCurrentHp(final int aCurrentHp) {
         decorated.setCurrentHp(aCurrentHp);
+    }
+
+    @Override
+    public boolean isAlive() {
+        return decorated.isAlive();
     }
 
     @Override
@@ -60,6 +75,9 @@ abstract class TransparentObstacle extends Obstacle{
     @Override
     public void applyDamage(int dmg) {
         decorated.applyDamage(dmg);
+        if(this.getCurrentHp()<=0){
+            obstacleRemoveMethod.accept(this);
+        };
     }
 
 
@@ -73,14 +91,24 @@ abstract class TransparentObstacle extends Obstacle{
         decorated.attack(aDefender);
         //they do not attack
     }
-
+    @Override
     public void setObstacleRemoveMethod(Consumer<Obstacle> aObstacleRemoverMethod) {
-        decorated.setObstacleRemoveMethod(aObstacleRemoverMethod);
+        obstacleRemoveMethod = aObstacleRemoverMethod;
     }
 
     @Override
     public boolean isTransparent() {
         return true;
+    }
+
+    @Override
+    public SpellProtection getSpellDamageProtection() {
+        return decorated.getSpellDamageProtection();
+    }
+
+    @Override
+    public void updateStats(CreatureStatisticIf updatedStats) {
+        decorated.updateStats(updatedStats);
     }
 
     @Override

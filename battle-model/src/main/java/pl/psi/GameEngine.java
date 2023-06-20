@@ -64,11 +64,16 @@ public class GameEngine {
                         throw new RuntimeException(e);
                     }
                     startingNode = node;
+                    applyEffectOnPoint(node);
                 }
             }
         });
         Thread thread = new Thread(runnable);
         thread.start();
+    }
+
+    public void applyEffectOnPoint(Point aPoint){
+        board.performOnTouch(aPoint);
     }
 
     public List<Node> generateNeigboursList(int x, int y) {
