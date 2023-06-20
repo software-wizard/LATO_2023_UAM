@@ -103,8 +103,27 @@ public class GameEngineTest {
 //        List<Node> expectedMovesList = gameEngine.generateMovesList(start, goal, obstacles);
         List<Node> expectedMovesList = gameEngine.generateMovesList(start, goal);
         System.out.println(expectedMovesList);
+
 //        expectedMovesList.forEach(e -> System.out.println(e.getCost()));
         Assertions.assertIterableEquals(actualMovesList, expectedMovesList);
+    }
+    @Test
+    void shouldChooseCorrectWeight(){
+        final CastleCreatureFactory creatureFactory = new CastleCreatureFactory();
+        HashMap<Point, Obstacle> aObstaclePlacement = new HashMap<>();
+        aObstaclePlacement.put(new Point(2,0),new ObstacleFactory().create(1,1) );
+        ObstaclePlacementList obstaclePlacementList =  new ObstaclePlacementList(aObstaclePlacement);
+
+        final GameEngine gameEngine =
+                new GameEngine(new Hero(List.of(creatureFactory.create(1, false, 5)),Collections.emptyList()),
+                        new Hero(List.of(creatureFactory.create(1, false, 5)),Collections.emptyList()),obstaclePlacementList);
+        Node node = new Node(2,0);
+        gameEngine.chooseWeight(node);
+        int actualWeight = node.getWeight();
+        int expectedWeight = 10;
+
+        Assertions.assertEquals(expectedWeight, actualWeight);
+
     }
 
 }

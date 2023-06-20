@@ -7,6 +7,7 @@ import java.util.*;
 import lombok.Getter;
 import pl.psi.creatures.Creature;
 import pl.psi.creatures.Spell;
+import pl.psi.specialFields.ObstaclesWeight;
 
 import static java.lang.Math.abs;
 
@@ -117,7 +118,6 @@ public class GameEngine {
 
             for (Node neighbour : neighbours) {
 
-//                chooseWeight(neighbour, obstacles);
                 int h = calculateHeuristic(neighbour, destinationNode);
                 int g = neighbour.getWeight() + currentNode.getCostToReach();
                 int f = g + h;
@@ -151,17 +151,34 @@ public class GameEngine {
         return null;
     }
 
-    private void chooseWeight(Node aNode) {
+    public void chooseWeight(Node aNode) {
 
-//        if (obstacles.containsKey(aNode)) {
-//            aNode.setWeight(obstacles.get(aNode));
-//            return;
-//        }
-//        aNode.setWeight(1);
         if (obstaclesList.getObstaclePlacement().containsKey(aNode)) {
             String name = obstaclesList.getObstaclePlacement().get(aNode).getName();
-            //TODO
-            aNode.setWeight(10);
+            int weight = 1;
+           if (Objects.equals(name, ObstaclesWeight.BOULDER.getName())){
+                weight = ObstaclesWeight.BOULDER.getWeight();
+            }
+           else if(Objects.equals(name,ObstaclesWeight.SPIKES.getName())){
+               weight = ObstaclesWeight.SPIKES.getWeight();
+           }
+           else if(Objects.equals(name,ObstaclesWeight.FIREWALL.getName())){
+               weight = ObstaclesWeight.FIREWALL.getWeight();
+           }
+           else if(Objects.equals(name,ObstaclesWeight.WEAKNESS_TOTEM.getName())){
+               weight = ObstaclesWeight.WEAKNESS_TOTEM.getWeight();
+           }
+           else if(Objects.equals(name,ObstaclesWeight.HEALING_TOTEM.getName())){
+               weight = ObstaclesWeight.HEALING_TOTEM.getWeight();
+           }
+           else if(Objects.equals(name,ObstaclesWeight.ROCK.getName())){
+               weight = ObstaclesWeight.ROCK.getWeight();
+           }
+           else if(Objects.equals(name,ObstaclesWeight.TREE.getName())){
+               weight = ObstaclesWeight.TREE.getWeight();
+           }
+
+            aNode.setWeight(weight);
         }
     }
 
