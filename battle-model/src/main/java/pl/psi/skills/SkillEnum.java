@@ -1,7 +1,7 @@
-package pl.psi.creatures;
+package pl.psi.skills;
 
 public enum SkillEnum {
     BASIC,
     ADVANCED,
-    EXPERT
+    EXPERT,
 }

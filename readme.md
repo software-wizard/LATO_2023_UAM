@@ -15,7 +15,7 @@ Projects:
     4. Czary na pola
 -------------------------------------------------------------------------------------------------
 
-- zamki/frakcje - Kantorski
+- zamki/frakcje - Kantorski, Mikolajczak
     1. Typ poruszania się,
     2. Dwie dodatkowe frakcje
 -------------------------------------------------------------------------------------------------
@@ -26,18 +26,18 @@ Projects:
     4. Przszkody do zaatakowania
 -------------------------------------------------------------------------------------------------
 
-- ekonomia ->
+- ekonomia - Leśniak
     1. Zakładki na kupowanie wszelakich bytów (kreatury, czary, artefakty, umiejętności)
     2. Dodatkowe gui przed z wybore frakcji oraz bohatera
     3. Artefakty mają swoje miejsca
 -------------------------------------------------------------------------------------------------
 
-- artefakty - Khatsko, zhykh, Piatrou
+- artefakty - Khatsko, zhykh, Piatrou, Putsik
     1. Spell
     2. Combat 3 Primary
 -------------------------------------------------------------------------------------------------
 
-- umiejętności - Grzesik
+- umiejętności - Grzesik, Szygenda
     1. heros
     2. 6 z góry, 4 z góry - wzmocnienie kreatury, 2 kolejne nowe mechaniki
     3. 4 z dołu, magia

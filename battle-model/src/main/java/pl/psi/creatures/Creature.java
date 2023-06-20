@@ -11,6 +11,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Random;
 
 import lombok.Setter;
+import pl.psi.Defendable;
 import pl.psi.TurnQueue;
 
 import com.google.common.collect.Range;
@@ -28,71 +29,74 @@ public class Creature implements PropertyChangeListener {
     private int currentHp;
     private int counterAttackCounter = 1;
     private DamageCalculatorIf calculator;
+    private int percentOfSpellResistance;
 
     Creature() {
     }
 
-    private Creature(final CreatureStatisticIf aStats, final DamageCalculatorIf aCalculator,
-                     final int aAmount) {
+    Creature(final CreatureStatisticIf aStats, final DamageCalculatorIf aCalculator,
+             final int aAmount) {
         stats = aStats;
         amount = aAmount;
         currentHp = stats.getMaxHp();
         calculator = aCalculator;
     }
 
-    public void attack(final Creature aDefender) {
+
+    public void attack(final Defendable aDefender) {
         if (isAlive()) {
             final int damage = getCalculator().calculateDamage(this, aDefender);
-            applyDamage(aDefender, damage);
+            aDefender.applyDamage(damage);
             if (canCounterAttack(aDefender)) {
-                counterAttack(aDefender);
+                aDefender.counterAttack(this);
             }
         }
     }
 
-    public void attack(final WarMachine aDefender){
-        if(isAlive()){
-            final int damage = getCalculator().calculateDamage(this, aDefender);
-            aDefender.applyDamage(aDefender, damage);
-        }
-    }
-
-    public boolean isAlive() {
+    protected boolean isAlive() {
         return getAmount() > 0;
     }
 
-    protected void applyDamage(final Creature aDefender, final int aDamage) {
-        int hpToSubstract = aDamage % aDefender.getMaxHp();
-        int amountToSubstract = Math.round(aDamage / aDefender.getMaxHp());
+    public void applyDamage(final int aDamage) {
+        int hpToSubstract = aDamage % this.getMaxHp();
+        int amountToSubstract = Math.round(aDamage / this.getMaxHp());
 
-        int hp = aDefender.getCurrentHp() - hpToSubstract;
+        int hp = this.getCurrentHp() - hpToSubstract;
         if (hp <= 0) {
-            aDefender.setCurrentHp(aDefender.getMaxHp() - hp);
-            aDefender.setAmount(aDefender.getAmount() - 1);
+            this.setCurrentHp(this.getMaxHp() - hp);
+            this.setAmount(this.getAmount() - 1);
         }
         else{
-            aDefender.setCurrentHp(hp);
+            this.setCurrentHp(hp);
         }
-        aDefender.setAmount(aDefender.getAmount() - amountToSubstract);
+        this.setAmount(this.getAmount() - amountToSubstract);
     }
 
     public int getMaxHp() {
         return stats.getMaxHp();
     }
 
-    protected void setCurrentHp(final int aCurrentHp) {
+    public void updateStats(CreatureStatisticIf stats){
+        this.stats = this.stats.plus(stats);
+    }
+
+    protected CreatureStatisticIf getStats() {
+        return stats;
+    }
+
+    public void setCurrentHp(final int aCurrentHp) {
         currentHp = aCurrentHp;
     }
 
-    private boolean canCounterAttack(final Creature aDefender) {
+    public boolean canCounterAttack(final Defendable aDefender) {
         return aDefender.getCounterAttackCounter() > 0 && aDefender.getCurrentHp() > 0;
     }
 
-    private void counterAttack(final Creature aAttacker) {
+    void counterAttack(final Creature aAttacker) {
         final int damage = aAttacker.getCalculator()
                 .calculateDamage(aAttacker, this);
-        applyDamage(this, damage);
-        aAttacker.counterAttackCounter--;
+        aAttacker.applyDamage(damage);
+        aAttacker.lowerCounter();
     }
 
     Range<Integer> getDamage() {
@@ -105,6 +109,10 @@ public class Creature implements PropertyChangeListener {
 
     int getArmor() {
         return stats.getArmor();
+    }
+
+    SpellProtection getSpellDamageProtection() {
+        return stats.getSpellDamageProtection();
     }
 
     @Override
@@ -126,11 +134,28 @@ public class Creature implements PropertyChangeListener {
         return stats.getMoveRange();
     }
 
+    private void lowerCounter() {
+        counterAttackCounter--;
+    }
+
     public void setDamageCalculator(DamageCalculatorIf calculator) {
         this.calculator = calculator;
     }
 
+    public void setPercentOfSpellResistance(int i)
+    {
+        this.percentOfSpellResistance = i;
+    }
+
+    public int getPercentOfSpellResistance() {
+        return this.percentOfSpellResistance;
+    }
+
     public DamageCalculatorIf getDamageCalculator() { return calculator; }
+
+    public boolean isTransparent() {
+        return false;
+    }
 
     public static class Builder {
         private int amount = 1;

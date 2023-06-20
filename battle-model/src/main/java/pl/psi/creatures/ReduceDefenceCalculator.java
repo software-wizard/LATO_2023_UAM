@@ -1,5 +1,7 @@
 package pl.psi.creatures;
 
+import pl.psi.Defendable;
+
 import java.util.Random;
 
 /**
@@ -17,7 +19,7 @@ class ReduceDefenceCalculator extends AbstractCalculateDamageStrategy
     }
 
     @Override
-    protected int getArmor( final Creature aDefender )
+    protected int getArmor( final Defendable aDefender )
     {
         return (int)(aDefender.getArmor() * factor);
     }

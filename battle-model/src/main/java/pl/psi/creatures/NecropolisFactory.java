@@ -1,8 +1,5 @@
 package pl.psi.creatures;
 
-import pl.psi.creatures.Creature;
-import pl.psi.creatures.CreatureStatistic;
-
 public class NecropolisFactory
 {
 

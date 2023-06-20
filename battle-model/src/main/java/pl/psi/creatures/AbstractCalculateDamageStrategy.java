@@ -1,5 +1,7 @@
 package pl.psi.creatures;
 
+import pl.psi.Defendable;
+
 import java.util.Random;
 
 abstract class AbstractCalculateDamageStrategy implements DamageCalculatorIf
@@ -11,15 +13,18 @@ abstract class AbstractCalculateDamageStrategy implements DamageCalculatorIf
     public static final double ATTACK_BONUS = 0.05;
     private final Random rand;
 
+
     protected AbstractCalculateDamageStrategy( final Random aRand )
     {
         rand = aRand;
     }
 
+
     @Override
-    public int calculateDamage( final Creature aAttacker, final Creature aDefender )
+    public int calculateDamage(final Creature aAttacker, final Defendable aDefender )
     {
         final int armor = getArmor( aDefender );
+
 
         final int randValue = rand.nextInt( aAttacker.getDamage()
             .upperEndpoint()
@@ -29,6 +34,8 @@ abstract class AbstractCalculateDamageStrategy implements DamageCalculatorIf
                 .lowerEndpoint();
 
         double oneCreatureDamageToDeal;
+
+
         if( aAttacker.getAttack() >= armor )
         {
             int attackPoints = aAttacker.getAttack() - armor;
@@ -36,6 +43,7 @@ abstract class AbstractCalculateDamageStrategy implements DamageCalculatorIf
             {
                 attackPoints = MAX_ATTACK_DIFF;
             }
+
             oneCreatureDamageToDeal = randValue * (1 + attackPoints * ATTACK_BONUS);
         }
         else
@@ -63,51 +71,9 @@ abstract class AbstractCalculateDamageStrategy implements DamageCalculatorIf
     }
 
 
-    @Override
-    public int calculateDamage( final Creature aAttacker, final WarMachine aDefender )
-    {
-        final int armor = getArmor( aDefender );
-
-        final int randValue = rand.nextInt( aAttacker.getDamage()
-                .upperEndpoint()
-                - aAttacker.getDamage()
-                .lowerEndpoint()
-                + 1 ) + aAttacker.getDamage()
-                .lowerEndpoint();
-
-        double oneCreatureDamageToDeal;
-        if( aAttacker.getAttack() >= armor )
-        {
-            int attackPoints = aAttacker.getAttack() - armor;
-            if( attackPoints > MAX_ATTACK_DIFF )
-            {
-                attackPoints = MAX_ATTACK_DIFF;
-            }
-            oneCreatureDamageToDeal = randValue * (1 + attackPoints * ATTACK_BONUS);
-        }
-        else
-        {
-            int defencePoints = armor - aAttacker.getAttack();
-            if( defencePoints > MAX_DEFENCE_DIFF )
-            {
-                defencePoints = MAX_DEFENCE_DIFF;
-            }
-            oneCreatureDamageToDeal = randValue * (1 - defencePoints * DEFENCE_BONUS);
-        }
-
-        if( oneCreatureDamageToDeal < 0 )
-        {
-            oneCreatureDamageToDeal = 0;
-        }
-        return (int)(aAttacker.getAmount() * oneCreatureDamageToDeal);
-    }
-
-    protected int getArmor( final Creature aDefender )
+    protected int getArmor( final Defendable aDefender )
     {
         return aDefender.getArmor();
     }
 
-    protected int getArmor(final WarMachine aDefender){
-        return aDefender.getStats().getArmor();
-    }
 }

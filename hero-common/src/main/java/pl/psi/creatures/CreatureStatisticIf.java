@@ -10,6 +10,9 @@ public interface CreatureStatisticIf {
     int getMoveRange();
     Range< Integer > getDamage();
     int getTier();
+    SpellProtection getSpellDamageProtection();
     String getDescription();
     boolean isUpgraded();
+
+    CreatureStatisticIf plus(CreatureStatisticIf stats);
 }
