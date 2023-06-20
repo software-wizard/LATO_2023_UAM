@@ -183,4 +183,22 @@ public class CreatureTest {
         turnQueue.next();
         assertThat(selfHealAfterEndOfTurnCreature.getCurrentHp()).isEqualTo(100);
     }
+
+    @Test
+    void creatureShouldAttackTwice() {
+        final Creature attacker = new DoubleAttackCreature(new Creature.Builder().statistic(CreatureStats.builder()
+                        .maxHp(100)
+                        .damage(Range.closed(10, 10))
+                        .build())
+                .build());
+
+        final Creature defender = new Creature.Builder().statistic(CreatureStats.builder()
+                        .maxHp(100)
+                        .damage(Range.closed(10, 10))
+                        .build())
+                .build();
+
+        attacker.attack(defender);
+        assertThat(defender.getCurrentHp()).isEqualTo(80);
+    }
 }

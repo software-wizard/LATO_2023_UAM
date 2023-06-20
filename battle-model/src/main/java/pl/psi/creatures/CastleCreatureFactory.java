@@ -58,9 +58,10 @@ public class CastleCreatureFactory
                             .amount(aAmount)
                             .build();
                 case 4:
-                    return new Creature.Builder().statistic(CreatureStatistic.CRUSADER)
+                    Creature creature =  new Creature.Builder().statistic(CreatureStatistic.CRUSADER)
                             .amount(aAmount)
                             .build();
+                    return new DoubleAttackCreature(creature);
                 case 5:
                     return new Creature.Builder().statistic(CreatureStatistic.ZEALOT)
                             .amount(aAmount)

@@ -136,12 +136,20 @@ public class Creature implements PropertyChangeListener, Defendable {
     private void lowerCounter() {
         this.setCounterAttackCounter(0);
     }
+    protected void attackWithouCounterPossibility(final Defendable aDefender) {
+        if (isAlive()) {
+            final int damage = getCalculator().calculateDamage(this, aDefender);
+            aDefender.applyDamage(damage);
+        }
+    }
 
     public void setDamageCalculator(DamageCalculatorIf calculator) {
         this.calculator = calculator;
     }
 
     public DamageCalculatorIf getDamageCalculator() { return calculator; }
+
+
 
     public static class Builder {
         private int amount = 1;
