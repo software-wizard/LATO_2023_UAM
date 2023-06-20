@@ -134,7 +134,7 @@ public class Creature implements PropertyChangeListener, Defendable {
     }
 
     private void lowerCounter() {
-        this.setCounterAttackCounter(0);
+        setCounterAttackCounter(getCounterAttackCounter()-1);
     }
     protected void attackWithouCounterPossibility(final Defendable aDefender) {
         if (isAlive()) {
