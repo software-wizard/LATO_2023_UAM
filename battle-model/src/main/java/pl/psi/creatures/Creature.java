@@ -27,9 +27,9 @@ public class Creature implements PropertyChangeListener, Defendable {
     @Setter
     private int amount;
     private int currentHp;
+    @Setter
     private int counterAttackCounter = 1;
     private DamageCalculatorIf calculator;
-
     Creature() {}
 
     Creature(final CreatureStatisticIf aStats, final DamageCalculatorIf aCalculator,
@@ -91,11 +91,11 @@ public class Creature implements PropertyChangeListener, Defendable {
     }
 
     @Override
-    public void counterAttack(final Creature aAttacker) {
-        final int damage = aAttacker.getCalculator()
-                .calculateDamage(aAttacker, this);
-        aAttacker.applyDamage(damage);
-        aAttacker.lowerCounter();
+    public void counterAttack(final Creature aDefender) {
+        final int damage = aDefender.getCalculator()
+                .calculateDamage( this, aDefender);
+        aDefender.applyDamage(damage);
+        this.lowerCounter();
     }
 
     protected Range<Integer> getDamage() {
@@ -134,7 +134,7 @@ public class Creature implements PropertyChangeListener, Defendable {
     }
 
     private void lowerCounter() {
-        counterAttackCounter--;
+        this.setCounterAttackCounter(0);
     }
 
     public void setDamageCalculator(DamageCalculatorIf calculator) {
