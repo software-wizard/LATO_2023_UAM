@@ -3,7 +3,6 @@ package pl.psi.specialFields;
 import lombok.Getter;
 import pl.psi.Defendable;
 import pl.psi.creatures.Creature;
-import pl.psi.creatures.CreatureStatistic;
 import pl.psi.creatures.CreatureStatisticIf;
 import pl.psi.creatures.SpellProtection;
 
@@ -104,7 +103,7 @@ public class Obstacle implements PropertyChangeListener, Defendable {
     public SpellProtection getSpellDamageProtection() {
         return null;
     }
-
+    @Override
     public CreatureStatisticIf getStats() {
         CreatureStatisticIf placeholder = null;
         return placeholder;

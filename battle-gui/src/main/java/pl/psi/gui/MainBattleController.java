@@ -40,7 +40,15 @@ public class MainBattleController implements PropertyChangeListener {
                     Point currentPoint = new Point(x, y);
                     Optional<Defendable> object = gameEngine.getObject(currentPoint);
                     final MapTile mapTile = new MapTile("");
-                    object.ifPresent(c -> mapTile.setName(c.toString()));
+                    object.ifPresent(c -> {
+                        if (mapTile.hasImage("battle-gui/src/main/resources/imagesObstacles/" + c.toString() + ".png")){
+                            mapTile.setImage(
+                                    "battle-gui/src/main/resources/imagesObstacles/" + c.toString() + ".png",
+                                    c.toString());
+                        } else {
+                            mapTile.setName(c.toString());
+                        }
+                    });
                     if (gameEngine.isCurrentCreature(currentPoint)) {
                         mapTile.setBackground(Color.GREENYELLOW);
                     }
