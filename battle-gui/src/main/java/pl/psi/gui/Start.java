@@ -73,7 +73,9 @@ public class Start extends Application
                         new Spell.spellBuilder().statistic(SpellStatistic.FLY).build(),
                         new Spell.spellBuilder().statistic(SpellStatistic.BLIND).build(),
                         new Spell.spellBuilder().statistic(SpellStatistic.WEAKNESS).build(),
-                        new Spell.spellBuilder().statistic(SpellStatistic.CURE).build()) );
+                        new Spell.spellBuilder().statistic(SpellStatistic.CURE).build(),
+                        new Spell.spellBuilder().statistic(SpellStatistic.CREATE_TREE).build()
+                ) );
         return ret;
     }
 

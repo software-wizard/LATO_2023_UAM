@@ -7,6 +7,7 @@ import java.util.*;
 import pl.psi.creatures.Creature;
 import pl.psi.creatures.Spell;
 import pl.psi.creatures.SpellFailureCalculator;
+import pl.psi.specialFields.Obstacle;
 
 import static java.lang.Math.abs;
 
@@ -200,17 +201,24 @@ public class GameEngine {
 
     public void castSpell(final Point aPoint) {
         if (board.getCreature(aPoint).isPresent()) {
-
             SpellFailureCalculator s = new SpellFailureCalculator();
             Creature c = (board.getCreature(aPoint).get());
 
             if(s.spellWillNotFail(c)){
-//                currentSpell.cast(getObject(aPoint));
                 currentSpell.cast(board.getCreature(aPoint).get());
             }
-            pass();
         }
-        setCurrentSpell(null);
+        else {
+            if(board.getObject(aPoint).filter(Obstacle.class::isInstance).isPresent()){
+                Map<Point, Obstacle> aObstacles;{
+                    aObstacles = new HashMap<>();
+                    aObstacles.put(aPoint, currentSpell.getObstacle());
+                }
+                aObstacles.put(aPoint, currentSpell.getObstacle());
+                currentSpell.cast123123(board::addObstacleByPoint, aObstacles);
+            }
+        }
+        pass();
     }
 
     public boolean isCurrentCreature(Point aPoint) {

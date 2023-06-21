@@ -1,24 +1,31 @@
 package pl.psi.creatures;
 
 import com.google.common.collect.Range;
-
+import pl.psi.Point;
+import pl.psi.specialFields.Obstacle;
+import java.util.Map;
+import java.util.function.Consumer;
 public class Spell {
-
     private SpellStatisticIf stats;
+    private Obstacle obstacle;
+    public Obstacle getObstacle() {
+        return obstacle;
+    }
+
+    public SpellStatisticIf getStats() {
+        return stats;
+    }
 
     private Spell(final SpellStatisticIf aStats) {
         stats = aStats;
     }
-
     public void cast(Creature creature) {
         if (creature.isAlive()) {
             applySpell(creature, stats);
         }
     }
-
     void applySpell(Creature creature, SpellStatisticIf stats) {
         System.out.println("\nUsing " + stats.getName());
-
         if (stats.getSpellDamage() > 0){
             creature.setCurrentHp(creature.getCurrentHp() - (int)((float)(100 - creature.getSpellDamageProtection().getProtectionByClass(stats.getClassOfSpell()))/100 * stats.getSpellDamage()));
         }
@@ -30,7 +37,6 @@ public class Spell {
                 creature.setCurrentHp(creature.getMaxHp());
             }
         }
-
         int[] spellProtectionCalc = {0,0,0,0};
         spellProtectionCalc[stats.getClassOfSpell()] += stats.getSpellProtectionChange();
         SpellProtection spellProtection1 = new SpellProtection.spellProtectionBuilder()
@@ -39,7 +45,6 @@ public class Spell {
                 .earthProtection(spellProtectionCalc[2])
                 .waterProtection(spellProtectionCalc[3])
                 .build();
-
         final CreatureStatisticIf creature1stats = CreatureStats.builder()
                 .armor((int)((float)(100 - creature.getSpellDamageProtection().getProtectionByClass(stats.getClassOfSpell()))/100 * stats.getArmorChange()))
                 .moveRange((int)((float)(100 - creature.getSpellDamageProtection().getProtectionByClass(stats.getClassOfSpell()))/100 * stats.getMoveRangeChange()))
@@ -47,11 +52,12 @@ public class Spell {
                         ((int)((float)(100 - creature.getSpellDamageProtection().getProtectionByClass(stats.getClassOfSpell()))/100 * stats.getDamageChange()))))
                 .spellDamageProtection(spellProtection1)
                 .build();
-
         creature.updateStats(creature1stats);
         System.out.println("The spell has been applied\n");
     }
-
+    public void cast123123(Consumer<Map<Point, Obstacle>> addObstacleByPoint, Map<Point, Obstacle> aObstacles) {
+        System.out.println("lalalal");
+    }
     public static class spellBuilder {
         private SpellStatisticIf statistic;
         public spellBuilder statistic(final SpellStatisticIf aStatistic) {
@@ -61,11 +67,8 @@ public class Spell {
         public Spell build() {
             return new Spell(statistic);
         }
-
     }
-
     public String getName() {
         return this.stats.getName();
     }
-
 }

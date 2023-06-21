@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import pl.psi.creatures.Spell;
+import pl.psi.specialFields.Obstacle;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -69,11 +70,19 @@ public class MainBattleController implements PropertyChangeListener {
                             gameEngine.move(currentPoint);
                         });
                     }
-                    if( isSpellSelected && gameEngine.getCreature( currentPoint ).isPresent() ) {
-                        mapTile.setBackground( Color.BLUE );
-                        mapTile.addEventHandler( MouseEvent.MOUSE_CLICKED, ( e ) -> {
-                            gameEngine.castSpell( currentPoint );
-                        } );
+                    if( isSpellSelected  ) {
+                        if(gameEngine.getCurrentSpell().getStats().getTier()!=5 && gameEngine.getCreature( currentPoint ).isPresent()){
+                            mapTile.setBackground( Color.BLUE );
+                            mapTile.addEventHandler( MouseEvent.MOUSE_CLICKED, ( e ) -> {
+                                gameEngine.castSpell( currentPoint );
+                            } );
+                        }
+                        else if(gameEngine.getCurrentSpell().getStats().getTier()==5 &&gameEngine.getObject( currentPoint ).filter(Obstacle.class::isInstance).isPresent()){
+                            mapTile.setBackground( Color.BLUE );
+                            mapTile.addEventHandler( MouseEvent.MOUSE_CLICKED, ( e ) -> {
+                                gameEngine.castSpell( currentPoint );
+                            } );
+                        }
                     }
                     else if (gameEngine.canAttack(currentPoint)) {
                         mapTile.setBackground(Color.RED);

@@ -14,12 +14,11 @@ public enum SpellStatistic implements SpellStatisticIf
     BLOODLUST( "Bloodlust", 1, 5, 0,0,3, 0, 0,2, "Increases the hand-to-hand damage inflicted by the selected unit."),//
     PROTECTION_FROM_FIRE( "Protection from fire", 1, 5, 0,0,0, 0, 10,3, "Increases the hand-to-hand damage inflicted by the selected unit."),//
     BLIND( "Blind", 1, 10, 0,0,0, -2147483647, 0,4, "Increases the hand-to-hand damage inflicted by the selected unit."),//
-
     METEOR_SHOWER("Meteor shower", 2, 16, 20,0,0,0,0,1, "Causes a meteor shower to rain down on the selected target"),//
     SHIELD("Shield", 2, 5, 0,5,0,0,0,2, "Shields a selected unit, reducing the amount of damage received from hand-to-hand attacks."),//
     PROTECTION_FROM_EARTH("Protection from earth", 2, 5, 0,0,0,0,10,3, "Shields a selected unit, reducing the amount of damage received from hand-to-hand attacks."),//
     EARTHQUAKE("Earthquake", 2, 20, 5,0,0,0,0,4, "Sends a wave of death across the battlefield which damages all non-undead units."),//
-
+    CREATE_TREE("to_delete", 2, 20, 0,0,0,0,0,5, "to_delete"),
     ICE_BOLT("Ice bolt", 3,8,10,0,0,0,0,1,"Drains the body heat from the selected enemy unit"),//
     WEAKNESS("Weakness", 3,8,0,0,-3,0,0,2,"Reduces the selected enemy unit's attack strength."),//
     PROTECTION_FROM_WATER("Protection from water", 3, 5, 0,0,0,0,10,3, "Protects the selected unit, reducing damage received from Water spells."),//
@@ -35,6 +34,10 @@ public enum SpellStatistic implements SpellStatisticIf
     private final int spellProtectionChange;
     private final int tier;
     private final String description;
+
+    public int getTier(){
+        return tier;
+    }
 
     SpellStatistic(String name, int classOfSpell, int cost, int spellDamage, int armorChange, int damageChange, int moveRangeChange, int spellProtectionChange, int tier, String description) {
         this.name = name;

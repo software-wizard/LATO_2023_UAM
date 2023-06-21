@@ -32,7 +32,7 @@ public class Board {
         }
     }
 
-    private void addObstacleByPoint(final Map<Point, Obstacle> aObstaclePlacement) {
+    public void addObstacleByPoint(final Map<Point, Obstacle> aObstaclePlacement) {
         for (Point p : aObstaclePlacement.keySet()) {
 
             Obstacle obstacle = aObstaclePlacement.get(p);
