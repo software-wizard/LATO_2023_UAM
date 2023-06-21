@@ -3,18 +3,33 @@ package pl.psi.creatures;
 import com.google.common.collect.Range;
 import pl.psi.Point;
 import pl.psi.specialFields.Obstacle;
+import pl.psi.specialFields.ObstacleStatistic;
+
 import java.util.Map;
 import java.util.function.Consumer;
 public class Spell {
     private SpellStatisticIf stats;
-    private Obstacle obstacle;
+    private Obstacle obstacle = new Obstacle(ObstacleStatistic.TREE);
     public Obstacle getObstacle() {
+        if (stats.getClassOfSpell() == 0){
+            obstacle = new Obstacle(ObstacleStatistic.TREE);
+        }
+        if (stats.getClassOfSpell() == 1){
+            obstacle = new Obstacle(ObstacleStatistic.SPIKES);
+        }
+        if (stats.getClassOfSpell() == 2){
+            obstacle = new Obstacle(ObstacleStatistic.BOULDER);
+        }
+        if (stats.getClassOfSpell() == 3){
+            obstacle = new Obstacle(ObstacleStatistic.ROCK);
+        }
         return obstacle;
     }
 
     public SpellStatisticIf getStats() {
         return stats;
     }
+
 
     private Spell(final SpellStatisticIf aStats) {
         stats = aStats;
@@ -55,8 +70,8 @@ public class Spell {
         creature.updateStats(creature1stats);
         System.out.println("The spell has been applied\n");
     }
-    public void cast123123(Consumer<Map<Point, Obstacle>> addObstacleByPoint, Map<Point, Obstacle> aObstacles) {
-        System.out.println("lalalal");
+    public void castObstacle(Consumer<Map<Point, Obstacle>> addObstacleByPoint, Map<Point, Obstacle> aObstacles) {
+        addObstacleByPoint.accept(aObstacles);
     }
     public static class spellBuilder {
         private SpellStatisticIf statistic;

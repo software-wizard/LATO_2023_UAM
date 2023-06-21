@@ -75,12 +75,16 @@ public class MainBattleController implements PropertyChangeListener {
                             mapTile.setBackground( Color.BLUE );
                             mapTile.addEventHandler( MouseEvent.MOUSE_CLICKED, ( e ) -> {
                                 gameEngine.castSpell( currentPoint );
+                                isSpellSelected = false;
+                                refreshGui();
                             } );
                         }
-                        else if(gameEngine.getCurrentSpell().getStats().getTier()==5 &&gameEngine.getObject( currentPoint ).filter(Obstacle.class::isInstance).isPresent()){
+                        else if(gameEngine.getCurrentSpell().getStats().getTier()==5 && gameEngine.getObject( currentPoint ).isEmpty()){
                             mapTile.setBackground( Color.BLUE );
                             mapTile.addEventHandler( MouseEvent.MOUSE_CLICKED, ( e ) -> {
                                 gameEngine.castSpell( currentPoint );
+                                isSpellSelected = false;
+                                refreshGui();
                             } );
                         }
                     }

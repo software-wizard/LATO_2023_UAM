@@ -209,14 +209,11 @@ public class GameEngine {
             }
         }
         else {
-            if(board.getObject(aPoint).filter(Obstacle.class::isInstance).isPresent()){
-                Map<Point, Obstacle> aObstacles;{
-                    aObstacles = new HashMap<>();
-                    aObstacles.put(aPoint, currentSpell.getObstacle());
-                }
+            Map<Point, Obstacle> aObstacles;{
+                aObstacles = new HashMap<>();
                 aObstacles.put(aPoint, currentSpell.getObstacle());
-                currentSpell.cast123123(board::addObstacleByPoint, aObstacles);
             }
+            currentSpell.castObstacle(board::addObstacleByPoint, aObstacles);
         }
         pass();
     }

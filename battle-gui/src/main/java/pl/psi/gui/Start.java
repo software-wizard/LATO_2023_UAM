@@ -60,6 +60,7 @@ public class Start extends Application
                 new Spell.spellBuilder().statistic(SpellStatistic.SHIELD).build(),
                 new Spell.spellBuilder().statistic(SpellStatistic.FLY).build(),
                 new Spell.spellBuilder().statistic(SpellStatistic.BLIND).build(),
+                new Spell.spellBuilder().statistic(SpellStatistic.CREATE_ROCK).build(),
                 new Spell.spellBuilder().statistic(SpellStatistic.WEAKNESS).build()
         ));
         return ret;
@@ -74,7 +75,7 @@ public class Start extends Application
                         new Spell.spellBuilder().statistic(SpellStatistic.BLIND).build(),
                         new Spell.spellBuilder().statistic(SpellStatistic.WEAKNESS).build(),
                         new Spell.spellBuilder().statistic(SpellStatistic.CURE).build(),
-                        new Spell.spellBuilder().statistic(SpellStatistic.CREATE_TREE).build()
+                        new Spell.spellBuilder().statistic(SpellStatistic.CREATE_SPIKES).build()
                 ) );
         return ret;
     }
