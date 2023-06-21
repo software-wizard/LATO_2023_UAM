@@ -8,6 +8,7 @@ import pl.psi.creatures.BattleUnit;
 import pl.psi.creatures.Creature;
 import pl.psi.creatures.Spell;
 import pl.psi.creatures.SpellFailureCalculator;
+import pl.psi.specialFields.Obstacle;
 
 import static java.lang.Math.abs;
 
@@ -209,7 +210,7 @@ public class GameEngine {
                 return distance < 2 && distance > 0 && !hero1.isAlly(turnQueue.getCurrentBattleUnit(), board.getObject(point).get());
             } else {
                 if (turnQueue.getCurrentBattleUnit().canAttack()) {
-                    return !hero1.isAlly(turnQueue.getCurrentBattleUnit(), board.getBattleUnit(point).get());
+                    return !hero1.isAlly(turnQueue.getCurrentBattleUnit(), board.getObject(point).get()) && !(board.getObject(point).get() instanceof Obstacle);
                 }
             }
         }
@@ -218,10 +219,12 @@ public class GameEngine {
 
     public boolean canHeal(final Point point){
         if(board.getObject(point).isPresent()){
-            if(turnQueue.getCurrentBattleUnit().isWarMachine() && board.getBattleUnit(point).get().isCreature()){
-                return hero1.isAlly(turnQueue.getCurrentBattleUnit(), board.getBattleUnit(point).get())
-                        && board.getBattleUnit(point).get().getCurrentHp() < board.getBattleUnit(point).get().getMaxHp()
-                        && turnQueue.getCurrentBattleUnit().canHeal();
+            if(turnQueue.getCurrentBattleUnit().isWarMachine() && board.getObject(point).get() instanceof BattleUnit){
+                if(board.getBattleUnit(point).get().isCreature()) {
+                    return hero1.isAlly(turnQueue.getCurrentBattleUnit(), board.getBattleUnit(point).get())
+                            && board.getBattleUnit(point).get().getCurrentHp() < board.getBattleUnit(point).get().getMaxHp()
+                            && turnQueue.getCurrentBattleUnit().canHeal();
+                }
             }
         }
         return false;
