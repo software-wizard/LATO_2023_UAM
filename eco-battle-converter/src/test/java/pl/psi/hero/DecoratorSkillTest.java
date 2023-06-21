@@ -50,11 +50,15 @@ public class DecoratorSkillTest {
         Creature skeleton = convertedCreatures.get(0);
         Creature walking_dead = convertedCreatures.get(1);
 
-        int minPredictedHp  = predictHp((int)(maxDamageWithoutSkills * ARMOUR_SKILL_BASIC * OFFENCE_SKILL_ADVANCED), defenderMaxHp);
-        int maxPredictedHp = predictHp((int)(minDamageWithoutSkills * ARMOUR_SKILL_BASIC * OFFENCE_SKILL_ADVANCED) , defenderMaxHp);
+
+        int minPredictedHp1  = predictHp((int)(maxDamageWithoutSkills * ARMOUR_SKILL_BASIC), defenderMaxHp);
+        int maxPredictedHp1 = predictHp((int)(minDamageWithoutSkills * ARMOUR_SKILL_BASIC) , defenderMaxHp);
+
+        int maxPredictedHp2 = predictHp((int)(minPredictedHp1 * OFFENCE_SKILL_ADVANCED), defenderMaxHp);
+        int minPredictedHp2 = predictHp((int)(maxPredictedHp1 * OFFENCE_SKILL_ADVANCED), defenderMaxHp);
 
         skeleton.attack(walking_dead);
-        Range<Integer> myRange = Range.closed(minPredictedHp, maxPredictedHp);
+        Range<Integer> myRange = Range.closed(minPredictedHp2, maxPredictedHp2);
 
         assertTrue(myRange.contains(walking_dead.getCurrentHp()));
 
@@ -67,9 +71,8 @@ public class DecoratorSkillTest {
         ecoHero.addCreature( factory.create( false, 1, 1 ) );
         ecoHero.addCreature( factory.create( false, 2, 2 ) );
 
-        ecoHero.addSkill(new ArmourSkill(SkillEnum.BASIC));
-        ecoHero.addSkill(new OffenceSkill(SkillEnum.ADVANCED));
         ecoHero.addSkill(new ArcherySkill(SkillEnum.EXPERT));
+        ecoHero.addSkill(new OffenceSkill(SkillEnum.ADVANCED));
 
         final List<Creature> convertedCreatures = EcoBattleConverter.convert( ecoHero )
                 .getCreatures();
@@ -77,12 +80,14 @@ public class DecoratorSkillTest {
         Creature skeleton = convertedCreatures.get(0);
         Creature walking_dead = convertedCreatures.get(1);
 
-        int minPredictedHp  = predictHp((int)(maxDamageWithoutSkills * ARMOUR_SKILL_BASIC * OFFENCE_SKILL_ADVANCED * ARCHERY_SKILL_EXPERT), defenderMaxHp);
-        int maxPredictedHp = predictHp((int)(minDamageWithoutSkills * ARMOUR_SKILL_BASIC * OFFENCE_SKILL_ADVANCED * ARCHERY_SKILL_EXPERT) , defenderMaxHp);
+        int minPredictedHp1  = predictHp((int)(maxDamageWithoutSkills * ARCHERY_SKILL_EXPERT), defenderMaxHp);
+        int maxPredictedHp1 = predictHp((int)(minDamageWithoutSkills * ARCHERY_SKILL_EXPERT) , defenderMaxHp);
+
+        int maxPredictedHp2 = predictHp((int)(minPredictedHp1 * OFFENCE_SKILL_ADVANCED), defenderMaxHp);
+        int minPredictedHp2 = predictHp((int)(maxPredictedHp1 * OFFENCE_SKILL_ADVANCED), defenderMaxHp);
 
         skeleton.attack(walking_dead);
-        Range<Integer> myRange = Range.closed(minPredictedHp, maxPredictedHp);
-
+        Range<Integer> myRange = Range.closed(maxPredictedHp2, minPredictedHp2);
         assertTrue(myRange.contains(walking_dead.getCurrentHp()));
 
     }
