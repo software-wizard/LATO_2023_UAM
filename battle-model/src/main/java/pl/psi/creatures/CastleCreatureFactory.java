@@ -20,9 +20,9 @@ public class CastleCreatureFactory
                             .amount( aAmount )
                             .build();
                 case 3:
-                    return new Creature.Builder().statistic( CreatureStatistic.GRIFFIN )
+                    return new MultipleCounterAttacksCreature(new Creature.Builder().statistic( CreatureStatistic.GRIFFIN )
                             .amount( aAmount )
-                            .build();
+                            .build(),2);
                 case 4:
                     return new Creature.Builder().statistic( CreatureStatistic.SWORDSMAN )
                             .amount( aAmount )
@@ -54,14 +54,13 @@ public class CastleCreatureFactory
                             .amount(aAmount)
                             .build();
                 case 3:
-                    return new Creature.Builder().statistic(CreatureStatistic.ROYAL_GRIFFIN)
+                    return new MultipleCounterAttacksCreature(new Creature.Builder().statistic(CreatureStatistic.ROYAL_GRIFFIN)
                             .amount(aAmount)
-                            .build();
+                            .build(), Integer.MAX_VALUE-1);
                 case 4:
-                    Creature creature =  new Creature.Builder().statistic(CreatureStatistic.CRUSADER)
+                    return new DoubleAttackCreature(new Creature.Builder().statistic(CreatureStatistic.CRUSADER)
                             .amount(aAmount)
-                            .build();
-                    return new DoubleAttackCreature(creature);
+                            .build());
                 case 5:
                     return new Creature.Builder().statistic(CreatureStatistic.ZEALOT)
                             .amount(aAmount)

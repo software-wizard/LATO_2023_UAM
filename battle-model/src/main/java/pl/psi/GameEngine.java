@@ -6,6 +6,7 @@ import java.util.*;
 
 import lombok.Getter;
 import pl.psi.creatures.Creature;
+import pl.psi.creatures.DoubleAttackCreature;
 import pl.psi.creatures.Spell;
 import pl.psi.specialFields.ObstaclesWeight;
 
@@ -59,6 +60,7 @@ public class GameEngine {
             if (path != null) {
                 for (Node node : path) {
                     board.move(turnQueue.getCurrentCreature(), node);
+                    Creature creature = turnQueue.getCurrentCreature();
                     observerSupport.firePropertyChange(CREATURE_MOVED, startingNode, node);
                     try {
                         Thread.sleep(500);

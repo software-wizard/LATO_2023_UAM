@@ -63,7 +63,6 @@ public class CreatureTest {
     }
 
     @Test
-    @Disabled
     void defenderShouldCounterAttack() {
         final Creature attacker = new Creature.Builder().statistic(CreatureStats.builder()
                         .maxHp(100)
@@ -108,7 +107,6 @@ public class CreatureTest {
     }
 
     @Test
-    @Disabled
     void defenderShouldCounterAttackOnlyOncePerTurn() {
         final Creature attacker = new Creature.Builder().statistic(CreatureStats.builder()
                         .maxHp(100)
@@ -133,7 +131,6 @@ public class CreatureTest {
     }
 
     @Test
-    @Disabled
     void counterAttackCounterShouldResetAfterEndOfTurn() {
         final Creature attacker = new Creature.Builder().statistic(CreatureStats.builder()
                         .maxHp(100)
@@ -199,6 +196,27 @@ public class CreatureTest {
                 .build();
 
         attacker.attack(defender);
+
+
+        assertThat(defender.getCurrentHp()).isEqualTo(80);
+    }
+    @Test
+    void creatureShouldCounterAttackTwice() {
+        final Creature defender = new MultipleCounterAttacksCreature(new Creature.Builder().statistic(CreatureStats.builder()
+                        .maxHp(100)
+                        .damage(Range.closed(10, 10))
+                        .build())
+                .build(),2);
+
+        final Creature attacker = new Creature.Builder().statistic(CreatureStats.builder()
+                        .maxHp(100)
+                        .damage(Range.closed(10, 10))
+                        .build())
+                .build();
+
+        attacker.attack(defender);
+        attacker.attack(defender);
+
 
         assertThat(defender.getCurrentHp()).isEqualTo(80);
     }
