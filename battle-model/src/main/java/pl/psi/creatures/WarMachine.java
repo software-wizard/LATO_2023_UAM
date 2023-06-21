@@ -92,8 +92,15 @@ public class WarMachine implements Defendable {
     public void attack(Defendable aDefender) {
         if(isAlive()){
             //TODO: once Hero skills are done, prepare the formula for calculating damage. base is range(2-3)*(hero's attack+1), 0-10%-25%-50% additional depending on Archery, 0% chance to inflict double damage, 50% chance to inflict double damage, 75% to inflict double damage + shoots twice, 100% double damage and shoots twice
-            final int aDamage = 10;
+            WarMachineDamageCalculator tmpCalculator = new WarMachineDamageCalculator(new Random());
+            int aDamage = tmpCalculator.calculateDamage(this, aDefender);
             aDefender.applyDamage(aDamage);
+            Random tmpRand = new Random();
+            if(tmpRand.nextInt(100)<relevantSkills.get("Artillery").intValue()){
+                aDamage = tmpCalculator.calculateDamage(this, aDefender);
+                aDefender.applyDamage(aDamage);
+            }
+
         }
     }
 

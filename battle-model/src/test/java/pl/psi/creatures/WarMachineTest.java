@@ -61,8 +61,7 @@ public class WarMachineTest {
                         .build())
                 .build();
         aWarMachine.attack(aCreature);
-        assertThat(aCreature.getCurrentHp()).isEqualTo(90);
-        //TODO: correct this test once the .attack() method is corrected, pending skills implementation
+        assertThat(aCreature.getCurrentHp()).isNotEqualTo(aCreature.getMaxHp());
     }
 
     @Test
@@ -76,7 +75,6 @@ public class WarMachineTest {
                         .build())
                 .build();
         aWarMachine1.attack(aWarMachine2);
-        assertThat(aWarMachine2.getCurrentHp()).isEqualTo(90);
-        //TODO: correct this test once the .attack() method is corrected, pending skills implementation
+        assertThat(aWarMachine2.getCurrentHp()).isNotEqualTo(aWarMachine2.getMaxHp());
     }
 }
