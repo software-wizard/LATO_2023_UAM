@@ -21,6 +21,7 @@ public class GameEngine {
     private final PropertyChangeSupport observerSupport = new PropertyChangeSupport(this);
     private final Hero hero1;
     private final Hero hero2;
+    private Spell currentSpell;
 
 
     public GameEngine(final Hero aHero1, final Hero aHero2, final ObstaclePlacementList obstaclesList) {
@@ -197,17 +198,19 @@ public class GameEngine {
                 && distance < 2 && distance > 0;
     }
 
-    public void castSpell(final Point aPoint, Spell aSpell) {
+    public void castSpell(final Point aPoint) {
         if (board.getCreature(aPoint).isPresent()) {
 
             SpellFailureCalculator s = new SpellFailureCalculator();
             Creature c = (board.getCreature(aPoint).get());
 
             if(s.spellWillNotFail(c)){
-                aSpell.cast(board.getCreature(aPoint).get());
+//                currentSpell.cast(getObject(aPoint));
+                currentSpell.cast(board.getCreature(aPoint).get());
             }
             pass();
         }
+        setCurrentSpell(null);
     }
 
     public boolean isCurrentCreature(Point aPoint) {
@@ -224,6 +227,14 @@ public class GameEngine {
 
     public Point getPosition(Creature aCreature) {
         return board.getPosition(aCreature);
+    }
+
+    public Spell getCurrentSpell() {
+        return currentSpell;
+    }
+
+    public void setCurrentSpell(Spell currentSpell) {
+        this.currentSpell = currentSpell;
     }
 }
 

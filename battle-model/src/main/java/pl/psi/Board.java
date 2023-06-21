@@ -58,7 +58,7 @@ public class Board {
     }
 
     public Optional<Creature> getCreature(Point aPoint) {
-        return Optional.of(map.get(aPoint))
+        return Optional.ofNullable(map.get(aPoint))
                 .filter(Creature.class::isInstance)
                 .map(Creature.class::cast);
     }

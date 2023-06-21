@@ -84,6 +84,18 @@ public enum CreatureStatistic implements CreatureStatisticIf
 
     @Override
     public CreatureStatisticIf plus(CreatureStatisticIf stats) {
-        return null;
+        return CreatureStats.builder()
+                .name(this.name)
+                .attack(this.attack + stats.getAttack())
+                .armor(this.armor + stats.getArmor())
+                .maxHp(this.maxHp + stats.getMaxHp())
+                .moveRange(this.moveRange + stats.getMoveRange())
+                .damage(Range.closed(this.damage.lowerEndpoint() + stats.getDamage().lowerEndpoint(),
+                        this.damage.upperEndpoint() + stats.getDamage().upperEndpoint()))
+                .tier(this.tier)
+                .spellDamageProtection(this.spellDamageProtection.plus(stats.getSpellDamageProtection()))
+                .description(this.description)
+                .isUpgraded(this.isUpgraded)
+                .build();
     }
 }
