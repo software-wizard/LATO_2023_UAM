@@ -30,7 +30,7 @@ public class AutonomousUnitControllerTest {
 
         final TurnQueue turnQueue = new TurnQueue( aHero1.getBattleUnits(), aHero2.getBattleUnits());
 
-        AutonomousUnitController aAutonomousUnitController = new AutonomousUnitController(aHero1, aHero2, turnQueue::next);
+        AutonomousUnitController aAutonomousUnitController = new AutonomousUnitController(aHero1, aHero2, turnQueue::next, Collections.emptyList());
         turnQueue.addObserver(aAutonomousUnitController);
 
         assertThat(turnQueue.getCurrentBattleUnit()).isEqualTo(aCreature1);

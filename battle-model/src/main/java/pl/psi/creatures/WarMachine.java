@@ -3,6 +3,7 @@ package pl.psi.creatures;
 import lombok.Getter;
 import lombok.Setter;
 import pl.psi.Defendable;
+import pl.psi.specialFields.Obstacle;
 import pl.psi.warmachines.WarMachineStatisticIf;
 import pl.psi.warmachines.WarMachineType;
 
@@ -41,9 +42,12 @@ public class WarMachine implements Defendable {
         }
     }
 
-    protected void siege(){
+    protected void siege(final Obstacle obstacle){
         if(isAlive()) {
-            //TODO: method related to catapult - needs actual targets to be implemented.
+            obstacle.applyDamage(1);
+            if(relevantSkills.get("Ballistics")>0){
+                obstacle.applyDamage(1);
+            }
         }
     }
 
@@ -80,9 +84,9 @@ public class WarMachine implements Defendable {
             case HEAL:
                 return relevantSkills.get("First Aid");
             case ATTACK:
-                return relevantSkills.get("Ballistics");
-            case SIEGE:
                 return relevantSkills.get("Artillery");
+            case SIEGE:
+                return relevantSkills.get("Ballistics");
             default:
                 return (double)0;
         }
@@ -91,7 +95,6 @@ public class WarMachine implements Defendable {
     @Override
     public void attack(Defendable aDefender) {
         if(isAlive()){
-            //TODO: once Hero skills are done, prepare the formula for calculating damage. base is range(2-3)*(hero's attack+1), 0-10%-25%-50% additional depending on Archery, 0% chance to inflict double damage, 50% chance to inflict double damage, 75% to inflict double damage + shoots twice, 100% double damage and shoots twice
             WarMachineDamageCalculator tmpCalculator = new WarMachineDamageCalculator(new Random());
             int aDamage = tmpCalculator.calculateDamage(this, aDefender);
             aDefender.applyDamage(aDamage);

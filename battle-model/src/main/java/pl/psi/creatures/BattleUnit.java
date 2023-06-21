@@ -2,7 +2,9 @@ package pl.psi.creatures;
 
 import lombok.Getter;
 import pl.psi.Defendable;
+import pl.psi.specialFields.Obstacle;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -99,6 +101,14 @@ public class BattleUnit implements Defendable {
         }
     }
 
+    public void siege(final Obstacle obstacle){
+        if(isWarMachine()){
+            if(getWarMachineVal().canSiege()){
+                getWarMachineVal().siege(obstacle);
+            }
+        }
+    }
+
     public boolean canAttack(){
         if(isCreature()){
             return true;
@@ -131,7 +141,7 @@ public class BattleUnit implements Defendable {
         }
     }
 
-    public void selfAct(List<BattleUnit> allies, List<BattleUnit> enemies){
+    public void selfAct(List<BattleUnit> allies, List<BattleUnit> enemies, List<Obstacle> obstacles){
         Random tmpRand = new Random();
         if(canAttack()){
             if(enemies.size()>0) {
@@ -143,7 +153,9 @@ public class BattleUnit implements Defendable {
                 heal(patients.get(tmpRand.nextInt(patients.size())));
             }
         }else if(canSiege()){
-            //nothing to siege yet
+            if(obstacles.size()>0){
+                siege(obstacles.get(tmpRand.nextInt(obstacles.size())));
+            }
         }
     }
 

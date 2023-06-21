@@ -34,7 +34,7 @@ public class GameEngine {
         turnQueue = new TurnQueue(hero1.getBattleUnits(), hero2.getBattleUnits());
         board = new Board(hero1.getBattleUnits(), hero2.getBattleUnits(), obstaclesList.getObstaclePlacement());
 
-        autonomousUnitController = new AutonomousUnitController(aHero1, aHero2, this::pass);
+        autonomousUnitController = new AutonomousUnitController(aHero1, aHero2, this::pass, new ArrayList<>(obstaclesList.getObstaclePlacement().values()));
         addObserver(autonomousUnitController);
     }
 
@@ -43,8 +43,8 @@ public class GameEngine {
     }
 
     public void attack(final Point point) {
-        if(board.getBattleUnit(point).isPresent()){
-            turnQueue.getCurrentBattleUnit().attack(board.getBattleUnit(point).get());
+        if(board.getObject(point).isPresent()){
+            turnQueue.getCurrentBattleUnit().attack(board.getObject(point).get());
         }
         pass();
     }
@@ -52,6 +52,15 @@ public class GameEngine {
     public void heal(final Point point){
         if(board.getBattleUnit(point).isPresent()){
             turnQueue.getCurrentBattleUnit().heal(board.getBattleUnit(point).get());
+        }
+        pass();
+    }
+
+    public void siege(final Point point){
+        if(board.getObject(point).isPresent()){
+            if(board.getObject(point).get() instanceof Obstacle) {
+                turnQueue.getCurrentBattleUnit().siege((Obstacle) board.getObject(point).get());
+            }
         }
         pass();
     }
@@ -213,6 +222,13 @@ public class GameEngine {
                     return !hero1.isAlly(turnQueue.getCurrentBattleUnit(), board.getObject(point).get()) && !(board.getObject(point).get() instanceof Obstacle);
                 }
             }
+        }
+        return false;
+    }
+
+    public boolean canSiege(final Point point){
+        if(board.getObject(point).isPresent() && turnQueue.getCurrentBattleUnit().canSiege()){
+            return getObject(point).get() instanceof Obstacle;
         }
         return false;
     }

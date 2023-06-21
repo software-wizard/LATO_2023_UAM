@@ -59,6 +59,12 @@ public class MainBattleController implements PropertyChangeListener {
                             gameEngine.attack(currentPoint);
                         });
                     }
+                    if(gameEngine.canSiege(currentPoint)){
+                        mapTile.setBackground(Color.RED);
+                        mapTile.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                            gameEngine.siege(currentPoint);
+                        });
+                    }
                     if (gameEngine.canHeal(currentPoint)) {
                         mapTile.setBackground(Color.GREEN);
                         mapTile.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
