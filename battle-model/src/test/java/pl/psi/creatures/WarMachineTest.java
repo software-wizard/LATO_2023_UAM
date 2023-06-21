@@ -11,7 +11,7 @@ public class WarMachineTest {
 
     @Test
     void builderAndStatisticsShouldReturnValidObject(){
-        final WarMachine aWarMachine = new WarMachine.Builder().statistic(WarMachineStats.builder().maxHp(100).attack(0).build()).controlSkill(0).build();
+        final WarMachine aWarMachine = new WarMachine.Builder().statistic(WarMachineStats.builder().maxHp(100).attack(0).type(WarMachineType.ATTACK).build()).build();
         assertThat(aWarMachine.getCurrentHp()).isEqualTo(aWarMachine.getStats().getMaxHp());
         assertThat(aWarMachine.getStats().getAttack()).isEqualTo(0);
         assertThat(aWarMachine.getControlSkill()).isEqualTo(0);
@@ -26,7 +26,7 @@ public class WarMachineTest {
     }
     @Test
     void hurtCreatureShouldBeHealed(){
-        final WarMachine aFirstAidTent = new WarMachine.Builder().statistic(WarMachineStatistic.FIRST_AID_TENT).controlSkill(0).build();
+        final WarMachine aFirstAidTent = new WarMachine.Builder().statistic(WarMachineStatistic.FIRST_AID_TENT).build();
         final Creature aCreature1 = new Creature.Builder().statistic(CreatureStats.builder()
                         .maxHp(100)
                         .build())

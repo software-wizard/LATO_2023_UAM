@@ -3,11 +3,9 @@ package pl.psi.creatures;
 import lombok.Getter;
 import lombok.Setter;
 import pl.psi.Defendable;
-import pl.psi.interfaces.SkillsInterface;
 import pl.psi.warmachines.WarMachineStatisticIf;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Getter
 public class WarMachine implements Defendable {
@@ -15,23 +13,27 @@ public class WarMachine implements Defendable {
     @Setter
     private int currentHp;
 
-    private int controlSkill;
+    private HashMap<String, Double> relevantSkills = new HashMap<>(Map.of(
+            "Archery", (double)0,
+            "Artillery", (double)0,
+            "Attack", (double)0,
+            "Ballistics", (double)0,
+            "First Aid", (double)0
+    ));
 
-    private List<SkillsInterface> relevantSkills;
     WarMachine(){
     }
 
-    private WarMachine(final WarMachineStatisticIf aStats, final int aControlSkill){
+    private WarMachine(final WarMachineStatisticIf aStats){
         currentHp = aStats.getMaxHp();
         stats = aStats;
-        controlSkill = aControlSkill;
     }
 
     public void heal(final Creature creature){
         if(isAlive()) {
             final Random tmpRand = new Random();
 
-            creature.setCurrentHp(creature.getCurrentHp() + (tmpRand.nextInt(25 + (25 * getControlSkill())) + 1));
+            creature.setCurrentHp(creature.getCurrentHp() + (tmpRand.nextInt(25 + (25 * relevantSkills.get("First Aid").intValue())) + 1));
             if (creature.getCurrentHp() > creature.getMaxHp()) {
                 creature.setCurrentHp(creature.getMaxHp());
             }
@@ -42,6 +44,11 @@ public class WarMachine implements Defendable {
         if(isAlive()) {
             //TODO: method related to catapult - needs actual targets to be implemented.
         }
+    }
+
+    public WarMachine parseSkill(String aName, Double aValue){
+        relevantSkills.put(aName, aValue);
+        return this;
     }
 
     public boolean isAlive(){
@@ -61,6 +68,23 @@ public class WarMachine implements Defendable {
     @Override
     public int getMaxHp() {
         return getStats().getMaxHp();
+    }
+
+    public WarMachineType getType(){
+        return getStats().getType();
+    }
+
+    public Double getControlSkill(){
+        switch(getType()){
+            case HEAL:
+                return relevantSkills.get("First Aid");
+            case ATTACK:
+                return relevantSkills.get("Ballistics");
+            case SIEGE:
+                return relevantSkills.get("Artillery");
+            default:
+                return (double)0;
+        }
     }
 
     @Override
@@ -104,21 +128,14 @@ public class WarMachine implements Defendable {
     public static class Builder{
 
         private WarMachineStatisticIf statistic;
-        private int controlSkill;
-
 
         public Builder statistic(final WarMachineStatisticIf aStatistic){
             statistic = aStatistic;
             return this;
         }
 
-        public Builder controlSkill(final int aControlSkill){
-            controlSkill = aControlSkill;
-            return this;
-        }
-
         public WarMachine build(){
-            return new WarMachine(statistic, controlSkill);
+            return new WarMachine(statistic);
         }
     }
 

@@ -60,7 +60,7 @@ public class Start extends Application
     {
         final Hero ret = new Hero( List.of(
                 new BattleUnit(new NecropolisFactory().create( true, 1, 5 ) ),
-                new BattleUnit(new WarMachine.Builder().statistic(WarMachineStatistic.BALLISTA).controlSkill(0).build())),
+                new BattleUnit(new WarMachine.Builder().statistic(WarMachineStatistic.BALLISTA).build())),
                 List.of(new Spell.spellBuilder().statistic(SpellStatistic.ICE_BOLT).build(), new Spell.spellBuilder().statistic(SpellStatistic.FIREBALL).build(),
                     new Spell.spellBuilder().statistic(SpellStatistic.BLOODLUST).build(),
                     new Spell.spellBuilder().statistic(SpellStatistic.SHIELD).build(),
@@ -75,7 +75,7 @@ public class Start extends Application
     {
         final Hero ret = new Hero( List.of(
                 new BattleUnit(new NecropolisFactory().create( false, 1, 5 )),
-                new BattleUnit(new WarMachine.Builder().statistic(WarMachineStatistic.FIRST_AID_TENT).controlSkill(0).build())),
+                new BattleUnit(new WarMachine.Builder().statistic(WarMachineStatistic.FIRST_AID_TENT).build())),
                 List.of( new Spell.spellBuilder().statistic(SpellStatistic.LIGHTNING_BOLT).build(),
                         new Spell.spellBuilder().statistic(SpellStatistic.FLY).build(),
                         new Spell.spellBuilder().statistic(SpellStatistic.BLIND).build(),

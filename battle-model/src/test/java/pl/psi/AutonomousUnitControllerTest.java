@@ -17,7 +17,7 @@ public class AutonomousUnitControllerTest {
     final BattleUnit aCreature1 = new BattleUnit(new Creature.Builder().statistic( CreatureStats.builder()
                     .build() )
             .build());
-    final BattleUnit aWarMachine = new BattleUnit(new WarMachine.Builder().statistic(WarMachineStatistic.FIRST_AID_TENT).controlSkill(0).build());
+    final BattleUnit aWarMachine = new BattleUnit(new WarMachine.Builder().statistic(WarMachineStatistic.FIRST_AID_TENT).build());
     final BattleUnit aCreature2 = new BattleUnit(new Creature.Builder().statistic( CreatureStats.builder()
                     .build() )
             .build());
