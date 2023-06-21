@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.psi.Defendable;
 import pl.psi.warmachines.WarMachineStatisticIf;
+import pl.psi.warmachines.WarMachineType;
 
 import java.util.*;
 

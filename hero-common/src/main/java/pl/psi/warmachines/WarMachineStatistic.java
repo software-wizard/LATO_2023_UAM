@@ -2,7 +2,6 @@ package pl.psi.warmachines;
 
 import com.google.common.collect.Range;
 import lombok.Getter;
-import pl.psi.creatures.WarMachineType;
 
 @Getter
 public enum WarMachineStatistic implements WarMachineStatisticIf{

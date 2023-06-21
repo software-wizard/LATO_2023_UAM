@@ -3,7 +3,6 @@ package pl.psi.warmachines;
 import com.google.common.collect.Range;
 import lombok.Builder;
 import lombok.Getter;
-import pl.psi.creatures.WarMachineType;
 
 @Getter
 @Builder

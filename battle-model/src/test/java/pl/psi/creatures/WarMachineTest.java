@@ -4,6 +4,7 @@ import com.google.common.collect.Range;
 import org.junit.jupiter.api.Test;
 import pl.psi.warmachines.WarMachineStatistic;
 import pl.psi.warmachines.WarMachineStats;
+import pl.psi.warmachines.WarMachineType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

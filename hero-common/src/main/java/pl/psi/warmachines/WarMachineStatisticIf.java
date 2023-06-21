@@ -1,7 +1,6 @@
 package pl.psi.warmachines;
 
 import com.google.common.collect.Range;
-import pl.psi.creatures.WarMachineType;
 
 public interface WarMachineStatisticIf {
     String getName();

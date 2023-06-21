@@ -1,4 +1,4 @@
-package pl.psi.creatures;
+package pl.psi.warmachines;
 
 public enum WarMachineType {
     ATTACK,
