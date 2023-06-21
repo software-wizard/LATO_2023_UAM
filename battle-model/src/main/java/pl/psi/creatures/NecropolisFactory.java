@@ -68,9 +68,9 @@ public class NecropolisFactory
                         .amount( aAmount )
                         .build();
                 case 6:
-                    return new Creature.Builder().statistic( CreatureStatistic.DREAD_KNIGHT )
+                    return new ChanceTwentyPercentDoubleDamage(new Creature.Builder().statistic( CreatureStatistic.DREAD_KNIGHT )
                         .amount( aAmount )
-                        .build();
+                        .build(), 0.2F);
                 case 7:
                     return new Creature.Builder().statistic( CreatureStatistic.GHOST_DRAGON )
                         .amount( aAmount )

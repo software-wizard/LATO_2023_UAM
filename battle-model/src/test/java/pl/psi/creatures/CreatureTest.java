@@ -220,4 +220,25 @@ public class CreatureTest {
 
         assertThat(defender.getCurrentHp()).isEqualTo(80);
     }
+
+    @Test
+    void creatureShouldHaveDoubleDamageWithSpecificPerCentProbability() {
+        final Creature defender = new ChanceTwentyPercentDoubleDamage(new Creature.Builder().statistic(CreatureStats.builder()
+                        .maxHp(100)
+                        .damage(Range.closed(10, 10))
+                        .build())
+                .build(),1.0F);
+
+        final Creature attacker = new Creature.Builder().statistic(CreatureStats.builder()
+                        .maxHp(100)
+                        .damage(Range.closed(10, 10))
+                        .build())
+                .build();
+
+        attacker.attack(defender);
+        attacker.attack(defender);
+
+
+        assertThat(defender.getCurrentHp()).isEqualTo(80);
+    }
 }
