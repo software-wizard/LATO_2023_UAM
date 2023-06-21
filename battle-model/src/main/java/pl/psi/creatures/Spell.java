@@ -69,6 +69,12 @@ public class Spell {
                 .build();
         creature.updateStats(creature1stats);
         System.out.println("The spell has been applied\n");
+
+        System.out.println("Current hp: " + creature.getCurrentHp());
+        System.out.println("Armor: " + creature.getArmor());
+        System.out.println("Attack: " + creature.getAttack());
+
+
     }
     public void castObstacle(Consumer<Map<Point, Obstacle>> addObstacleByPoint, Map<Point, Obstacle> aObstacles) {
         addObstacleByPoint.accept(aObstacles);

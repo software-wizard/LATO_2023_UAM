@@ -36,15 +36,18 @@ class SpellTest {
 
 
         spell1.cast(creature);
+        assertThat(creature.getCurrentHp()).isEqualTo(93);
 
         spell2.cast(creature);
         assertThat(creature.getCurrentHp()).isEqualTo(98);
 
         spell3.cast(creature);
+        assertThat(creature.getSpellDamageProtection().getWaterProtection()).isEqualTo(40);
         spell1.cast(creature);
         assertThat(creature.getCurrentHp()).isEqualTo(92);
 
         spell4.cast(creature);
+        assertThat(creature.getDamage()).isEqualTo(Range.closed(1,4));
 
     }
 }
