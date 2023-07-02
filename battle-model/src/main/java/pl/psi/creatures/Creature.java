@@ -31,7 +31,8 @@ public class Creature implements PropertyChangeListener, Defendable {
     private DamageCalculatorIf calculator;
     private int percentOfSpellResistance;
 
-    Creature() {}
+    Creature() {
+    }
 
     Creature(final CreatureStatisticIf aStats, final DamageCalculatorIf aCalculator,
              final int aAmount) {
@@ -40,7 +41,8 @@ public class Creature implements PropertyChangeListener, Defendable {
         currentHp = stats.getMaxHp();
         calculator = aCalculator;
     }
-    @Override
+
+
     public void attack(final Defendable aDefender) {
         if (isAlive()) {
             final int damage = getCalculator().calculateDamage(this, aDefender);
@@ -54,7 +56,7 @@ public class Creature implements PropertyChangeListener, Defendable {
     protected boolean isAlive() {
         return getAmount() > 0;
     }
-    @Override
+
     public void applyDamage(final int aDamage) {
         int hpToSubstract = aDamage % this.getMaxHp();
         int amountToSubstract = Math.round(aDamage / this.getMaxHp());
@@ -70,7 +72,6 @@ public class Creature implements PropertyChangeListener, Defendable {
         this.setAmount(this.getAmount() - amountToSubstract);
     }
 
-    @Override
     public int getMaxHp() {
         return stats.getMaxHp();
     }
@@ -91,7 +92,6 @@ public class Creature implements PropertyChangeListener, Defendable {
         return aDefender.getCounterAttackCounter() > 0 && aDefender.getCurrentHp() > 0;
     }
 
-    @Override
     public void counterAttack(final Creature aAttacker) {
         final int damage = aAttacker.getCalculator()
                 .calculateDamage(aAttacker, this);
@@ -99,14 +99,14 @@ public class Creature implements PropertyChangeListener, Defendable {
         aAttacker.lowerCounter();
     }
 
-    protected Range<Integer> getDamage() {
+    Range<Integer> getDamage() {
         return stats.getDamage();
     }
 
-    protected int getAttack() {
+    int getAttack() {
         return stats.getAttack();
     }
-    @Override
+
     public int getArmor() {
         return stats.getArmor();
     }
@@ -153,7 +153,6 @@ public class Creature implements PropertyChangeListener, Defendable {
 
     public DamageCalculatorIf getDamageCalculator() { return calculator; }
 
-    @Override
     public boolean isTransparent() {
         return false;
     }

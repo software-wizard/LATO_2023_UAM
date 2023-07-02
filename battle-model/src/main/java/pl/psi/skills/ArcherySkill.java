@@ -4,6 +4,7 @@ import pl.psi.Hero;
 import pl.psi.creatures.Creature;
 import pl.psi.creatures.DamageCalculatorIf;
 import pl.psi.creatures.DefaultDamageCalculator;
+import pl.psi.creatures.WarMachine;
 import pl.psi.interfaces.SkillsInterface;
 
 import java.util.List;
@@ -35,5 +36,7 @@ public class ArcherySkill extends DefaultDamageCalculator implements SkillsInter
             DamageCalculatorIf currentCalculator = s.getDamageCalculator();
             s.setDamageCalculator(new SkillDecorator(currentCalculator, getValueFromEnum()));
         }
+        List<WarMachine> warMachines = hero.getWarMachines();
+        warMachines.forEach(w -> w.parseSkill("Archery", getValueFromEnum()));
     }
 }

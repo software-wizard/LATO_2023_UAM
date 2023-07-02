@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
+import pl.psi.creatures.BattleUnit;
 import pl.psi.creatures.Creature;
 import pl.psi.specialFields.Obstacle;
 
@@ -18,17 +20,20 @@ public class Board {
     private static final int MAX_WITDH = 14;
     private final BiMap<Point, Defendable> map = HashBiMap.create();
 
-    public Board(final List<Creature> aCreatures1,
-                 final List<Creature> aCreatures2,
-                 final Map<Point, Obstacle> aObstacles) {
-        addCreatures(aCreatures1, 0);
-        addCreatures(aCreatures2, MAX_WITDH);
+    public Board( final List< BattleUnit > aBattleUnits1, final List< BattleUnit > aBattleUnits2, final Map<Point, Obstacle> aObstacles )
+    {
+        addBattleUnits(aBattleUnits1.stream().filter(BattleUnit::isWarMachine).collect(Collectors.toList()), 0 );
+        addBattleUnits(aBattleUnits1.stream().filter(BattleUnit::isCreature).collect(Collectors.toList()), 1 );
+        addBattleUnits(aBattleUnits2.stream().filter(BattleUnit::isCreature).collect(Collectors.toList()), MAX_WITDH-1 );
+        addBattleUnits(aBattleUnits2.stream().filter(BattleUnit::isWarMachine).collect(Collectors.toList()), MAX_WITDH );
         addObstacleByPoint(aObstacles);
     }
 
-    private void addCreatures(final List<Creature> aCreatures, final int aXPosition) {
-        for (int i = 0; i < aCreatures.size(); i++) {
-            map.put(new Point(aXPosition, i * 2 + 1), aCreatures.get(i));
+    private void addBattleUnits( final List< BattleUnit > aBattleUnits, final int aXPosition )
+    {
+        for( int i = 0; i < aBattleUnits.size(); i++ )
+        {
+            map.put( new Point( aXPosition, i * 2 + 1 ), aBattleUnits.get( i ) );
         }
     }
 
@@ -49,30 +54,33 @@ public class Board {
         return Optional.ofNullable(map.get(aPoint));
     }
 
-    void move(final Creature aCreature, final Point aPoint) {
-        if (canMove(aCreature, aPoint)) {
+    void move( final BattleUnit aBattleUnit, final Point aPoint )
+    {
+        if( canMove(aBattleUnit, aPoint ) )
+        {
             map.inverse()
-                    .remove(aCreature);
-            map.put(aPoint, aCreature);
+                .remove(aBattleUnit);
+            map.put( aPoint, aBattleUnit);
         }
     }
 
-    public Optional<Creature> getCreature(Point aPoint) {
+    public Optional<BattleUnit> getBattleUnit(Point aPoint) {
         return Optional.of(map.get(aPoint))
-                .filter(Creature.class::isInstance)
-                .map(Creature.class::cast);
+                .filter(BattleUnit.class::isInstance)
+                .map(BattleUnit.class::cast);
     }
 
-    boolean canMove(final Creature aCreature, final Point aPoint) {
+    boolean canMove( final BattleUnit aBattleUnit, final Point aPoint )
+    {
         if (map.containsKey(aPoint)) {
-            if (map.get(aPoint).isTransparent()){
-                final Point oldPosition = getPosition( aCreature );
-                return aPoint.distance( oldPosition.getX(), oldPosition.getY() ) < aCreature.getMoveRange();
+            if (map.get(aPoint).isTransparent()) {
+                final Point oldPosition = getPosition(aBattleUnit);
+                return aPoint.distance(oldPosition.getX(), oldPosition.getY()) < aBattleUnit.getMoveRange();
             }
             return false;
         }
-        final Point oldPosition = getPosition(aCreature);
-        return aPoint.distance(oldPosition.getX(), oldPosition.getY()) < aCreature.getMoveRange();
+        final Point oldPosition = getPosition(aBattleUnit);
+        return aPoint.distance(oldPosition.getX(), oldPosition.getY()) < aBattleUnit.getMoveRange();
     }
 
     Point getPosition(Defendable aDefendable) {

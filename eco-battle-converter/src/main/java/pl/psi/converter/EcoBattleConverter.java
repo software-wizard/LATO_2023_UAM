@@ -1,20 +1,22 @@
 package pl.psi.converter;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import pl.psi.Hero;
 import pl.psi.ObstaclePlacementList;
+import pl.psi.creatures.BattleUnit;
 import pl.psi.creatures.Creature;
 import pl.psi.creatures.Spell;
 import pl.psi.gui.MainBattleController;
 import pl.psi.creatures.NecropolisFactory;
+import pl.psi.gui.MainBattleController;
 import pl.psi.hero.EconomyHero;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EcoBattleConverter
 {
@@ -49,11 +51,12 @@ public class EcoBattleConverter
         final NecropolisFactory factory = new NecropolisFactory();
         final List<Spell> spellBook = new ArrayList<>();
 
-        Hero newHero =  new Hero( creatures, spellBook );
 
         aPlayer1.getCreatures()
                 .forEach( ecoCreature -> creatures.add( factory.create( ecoCreature.isUpgraded(),
                         ecoCreature.getTier(), ecoCreature.getAmount() ) ) );
+
+        Hero newHero = new Hero( creatures.stream().map(BattleUnit::new).collect(Collectors.toList()), spellBook );
 
         aPlayer1.getSkills().forEach(s  -> s.apply(newHero));
 

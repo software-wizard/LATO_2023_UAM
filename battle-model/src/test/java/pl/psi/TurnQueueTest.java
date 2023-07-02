@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import pl.psi.creatures.BattleUnit;
 import pl.psi.creatures.Creature;
 import pl.psi.creatures.CreatureStats;
 
@@ -14,23 +15,23 @@ class TurnQueueTest
     @Test
     void shouldAddPawnsCorrectly()
     {
-        final Creature creature1 = new Creature.Builder().statistic( CreatureStats.builder()
+        final BattleUnit battleUnit1 = new BattleUnit(new Creature.Builder().statistic( CreatureStats.builder()
             .build() )
-            .build();
-        final Creature creature2 = new Creature.Builder().statistic( CreatureStats.builder()
+            .build());
+        final BattleUnit battleUnit2 = new BattleUnit(new Creature.Builder().statistic( CreatureStats.builder()
             .build() )
-            .build();
-        final Creature creature3 = new Creature.Builder().statistic( CreatureStats.builder()
+            .build());
+        final BattleUnit battleUnit3 = new BattleUnit(new Creature.Builder().statistic( CreatureStats.builder()
             .build() )
-            .build();
-        final TurnQueue turnQueue = new TurnQueue( List.of( creature1, creature2 ), List.of( creature3 ) );
+            .build());
+        final TurnQueue turnQueue = new TurnQueue( List.of(battleUnit1, battleUnit2), List.of(battleUnit3) );
 
-        assertEquals( turnQueue.getCurrentCreature(), creature1 );
+        assertEquals( turnQueue.getCurrentBattleUnit(), battleUnit1);
         turnQueue.next();
-        assertEquals( turnQueue.getCurrentCreature(), creature2 );
+        assertEquals( turnQueue.getCurrentBattleUnit(), battleUnit2);
         turnQueue.next();
-        assertEquals( turnQueue.getCurrentCreature(), creature3 );
+        assertEquals( turnQueue.getCurrentBattleUnit(), battleUnit3);
         turnQueue.next();
-        assertEquals( turnQueue.getCurrentCreature(), creature1 );
+        assertEquals( turnQueue.getCurrentBattleUnit(), battleUnit1);
     }
 }

@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import pl.psi.creatures.BattleUnit;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -25,13 +26,15 @@ public class MainBattleController implements PropertyChangeListener {
     }
 
     @FXML
-    private void initialize() {
+    private void initialize()
+    {
+        passButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {gameEngine.pass();});
         refreshGui();
         gameEngine.addObserver(this);
-        passButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> gameEngine.pass());
     }
 
-    private void refreshGui() {
+    private void refreshGui()
+    {
         Platform.runLater(() -> {
             gridMap.getChildren()
                     .clear();
@@ -40,8 +43,8 @@ public class MainBattleController implements PropertyChangeListener {
                     Point currentPoint = new Point(x, y);
                     Optional<Defendable> object = gameEngine.getObject(currentPoint);
                     final MapTile mapTile = new MapTile("");
-                    object.ifPresent(c -> mapTile.setName(c.toString()));
-                    if (gameEngine.isCurrentCreature(currentPoint)) {
+                    object.ifPresent(b -> mapTile.setName(b.toString()));
+                    if (gameEngine.isCurrentBattleUnit(currentPoint)) {
                         mapTile.setBackground(Color.GREENYELLOW);
                     }
                     if (gameEngine.canMove(currentPoint)) {
@@ -54,6 +57,18 @@ public class MainBattleController implements PropertyChangeListener {
                         mapTile.setBackground(Color.RED);
                         mapTile.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
                             gameEngine.attack(currentPoint);
+                        });
+                    }
+                    if(gameEngine.canSiege(currentPoint)){
+                        mapTile.setBackground(Color.RED);
+                        mapTile.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                            gameEngine.siege(currentPoint);
+                        });
+                    }
+                    if (gameEngine.canHeal(currentPoint)) {
+                        mapTile.setBackground(Color.GREEN);
+                        mapTile.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                            gameEngine.heal(currentPoint);
                         });
                     }
                     gridMap.add(mapTile, x, y);

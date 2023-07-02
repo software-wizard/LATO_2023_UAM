@@ -6,21 +6,36 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import pl.psi.creatures.BattleUnit;
 import pl.psi.creatures.CastleCreatureFactory;
-import pl.psi.creatures.Creature;
-
+import pl.psi.creatures.WarMachine;
+import pl.psi.warmachines.WarMachineStatistic;
 
 /**
  * TODO: Describe this class (The first line - until the first dot - will interpret as the brief description).
  */
-public class GameEngineTest {
+public class GameEngineTest
+{
+    final CastleCreatureFactory creatureFactory = new CastleCreatureFactory();
     @Test
-    void shoudWorksHeHe() {
-        final CastleCreatureFactory creatureFactory = new CastleCreatureFactory();
+    void shoudWorksHeHe()
+    {
         final GameEngine gameEngine =
-                new GameEngine(new Hero(List.of(creatureFactory.create(1, false, 5)), Collections.emptyList()),
-                        new Hero(List.of(creatureFactory.create(1, false, 5)), Collections.emptyList()));
+            new GameEngine( new Hero( List.of( new BattleUnit(creatureFactory.create( 1, false, 5 ) )), Collections.emptyList() ),
+                new Hero( List.of(new BattleUnit(creatureFactory.create( 1, false, 5 ) )), Collections.emptyList() ) );
 
+        gameEngine.attack( new Point( 1, 1 ) );
+    }
+
+    @Test
+    void healingShouldNotThrowErrors(){
+        final GameEngine gameEngine =
+                new GameEngine(new Hero(
+                        List.of(
+                                new BattleUnit(new WarMachine.Builder().statistic(WarMachineStatistic.FIRST_AID_TENT).build()),
+                                new BattleUnit(creatureFactory.create(1, false, 5))), Collections.emptyList()),
+                        new Hero(List.of(new BattleUnit(creatureFactory.create(1, false, 5))), Collections.emptyList()));
+        gameEngine.heal(new Point(1, 1));
         gameEngine.attack(new Point(1, 1));
     }
 
@@ -28,8 +43,8 @@ public class GameEngineTest {
     void shouldGenerateNeighboursGivenPoint() {
         final CastleCreatureFactory creatureFactory = new CastleCreatureFactory();
         final GameEngine gameEngine =
-                new GameEngine(new Hero(List.of(creatureFactory.create(1, false, 5)), Collections.emptyList()),
-                        new Hero(List.of(creatureFactory.create(1, false, 5)), Collections.emptyList()));
+                new GameEngine(new Hero(List.of(new BattleUnit(creatureFactory.create(1, false, 5))), Collections.emptyList()),
+                        new Hero(List.of(new BattleUnit(creatureFactory.create(1, false, 5))), Collections.emptyList()));
 
         List<Node> actual = gameEngine.generateNeigboursList(0, 0);
         List<Node> expected = Arrays.asList(new Node(0, 1),
@@ -41,8 +56,8 @@ public class GameEngineTest {
     void shouldCalculateHeuristicGivenCurrentAndDestinationNode() {
         final CastleCreatureFactory creatureFactory = new CastleCreatureFactory();
         final GameEngine gameEngine =
-                new GameEngine(new Hero(List.of(creatureFactory.create(1, false, 5)), Collections.emptyList()),
-                        new Hero(List.of(creatureFactory.create(1, false, 5)), Collections.emptyList()));
+                new GameEngine(new Hero(List.of(new BattleUnit(creatureFactory.create(1, false, 5))), Collections.emptyList()),
+                        new Hero(List.of(new BattleUnit(creatureFactory.create(1, false, 5))), Collections.emptyList()));
         int actual = gameEngine.calculateHeuristic(new Node(4, 10), new Node(2, 2));
         int expected = 2 + 8;
         Assertions.assertEquals(actual, expected);
@@ -53,12 +68,12 @@ public class GameEngineTest {
     void shouldMoveToAGivenPoint() {
         final CastleCreatureFactory creatureFactory = new CastleCreatureFactory();
         final GameEngine gameEngine =
-                new GameEngine(new Hero(List.of(creatureFactory.create(1, false, 5)),Collections.emptyList()),
-                        new Hero(List.of(creatureFactory.create(1, false, 5)),Collections.emptyList()));
-        Optional<Creature> creature = gameEngine.getCreature(new Point(0, 1));
+                new GameEngine(new Hero(List.of(new BattleUnit(creatureFactory.create(1, false, 5))),Collections.emptyList()),
+                        new Hero(List.of(new BattleUnit(creatureFactory.create(1, false, 5))),Collections.emptyList()));
+        Optional<BattleUnit> battleUnit = gameEngine.getBattleUnit(new Point(0, 1));
         gameEngine.move(new Point(2, 3));
-        Optional<Creature> creature_expected = gameEngine.getCreature(new Point(2, 3));
-        Assertions.assertEquals(creature, creature_expected);
+        Optional<BattleUnit> expectedBattleUnit = gameEngine.getBattleUnit(new Point(2, 3));
+        Assertions.assertEquals(battleUnit, expectedBattleUnit);
     }
 
     @Test
@@ -66,10 +81,10 @@ public class GameEngineTest {
     void shouldGenerateActualMovesList() {
         final CastleCreatureFactory creatureFactory = new CastleCreatureFactory();
         final GameEngine gameEngine =
-                new GameEngine(new Hero(List.of(creatureFactory.create(1, false, 5)),Collections.emptyList()),
-                        new Hero(List.of(creatureFactory.create(1, false, 5)),Collections.emptyList()));
+                new GameEngine(new Hero(List.of(new BattleUnit(creatureFactory.create(1, false, 5))),Collections.emptyList()),
+                        new Hero(List.of(new BattleUnit(creatureFactory.create(1, false, 5))),Collections.emptyList()));
 
-        Optional<Creature> creature = gameEngine.getCreature(new Point(0, 0));
+        Optional<BattleUnit> battleUnit = gameEngine.getBattleUnit(new Point(0, 0));
         Node start = new Node(0, 0);
         Node goal = new Node(4, 0);
 
